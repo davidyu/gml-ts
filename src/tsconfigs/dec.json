@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "out": "../dist/gml.d.ts",
+    "target": "ES5"
+  }
+}

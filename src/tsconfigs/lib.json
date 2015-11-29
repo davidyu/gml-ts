@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "out": "../dist/gml.js",
+    "target": "ES5"
+  }
+}

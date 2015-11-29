@@ -1,0 +1,13 @@
+{
+    "name": "gml_test",
+    "version": "0.1.0",
+    "repository":"n/a",
+    "description": "test suite for gml.ts",
+    "readme": "n/a",
+    "devDependencies" : {
+        "karma":"0.13.x",
+        "karma-jasmine":"0.3.x",
+        "karma-phantomjs-launcher": "~0.1",
+        "colors": "1.x"
+    }
+}

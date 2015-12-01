@@ -8,7 +8,7 @@ module gml {
   */
 
   export class Vec {
-    constructor( size ) {
+    constructor( size: number ) {
       return ( ...array: number[] ) => { return new Vector( size, array ); }
     }
   }
@@ -18,11 +18,10 @@ module gml {
     private values: Float32Array;
     size: number;
 
-    constructor( size, args: Float32Array );
-    constructor( size, args: number[] );
-    constructor( size, ...args: number[] );
-
-    constructor( size, ...args: any[] ) {
+    constructor( size: number, args: Float32Array );
+    constructor( size: number, args: number[] );
+    constructor( size: number, ...args: number[] );
+    constructor( size: number, ...args: any[] ) {
       this.size = size;
       if ( args.length === 1 ) {
         if ( args[0] instanceof Float32Array ) {

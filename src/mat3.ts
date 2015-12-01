@@ -32,7 +32,7 @@ module gml {
 
     constructor( args: Float32Array );
     constructor( args: number[] );
-    constructor( r00, r01, tx, r10, r11, ty, m20, m21, m22 );
+    constructor( r00: number, r01: number, tx: number, r10: number, r11: number, ty: number, m20: number, m21: number, m22: number );
 
     constructor( ...args: any[] ) {
       super( 3, 3, args );
@@ -121,7 +121,7 @@ module gml {
       this.set( 1, 1, v * Math.cos( rad ) );
     }
 
-    public row( r ): Vec3 {
+    public row( r: number ): Vec3 {
       var row = [];
       for ( var i = 0; i < 3; i++ ) {
         row.push( this.get( r, i ) );
@@ -129,7 +129,7 @@ module gml {
       return new Vec3( row );
     }
 
-    public column( c ): Vec3 {
+    public column( c: number ): Vec3 {
       var column = [];
       for ( var i = 0; i < 3; i++ ) {
         column.push( this.get( i, c ) );

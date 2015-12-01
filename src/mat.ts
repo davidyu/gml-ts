@@ -7,7 +7,7 @@ module gml {
       new Matrix(100,6)(...);
   */
   export class Mat {
-    constructor( r, c ) {
+    constructor( r: number, c: number ) {
       return ( ...values: number[] ) => { return new Matrix( r, c, values ); }
     }
   }
@@ -19,11 +19,10 @@ module gml {
     rows: number;
     cols: number;
 
-    constructor( rows, cols, args: Float32Array );
-    constructor( rows, cols, args: number[] );
-    constructor( rows, cols, ...args: number[] );
-
-    constructor( rows, cols, ...args: any[] ) {
+    constructor( rows: number, cols: number, args: Float32Array );
+    constructor( rows: number, cols: number, args: number[] );
+    constructor( rows: number, cols: number, ...args: number[] );
+    constructor( rows: number, cols: number, ...args: any[] ) {
       this.rows = rows;
       this.cols = cols;
       if ( args.length == 1 ) {
@@ -58,11 +57,11 @@ module gml {
       return this.values;
     }
 
-    public get( r, c ): number {
+    public get( r: number, c: number ): number {
       return this.values[ c * this.rows + r ];
     }
 
-    public row( r ): Vector {
+    public row( r: number ): Vector {
       var row = [];
       for ( var i = 0; i < this.cols; i++ ) {
         row.push( this.get( r, i ) );
@@ -70,7 +69,7 @@ module gml {
       return new Vector( this.cols, row );
     }
 
-    public setRow( r, v: Vector ) {
+    public setRow( r: number, v: Vector ) {
       for ( var i = 0; i < this.cols; i++ ) {
         this.set( r, i, v.get( i ) );
       }
@@ -83,7 +82,7 @@ module gml {
       this.setRow( r1, row2 );
     }
 
-    public column( c ): Vector {
+    public column( c: number ): Vector {
       var column = [];
       for ( var i = 0; i < this.rows; i++ ) {
         column.push( this.get( i, c ) );
@@ -169,7 +168,7 @@ module gml {
       return det;
     }
 
-    public set( r, c, v ) {
+    public set( r: number, c: number, v: number ) {
       this.values[ c * this.rows + r ] = v;
     }
 
@@ -223,7 +222,7 @@ module gml {
       return new Matrix( lhs.rows, rhs.cols, out );
     }
 
-    public static identity( size ): Matrix {
+    public static identity( size: number ): Matrix {
       var v = [];
       for ( let i = 0; i < size; i++ ) {
         for ( let j = 0; j < size; j++ ) {

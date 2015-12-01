@@ -113,13 +113,17 @@ module gml {
       } );
     }
 
-    public get normalized(): Vector {
+    public toUnit(): Vector {
       const l = this.len;
       var vs = [];
       for ( var i = 0; i < this.size; i++ ) {
         vs.push( this.values[i] / l );
       }
       return new Vector( vs.unshift( this.size ) );
+    }
+
+    public get normalized(): Vector {
+      return this.toUnit();
     }
 
     public map( callback: ( v: number ) => number ): Vector {

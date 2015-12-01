@@ -240,7 +240,7 @@ module gml {
     }
   }
 
-  export function makeMat4FromRows( r1, r2, r3, r4 ) {
+  export function makeMat4FromRows( r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4 ) {
     return new Mat4( r1.x, r2.x, r3.x, r4.x
                    , r1.y, r2.y, r3.y, r4.y
                    , r1.z, r2.z, r3.z, r4.z

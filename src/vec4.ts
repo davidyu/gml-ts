@@ -29,5 +29,13 @@ module gml {
     public get w(): number {
       return this.get( 3 );
     }
+
+    public sub( rhs: Vec4 ): Vec4 {
+      return new Vec4( super.subtract( rhs ).Float32Array );
+    }
+
+    public get normalized(): Vec4 {
+      return new Vec4( super.toUnit().Float32Array );
+    }
   }
 }

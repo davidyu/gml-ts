@@ -54,5 +54,9 @@ module gml {
       var len = this.len;
       return new Vec4( this.x / len, this.y / len, this.z / len, this.w / len );
     }
+
+    public map( callback: ( v: number ) => number ): Vec4 {
+      return new Vec4( this.v.map( callback ) );
+    }
   }
 }

@@ -15,7 +15,7 @@ module gml {
 
   // internal vector implementation; exported because Vec2, Vec3, Vec4 needs access
   export class Vector {
-    private v: Float32Array;
+    v: Float32Array;
     size: number;
 
     constructor( size: number, args: Float32Array );

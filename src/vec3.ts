@@ -51,9 +51,13 @@ module gml {
     public divide( d: number ): Vec3 {
       return new Vec3( this.x / d, this.y / d, this.z / d );
     }
-    
+
     public negate(): Vec3 {
       return new Vec3( -this.x, -this.y, -this.z );
+    }
+
+    public dot( rhs: Vec3 ): number {
+      return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z;
     }
 
     public get normalized(): Vec3 {

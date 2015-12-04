@@ -1,6 +1,6 @@
 module gml {
   /* public-facing vector (constructor sugar)
-    
+
      usage:
       new Vec(3)(x,y,z,...);
       new Vec(4)(a,b,c,d,...);
@@ -87,6 +87,17 @@ module gml {
         negated.push( -this.v[i] );
       }
       return new Vector( this.size, negated );
+    }
+
+    public dot( rhs: Vector ): number {
+      if ( this.size != rhs.size ) {
+        console.warn( "rhs not " + this.size + " elements long!" );
+        return null;
+      }
+      var dp = 0;
+      for ( let i = 0; i < this.size; i++ ) {
+        dp += this.v[0] * rhs.v[0];
+      }
     }
 
     public equals( b: Vector ): boolean {

@@ -29,23 +29,27 @@ module gml {
     }
 
     public add( rhs: Vec2 ): Vec2 {
-      return new Vec2( super.add( rhs ).Float32Array );
+      return new Vec2( this.x + rhs.x, this.y + rhs.y );
     }
 
     public subtract( rhs: Vec2 ): Vec2 {
-      return new Vec2( super.subtract( rhs ).Float32Array );
+      return new Vec2( this.x - rhs.x, this.y - rhs.y );
     }
 
     public multiply( s: number ): Vec2 {
       return new Vec2( this.x * s, this.y * s );
     }
+
+    public divide( d: number ): Vec2 {
+      return new Vec2( this.x / d, this.y / d );
+    }
     
     public negate(): Vec2 {
-      return new Vec2( super.negate().Float32Array );
+      return new Vec2( -this.x, -this.y );
     }
 
     public map( callback: ( v: number ) => number ): Vec2 {
-      return new Vec2( super.map( callback ).Float32Array );
+      return new Vec2( [ this.x, this.y ].map( callback ) );
     }
   }
 }

@@ -15,19 +15,19 @@ module gml {
     }
 
     public get x(): number {
-      return this.get( 0 );
+      return this.v[0];
     }
 
     public get y(): number {
-      return this.get( 1 );
+      return this.v[1];
     }
 
     public get z(): number {
-      return this.get( 2 );
+      return this.v[2];
     }
 
     public get w(): number {
-      return this.get( 3 );
+      return this.v[3];
     }
 
     public add( rhs: Vec4 ): Vec4 {

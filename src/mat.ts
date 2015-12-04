@@ -71,7 +71,7 @@ module gml {
 
     public setRow( r: number, v: Vector ) {
       for ( var i = 0; i < this.cols; i++ ) {
-        this.set( r, i, v.get( i ) );
+        this.set( r, i, v.v[i] );
       }
     }
 

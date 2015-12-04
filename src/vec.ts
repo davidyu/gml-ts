@@ -42,14 +42,6 @@ module gml {
       return this.v;
     }
 
-    public get( index: number ): number {
-      return this.v[index];
-    }
-
-    public set( index: number, v: number ) {
-      this.v[index] = v;
-    }
-
     public add( rhs: Vector ): Vector {
       if ( this.size != rhs.size ) {
         console.warn( "rhs not " + this.size + " elements long!" );
@@ -58,7 +50,7 @@ module gml {
 
       var sum = [];
       for ( let i = 0; i < this.size; i++ ) {
-        sum.push( this.v[i] + rhs.get( i ) );
+        sum.push( this.v[i] + rhs.v[i] );
       }
 
       return new Vector( this.size, sum );
@@ -72,7 +64,7 @@ module gml {
 
       var diff = [];
       for ( let i = 0; i < this.size; i++ ) {
-        diff.push( this.v[i] - rhs.get( i ) );
+        diff.push( this.v[i] - rhs.v[i] );
       }
       return new Vector( this.size, diff );
     }
@@ -104,7 +96,7 @@ module gml {
     public equals( b: Vector ): boolean {
       if ( this.size != b.size ) return false;
       for ( let i = 0; i < this.size; i++ ) {
-        if ( this.v[i] != b.get( i ) ) return false;
+        if ( this.v[i] != b.v[i] ) return false;
       }
       return true;
     }

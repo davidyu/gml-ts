@@ -167,7 +167,7 @@ module gml {
 
     public setColumn( c: number, v: Vec4 ) {
       for ( var i = 0; i < 4; i++ ) {
-        this.set( i, c, v.get( i ) );
+        this.set( i, c, v.v[i] );
       }
     }
 

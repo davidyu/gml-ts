@@ -30,12 +30,29 @@ module gml {
       return this.get( 3 );
     }
 
-    public sub( rhs: Vec4 ): Vec4 {
-      return new Vec4( super.subtract( rhs ).Float32Array );
+    public add( rhs: Vec4 ): Vec4 {
+      return new Vec4( this.x + rhs.x, this.y + rhs.y, this.z + rhs.z, this.w + rhs.w );
+    }
+
+    public subtract( rhs: Vec4 ): Vec4 {
+      return new Vec4( this.x - rhs.x, this.y - rhs.y, this.z - rhs.z, this.w - rhs.w );
+    }
+
+    public multiply( s: number ): Vec4 {
+      return new Vec4( this.x * s, this.y * s, this.z * s, this.w * s );
+    }
+
+    public divide( d: number ): Vec4 {
+      return new Vec4( this.x / d, this.y / d, this.z / d, this.w / d );
+    }
+    
+    public negate(): Vec4 {
+      return new Vec4( -this.x, -this.y, -this.z, -this.w );
     }
 
     public get normalized(): Vec4 {
-      return new Vec4( super.toUnit().Float32Array );
+      var len = this.len;
+      return new Vec4( this.x / len, this.y / len, this.z / len, this.w / len );
     }
   }
 }

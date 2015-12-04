@@ -14,7 +14,7 @@ var customEqualityTesters = {
 }
 
 describe( "vector tests", function() {
-  it( "tests vector accessors", function() {
+  it( "tests sanity", function() {
     var a = new gml.Vector( 2, 0, 1 );
     var b = new gml.Vector( 2, 2, 3 );
 
@@ -22,6 +22,61 @@ describe( "vector tests", function() {
     expect( a.v[1] ).toBe( 1 );
     expect( b.v[0] ).toBe( 2 );
     expect( b.v[1] ).toBe( 3 );
+  } );
+
+  it( "tests vector construction sugar", function() {
+    var a = new gml.Vec( 2 )( 0, 1 );
+    var b = new gml.Vec( 2 )( 2, 3 );
+    var c = new gml.Vec( 5 )( 1, 2, 3, 4, 5 );
+
+    expect( a.v[0] ).toBe( 0 );
+    expect( a.v[1] ).toBe( 1 );
+    expect( b.v[0] ).toBe( 2 );
+    expect( b.v[1] ).toBe( 3 );
+    expect( c.v[0] ).toBe( 1 );
+    expect( c.v[1] ).toBe( 2 );
+    expect( c.v[2] ).toBe( 3 );
+    expect( c.v[3] ).toBe( 4 );
+    expect( c.v[4] ).toBe( 5 );
+  } );
+
+  it( "tests vec2 accessors", function() {
+    var a = new gml.Vec2( 0, 1 );
+    expect( a.x ).toBe( 0 );
+    expect( a.y ).toBe( 1 );
+    a.x = 2;
+    a.y = 3;
+    expect( a.x ).toBe( 2 );
+    expect( a.y ).toBe( 3 );
+  } );
+
+  it( "tests vec3 accessors", function() {
+    var a = new gml.Vec3( 0, 1, 2 );
+    expect( a.x ).toBe( 0 );
+    expect( a.y ).toBe( 1 );
+    expect( a.z ).toBe( 2 );
+    a.x = 3;
+    a.y = 4;
+    a.z = 5;
+    expect( a.x ).toBe( 3 );
+    expect( a.y ).toBe( 4 );
+    expect( a.z ).toBe( 5 );
+  } );
+
+  it( "tests vec4 accessors", function() {
+    var a = new gml.Vec4( 0, 1, 2, 3 );
+    expect( a.x ).toBe( 0 );
+    expect( a.y ).toBe( 1 );
+    expect( a.z ).toBe( 2 );
+    expect( a.w ).toBe( 3 );
+    a.x = 3;
+    a.y = 4;
+    a.z = 5;
+    a.w = 6;
+    expect( a.x ).toBe( 3 );
+    expect( a.y ).toBe( 4 );
+    expect( a.z ).toBe( 5 );
+    expect( a.w ).toBe( 6 );
   } );
 } );
 

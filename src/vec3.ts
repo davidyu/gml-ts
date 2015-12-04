@@ -5,7 +5,7 @@ module gml {
     constructor( x: number, y: number, z: number );
 
     constructor( ...args: any[] ) {
-      if ( args.length == 4 ) {
+      if ( args.length == 3 ) {
         super( 3, args[0], args[1], args[2] );
       } else if ( args.length == 1 ) {
         super( 3, args[0] );

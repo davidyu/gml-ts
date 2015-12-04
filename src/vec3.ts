@@ -60,6 +60,12 @@ module gml {
       return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z;
     }
 
+    public cross( rhs: Vec3 ): Vec3 {
+      return new Vec3( this.y * rhs.z - this.z * rhs.y
+                     , this.z * rhs.x - this.x * rhs.z
+                     , this.x * rhs.y - this.y * rhs.x );
+    }
+
     public get normalized(): Vec3 {
       var len = this.len;
       return new Vec3( this.x / len, this.y / len, this.z / len );

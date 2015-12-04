@@ -15,7 +15,7 @@ module gml {
 
   // internal vector implementation; exported because Vec2, Vec3, Vec4 needs access
   export class Vector {
-    private values: Float32Array;
+    private v: Float32Array;
     size: number;
 
     constructor( size: number, args: Float32Array );
@@ -25,46 +25,29 @@ module gml {
       this.size = size;
       if ( args.length === 1 ) {
         if ( args[0] instanceof Float32Array ) {
-          this.values = args[0];
+          this.v = args[0];
         } else if ( args[0] instanceof Array ) {
-          this.values = new Float32Array( args[0] );
+          this.v = new Float32Array( args[0] );
         }
       } else {
-        this.values = new Float32Array( args );
+        this.v = new Float32Array( args );
       }
 
-      if ( this.values.length != this.size ) {
+      if ( this.v.length != this.size ) {
         console.warn( "input array " + args + " is not " + this.size + " elements long!" );
       }
     }
 
     public get Float32Array(): Float32Array {
-      return this.values;
+      return this.v;
     }
 
     public get( index: number ): number {
-      return this.values[index];
-    }
-
-    public sub( rhs: Vector ): Vector {
-      return this.subtract( rhs );
-    }
-
-    public subtract( rhs: Vector ): Vector {
-      if ( this.size != rhs.size ) {
-        console.warn( "rhs not " + this.size + " elements long!" );
-        return null;
-      }
-
-      var diff = [];
-      for ( var i = 0; i < this.size; i++ ) {
-        diff.push( this.values[i] - rhs.get( i ) );
-      }
-      return new Vector( this.size, diff );
+      return this.v[index];
     }
 
     public set( index: number, v: number ) {
-      this.values[index] = v;
+      this.v[index] = v;
     }
 
     public add( rhs: Vector ): Vector {
@@ -74,24 +57,56 @@ module gml {
       }
 
       var sum = [];
-      for ( var i = 0; i < this.size; i++ ) {
-        sum.push( this.values[i] + rhs.get( i ) );
+      for ( let i = 0; i < this.size; i++ ) {
+        sum.push( this.v[i] + rhs.get( i ) );
       }
 
       return new Vector( this.size, sum );
     }
 
-    public scale( s: number ): Vector {
-      var scaled = [];
-      for ( var i = 0; i < this.size; i++ ) {
-        scaled.push( this.values[i] * s );
+    public subtract( rhs: Vector ): Vector {
+      if ( this.size != rhs.size ) {
+        console.warn( "rhs not " + this.size + " elements long!" );
+        return null;
       }
 
+      var diff = [];
+      for ( let i = 0; i < this.size; i++ ) {
+        diff.push( this.v[i] - rhs.get( i ) );
+      }
+      return new Vector( this.size, diff );
+    }
+
+    public multiply( s: number ): Vector {
+      var scaled = [];
+      for ( let i = 0; i < this.size; i++ ) {
+        scaled.push( this.v[i] * s );
+      }
       return new Vector( this.size, scaled );
     }
 
+    public divide( d: number ): Vector {
+      var divided = [];
+      for ( let i = 0; i < this.size; i++ ) {
+        divided.push( this.v[i] / d );
+      }
+      return new Vector( this.size, divided );
+    }
+
     public negate(): Vector {
-      return this.scale( -1 );
+      var negated = [];
+      for ( let i = 0; i < this.size; i++ ) {
+        negated.push( -this.v[i] );
+      }
+      return new Vector( this.size, negated );
+    }
+
+    public equals( b: Vector ): boolean {
+      if ( this.size != b.size ) return false;
+      for ( let i = 0; i < this.size; i++ ) {
+        if ( this.v[i] != b.get( i ) ) return false;
+      }
+      return true;
     }
 
     public get len(): number {
@@ -99,7 +114,7 @@ module gml {
     }
 
     public get lensq(): number {
-      return this.values.reduce( ( acc, v ) => {
+      return this.v.reduce( ( acc, v ) => {
         return acc + v * v;
       }, 0 );
     }
@@ -107,7 +122,7 @@ module gml {
     // this alters the underlying vector!
     public normalize(): void {
       const l = this.len;
-      this.values = this.values.map( v => {
+      this.v = this.v.map( v => {
         return v / l;
       } );
     }
@@ -115,8 +130,8 @@ module gml {
     public toUnit(): Vector {
       const l = this.len;
       var vs = [];
-      for ( var i = 0; i < this.size; i++ ) {
-        vs.push( this.values[i] / l );
+      for ( let i = 0; i < this.size; i++ ) {
+        vs.push( this.v[i] / l );
       }
       return new Vector( vs.unshift( this.size ) );
     }
@@ -126,13 +141,13 @@ module gml {
     }
 
     public map( callback: ( v: number ) => number ): Vector {
-      return new Vector( this.size, this.values.map( callback ) );
+      return new Vector( this.size, this.v.map( callback ) );
     }
 
     public toString(): string {
       var str = "";
       for ( let i = 0; i < this.size; i++ ) {
-        str += this.values[i] + ","
+        str += this.v[i] + ","
       }
       return str.slice( 0, -1 );
     }

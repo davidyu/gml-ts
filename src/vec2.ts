@@ -36,8 +36,8 @@ module gml {
       return new Vec2( super.subtract( rhs ).Float32Array );
     }
 
-    public scale( s: number ): Vec2 {
-      return new Vec2( super.scale( s ).Float32Array );
+    public multiply( s: number ): Vec2 {
+      return new Vec2( this.x * s, this.y * s );
     }
     
     public negate(): Vec2 {

@@ -1,5 +1,4 @@
-// simple angle interface with explicit constructors to reduce
-// user confusion
+// simple angle interface with explicit constructors
 
 module gml {
   export interface Angle {

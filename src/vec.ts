@@ -119,7 +119,7 @@ module gml {
       }, 0 );
     }
 
-    // this alters the underlying vector!
+    // this alters the underlying vector
     public normalize(): void {
       const l = this.len;
       this.v = this.v.map( v => {
@@ -127,7 +127,8 @@ module gml {
       } );
     }
 
-    public toUnit(): Vector {
+    // this returns a new vector
+    public unit(): Vector {
       const l = this.len;
       var vs = [];
       for ( let i = 0; i < this.size; i++ ) {
@@ -137,7 +138,7 @@ module gml {
     }
 
     public get normalized(): Vector {
-      return this.toUnit();
+      return this.unit();
     }
 
     public map( callback: ( v: number ) => number ): Vector {

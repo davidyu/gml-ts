@@ -30,6 +30,22 @@ module gml {
       return this.v[3];
     }
 
+    public set x( x: number ) {
+      this.v[0] = x;
+    }
+
+    public set y( y: number ) {
+      this.v[1] = y;
+    }
+
+    public set z( z: number ) {
+      this.v[2] = z;
+    }
+
+    public set w( w: number ) {
+      this.v[3] = w;
+    }
+
     public add( rhs: Vec4 ): Vec4 {
       return new Vec4( this.x + rhs.x, this.y + rhs.y, this.z + rhs.z, this.w + rhs.w );
     }

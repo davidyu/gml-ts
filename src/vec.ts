@@ -38,10 +38,6 @@ module gml {
       }
     }
 
-    public get Float32Array(): Float32Array {
-      return this.v;
-    }
-
     public add( rhs: Vector ): Vector {
       if ( this.size != rhs.size ) {
         console.warn( "rhs not " + this.size + " elements long!" );

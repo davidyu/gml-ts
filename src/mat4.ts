@@ -261,10 +261,11 @@ module gml {
                    , 0                     , 0                     , -1                         , 0 );
   }
 
-  export function makeLookAt( pos: Vec4, aim: Vec4 /* target */, up: Vec4, right: Vec4 ): Mat4 {
+  // aim, up, and right are all vectors that are assumed to be orthogonal
+  export function makeLookAt( pos: Vec4, aim: Vec4, up: Vec4, right: Vec4 ): Mat4 {
     let x = right.normalized;
     let y = up.normalized;
-    let z = aim.subtract( pos ).normalized;
+    let z = aim.normalized;
 
     var lookAt = makeMat4FromRows( x, y, z, new Vec4( 0, 0, 0, 1 ) );
     lookAt.tx = pos.x;

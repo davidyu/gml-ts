@@ -137,8 +137,10 @@ module gml {
       return new Vec3( column );
     }
 
-    public mul( rhs: Mat3 ): Mat3 {
-      var m = super.mul( rhs );
+    public multiply( rhs: Mat3 ): Mat3;
+    public multiply( s: number ): Mat3;
+    public multiply( arg: any ): Mat3 {
+      var m = super.multiply( arg );
       return new Mat3( m.m );
     }
 

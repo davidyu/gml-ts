@@ -138,8 +138,8 @@ module gml {
           l_i_inv.set( i, n, -l_i_n );
         }
 
-        l = l.mul( l_i_inv );
-        u = l_i.mul( u );
+        l = l.multiply( l_i_inv );
+        u = l_i.multiply( u );
       }
 
       return { l: l, u: u };
@@ -168,11 +168,16 @@ module gml {
       this.m[ c * this.rows + r ] = v;
     }
 
-    public mul( rhs: Matrix ): Matrix {
-      return Matrix.matmul( this, rhs );
+    public add( rhs: Matrix ): Matrix {
+      let vs = [];
+      let rvs = rhs.m;
+      for ( let i = 0; i < this.m.length; i++ ) {
+        vs.push( this.m[i] + rvs[i] );
+      }
+      return new Matrix( this.rows, this.cols, vs );
     }
 
-    public sub( rhs: Matrix ): Matrix {
+    public subtract( rhs: Matrix ): Matrix {
       let vs = [];
       let rvs = rhs.m;
       for ( let i = 0; i < this.m.length; i++ ) {
@@ -181,13 +186,14 @@ module gml {
       return new Matrix( this.rows, this.cols, vs );
     }
 
-    public add( rhs: Matrix ): Matrix {
-      let vs = [];
-      let rvs = rhs.m;
-      for ( let i = 0; i < this.m.length; i++ ) {
-        vs.push( this.m[i] + rvs[i] );
+    public multiply( rhs: Matrix ): Matrix;
+    public multiply( s: number ): Matrix;
+    public multiply( arg: any ): Matrix {
+      if ( arg instanceof Matrix ) {
+        return Matrix.matmul( this, arg );
+      } else {
+        return this.scalarmul( arg );
       }
-      return new Matrix( this.rows, this.cols, vs );
     }
 
     public scalarmul( s: number ): Matrix {

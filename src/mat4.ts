@@ -189,8 +189,10 @@ module gml {
       this.set( 2, 2, s.z );
     }
 
-    public mul( rhs: Mat4 ): Mat4 {
-      var m = super.mul( rhs );
+    public multiply( rhs: Mat4 ): Mat4;
+    public multiply( s: number ): Mat4;
+    public multiply( arg: any ): Mat4 {
+      var m = super.multiply( arg );
       return new Mat4( m.m );
     }
 
@@ -199,8 +201,8 @@ module gml {
       return new Mat4( m.m );
     }
 
-    public sub( rhs: Matrix ): Mat4 {
-      var m = super.sub( rhs );
+    public subtract( rhs: Mat4 ): Mat4 {
+      var m = super.subtract( rhs );
       return new Mat4( m.m );
     }
 
@@ -212,14 +214,14 @@ module gml {
     public invert(): Mat4 {
       let d = this.determinant;
       let tr = this.trace;
-      let m2 = this.mul( this );
-      let m3 = this.mul( m2 );
+      let m2 = this.multiply( this );
+      let m3 = this.multiply( m2 );
       let tr2 = m2.trace;
       let tr3 = m3.trace;
       let a = ( 1 / 6 ) * ( ( tr * tr * tr ) - ( 3 * tr * tr2 ) + ( 2 * tr3 ) );
       let b = ( 1 / 2 ) * ( tr * tr - tr2 );
-      let c = m2.scalarmul( tr ).sub( m3 );
-      return Mat4.identity().scalarmul( a ).sub( this.scalarmul( b ) ).add( c ).scalarmul( 1 / d );
+      let c = m2.scalarmul( tr ).subtract( m3 );
+      return Mat4.identity().scalarmul( a ).subtract( this.scalarmul( b ) ).add( c ).scalarmul( 1 / d );
     }
 
     public transpose(): Mat4 {

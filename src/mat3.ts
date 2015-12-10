@@ -139,7 +139,7 @@ module gml {
 
     public mul( rhs: Mat3 ): Mat3 {
       var m = super.mul( rhs );
-      return new Mat3( m.Float32Array );
+      return new Mat3( m.m );
     }
 
     public static identity(): Mat3 {

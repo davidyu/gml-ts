@@ -15,7 +15,7 @@ module gml {
   // internal matrix implementation; exported because Mat3, Mat4 needs access
   // note that matrices are stored in column major order to conform to WebGL
   export class Matrix {
-    values: Float32Array;
+    m: Float32Array;
     rows: number;
     cols: number;
 
@@ -27,14 +27,14 @@ module gml {
       this.cols = cols;
       if ( args.length == 1 ) {
         if ( args[0] instanceof Float32Array ) {
-          this.values = args[0];
+          this.m = args[0];
         } else if ( args[0] instanceof Array ) {
-          this.values = new Float32Array( args[0] );
+          this.m = new Float32Array( args[0] );
         }
       } else {
-        this.values = new Float32Array( args );
+        this.m = new Float32Array( args );
       }
-      if ( this.values.length != this.rows * this.cols ) {
+      if ( this.m.length != this.rows * this.cols ) {
         console.warn( "input values " + args + " is not " + this.rows * this.cols + " elements long!" );
       }
     }
@@ -50,15 +50,11 @@ module gml {
     }
 
     public transpose(): Matrix {
-      return new Matrix( this.cols, this.rows, this.transpose_Float32Array( this.values, this.rows, this.cols ) );
-    }
-
-    public get Float32Array(): Float32Array {
-      return this.values;
+      return new Matrix( this.cols, this.rows, this.transpose_Float32Array( this.m, this.rows, this.cols ) );
     }
 
     public get( r: number, c: number ): number {
-      return this.values[ c * this.rows + r ];
+      return this.m[ c * this.rows + r ];
     }
 
     public row( r: number ): Vector {
@@ -110,7 +106,7 @@ module gml {
       }
 
       let l = Matrix.identity( this.rows );
-      let u = new Matrix( this.rows, this.cols, this.values );
+      let u = new Matrix( this.rows, this.cols, this.m );
 
       let size = this.rows;
 
@@ -169,7 +165,7 @@ module gml {
     }
 
     public set( r: number, c: number, v: number ) {
-      this.values[ c * this.rows + r ] = v;
+      this.m[ c * this.rows + r ] = v;
     }
 
     public mul( rhs: Matrix ): Matrix {
@@ -178,26 +174,26 @@ module gml {
 
     public sub( rhs: Matrix ): Matrix {
       let vs = [];
-      let rvs = rhs.Float32Array;
-      for ( let i = 0; i < this.values.length; i++ ) {
-        vs.push( this.values[i] - rvs[i] );
+      let rvs = rhs.m;
+      for ( let i = 0; i < this.m.length; i++ ) {
+        vs.push( this.m[i] - rvs[i] );
       }
       return new Matrix( this.rows, this.cols, vs );
     }
 
     public add( rhs: Matrix ): Matrix {
       let vs = [];
-      let rvs = rhs.Float32Array;
-      for ( let i = 0; i < this.values.length; i++ ) {
-        vs.push( this.values[i] + rvs[i] );
+      let rvs = rhs.m;
+      for ( let i = 0; i < this.m.length; i++ ) {
+        vs.push( this.m[i] + rvs[i] );
       }
       return new Matrix( this.rows, this.cols, vs );
     }
 
     public scalarmul( s: number ): Matrix {
       let vs = [];
-      for ( let i = 0; i < this.values.length; i++ ) {
-        vs.push( this.values[i] * s );
+      for ( let i = 0; i < this.m.length; i++ ) {
+        vs.push( this.m[i] * s );
       }
       return new Matrix( this.rows, this.cols, vs );
     }

@@ -191,22 +191,22 @@ module gml {
 
     public mul( rhs: Mat4 ): Mat4 {
       var m = super.mul( rhs );
-      return new Mat4( m.Float32Array );
+      return new Mat4( m.m );
     }
 
     public scalarmul( s: number ): Mat4 {
       var m = super.scalarmul( s );
-      return new Mat4( m.Float32Array );
+      return new Mat4( m.m );
     }
 
     public sub( rhs: Matrix ): Mat4 {
       var m = super.sub( rhs );
-      return new Mat4( m.Float32Array );
+      return new Mat4( m.m );
     }
 
     public add( rhs: Matrix ): Mat4 {
       var m = super.add( rhs );
-      return new Mat4( m.Float32Array );
+      return new Mat4( m.m );
     }
 
     public invert(): Mat4 {
@@ -223,7 +223,7 @@ module gml {
     }
 
     public transpose(): Mat4 {
-      return new Mat4( super.transpose().Float32Array );
+      return new Mat4( super.transpose().m );
     }
 
     public get mat3(): Mat3 {

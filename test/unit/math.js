@@ -352,4 +352,19 @@ describe( "mat4 tests", function() {
 
     expect( a.multiply( b ) ).toEqual( gml.Mat4.identity() );
   } );
+
+  it( "tests gl helper methods", function() {
+    var fov = 45;
+    var perspectiveTruth = {};
+    var aspect = 4/3;
+    var near = 1;
+    var far = 100;
+    mat4.perspective( perspectiveTruth, fov, aspect, near, far );
+
+    var perspective = gml.makePerspective( gml.fromDegrees( fov ), aspect, near, far );
+
+    // TODO convert ground truth to gml.mat4!
+  } );
 } );
+
+

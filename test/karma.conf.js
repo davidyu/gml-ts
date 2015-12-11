@@ -4,6 +4,7 @@ module.exports = function(config) {
     files: [
       'unit/math.js',
       { pattern: '../gml.js', included: true },
+      { pattern: 'vendor/gl-matrix.js', included: true },
     ],
 
     autoWatch: true,

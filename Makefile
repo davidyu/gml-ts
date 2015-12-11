@@ -15,7 +15,10 @@ folders:
 	@mkdir -p $(DIST)/lib
 	@mkdir -p $(DIST_TEST)
 
-test: lib
+test: update lib
 	pushd $(SRC);
 	cp -rf $(TEST)/* $(DIST_TEST)/
 	@( pushd $(DIST_TEST) && npm install && popd ) > /dev/null
+
+update:
+	pushd $(TEST)/vendor && sh update.sh && popd

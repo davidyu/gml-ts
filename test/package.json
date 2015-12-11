@@ -9,7 +9,6 @@
         "jasmine-core":"2.x",
         "karma-jasmine":"0.3.x",
         "karma-phantomjs-launcher": "~0.1",
-        "colors": "1.x",
-        "gl-matrix-mat4": "2.2.1-npm"
+        "colors": "1.x"
     }
 }

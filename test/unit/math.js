@@ -277,7 +277,7 @@ describe( "mat4 tests", function() {
                         , 3, 7,11,15
                         , 4, 8,12,16 );
 
-    expect( a.mul( b ) ).toEqual( b );
+    expect( a.multiply( b ) ).toEqual( b );
 
     var c = new gml.Mat4( 1, 5, 9,13
                         , 2, 6,10,14
@@ -292,9 +292,9 @@ describe( "mat4 tests", function() {
     var e = new gml.Mat4(125,309,493,677
                         ,130,322,514,706
                         ,135,335,535,735
-                        ,140,348,556,764).scalarmul( 2 );
+                        ,140,348,556,764).multiply( 2 );
 
-    var f = c.mul( d );
+    var f = c.multiply( d );
 
     expect( f ).toEqual( e );
   } );
@@ -350,6 +350,6 @@ describe( "mat4 tests", function() {
 
     var b = a.invert();
 
-    expect( a.mul( b ) ).toEqual( gml.Mat4.identity() );
+    expect( a.multiply( b ) ).toEqual( gml.Mat4.identity() );
   } );
 } );

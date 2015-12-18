@@ -86,10 +86,10 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests mat4 getters", function() {
-    var a = new gml.Mat4( 1, 5, 9,13
-                        , 2, 6,10,14
-                        , 3, 7,11,15
-                        , 4, 8,12,16 );
+    var a = new gml.Mat4( 1  , 2  , 3  , 4
+                        , 5  , 6  , 7  , 8
+                        , 9  , 10 , 11 , 12
+                        , 13 , 14 , 15 , 16 );
 
     expect( a.r00 ).toBe( 1 );
     expect( a.r01 ).toBe( 2 );
@@ -149,10 +149,10 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests mat4 row and column getters", function() {
-    var a = new gml.Mat4( 1, 5, 9,13
-                        , 2, 6,10,14
-                        , 3, 7,11,15
-                        , 4, 8,12,16 );
+    var a = new gml.Mat4( 1  , 2  , 3  , 4
+                        , 5  , 6  , 7  , 8
+                        , 9  , 10 , 11 , 12
+                        , 13 , 14 , 15 , 16 );
 
     var row0 = new gml.Vec4( 1, 2, 3, 4 );
     var row1 = new gml.Vec4( 5, 6, 7, 8 );
@@ -244,10 +244,10 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests matrix row swapping", function() {
-    var a = new gml.Mat4( 1, 5, 9,13
-                        , 2, 6,10,14
-                        , 3, 7,11,15
-                        , 4, 8,12,16 );
+    var a = new gml.Mat4( 1  , 2  , 3  , 4
+                        , 5  , 6  , 7  , 8
+                        , 9  , 10 , 11 , 12
+                        , 13 , 14 , 15 , 16 );
 
     var row0 = new gml.Vec4( 1, 2, 3, 4 );
     var row1 = new gml.Vec4( 5, 6, 7, 8 );
@@ -272,27 +272,32 @@ describe( "mat4 tests", function() {
 
   it( "tests mat4 matrix multiplication", function() {
     var a = gml.Mat4.identity();
-    var b = new gml.Mat4( 1, 5, 9,13
-                        , 2, 6,10,14
-                        , 3, 7,11,15
-                        , 4, 8,12,16 );
+    var b = new gml.Mat4( 1  , 2  , 3  , 4
+                        , 5  , 6  , 7  , 8
+                        , 9  , 10 , 11 , 12
+                        , 13 , 14 , 15 , 16 );
 
     expect( a.multiply( b ) ).toEqual( b );
 
-    var c = new gml.Mat4( 1, 5, 9,13
-                        , 2, 6,10,14
-                        , 3, 7,11,15
-                        , 4, 8,12,16 );
+    var c = new gml.Mat4( 1  , 2  , 3  , 4
+                        , 5  , 6  , 7  , 8
+                        , 9  , 10 , 11 , 12
+                        , 13 , 14 , 15 , 16 );
 
     var d = new gml.Mat4(17,21,25,29
                         ,18,22,26,30
                         ,19,23,27,31
                         ,20,24,28,32 );
 
-    var e = new gml.Mat4(125,309,493,677
-                        ,130,322,514,706
-                        ,135,335,535,735
-                        ,140,348,556,764).multiply( 2 );
+    var d = new gml.Mat4(17,18,19,20
+                        ,21,22,23,24
+                        ,25,26,27,28
+                        ,29,30,31,32);
+
+    var e = new gml.Mat4(125,130,135,140
+                        ,309,322,335,348
+                        ,493,514,535,556
+                        ,677,706,735,764).multiply( 2 );
 
     var f = c.multiply( d );
 
@@ -300,10 +305,10 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests LU decomposition", function() {
-    var a = new gml.Mat4( 0, 5, 9,13
-                        , 2, 0,10,14
-                        , 3, 7, 0,15
-                        , 4, 8,12, 0 );
+    var a = new gml.Mat4( 0, 2, 3, 4
+                        , 5, 0, 7, 8
+                        , 9,10, 0,12
+                        ,13,14,15, 0 );
 
     var lu = a.lu();
     var l = lu.l;
@@ -343,10 +348,10 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests inverse", function() {
-    var a = new gml.Mat4( 0, 5, 9,13
-                        , 2, 0,10,14
-                        , 3, 7, 0,15
-                        , 4, 8,12, 0 );
+    var a = new gml.Mat4( 0, 2, 3, 4
+                        , 5, 0, 7, 8
+                        , 9,10, 0,12
+                        ,13,14,15, 0 );
 
     var b = a.invert();
 
@@ -379,7 +384,7 @@ describe( "mat4 tests", function() {
 
     var glMatrixLookAt = [];
     mat4.lookAt( glMatrixLookAt, pos.xyz.v, pos.add( aimV ).xyz.v, upV.xyz.v );
-    // mat4.transpose( glMatrixLookAt, glMatrixLookAt );
+    mat4.transpose( glMatrixLookAt, glMatrixLookAt );
 
     var groundTruthLookAt = new gml.Mat4( glMatrixLookAt );
     var lookAt = gml.makeLookAt( pos, aimV, upV, rightV );

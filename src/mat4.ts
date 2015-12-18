@@ -243,10 +243,17 @@ module gml {
   }
 
   export function makeMat4FromRows( r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4 ) {
-    return new Mat4( r1.x, r2.x, r3.x, r4.x
-                   , r1.y, r2.y, r3.y, r4.y
-                   , r1.z, r2.z, r3.z, r4.z
-                   , r1.w, r2.w, r3.w, r4.w );
+    return new Mat4( r1.x , r1.y , r1.z , r1.w
+                   , r2.x , r2.y , r2.z , r2.w
+                   , r3.x , r3.y , r3.z , r3.w
+                   , r4.x , r4.y , r4.z , r4.w );
+  }
+
+  export function makeMat4FromCols( c1: Vec4, c2: Vec4, c3: Vec4, c4: Vec4 ) {
+    return new Mat4( c1.x, c2.x, c3.x, c4.x
+                   , c1.y, c2.y, c3.y, c4.y
+                   , c1.z, c2.z, c3.z, c4.z
+                   , c1.w, c2.w, c3.w, c4.w );
   }
 
   export function makePerspective( fov: Angle, aspectRatio: number, near: number, far: number ): Mat4 {
@@ -267,10 +274,11 @@ module gml {
   export function makeLookAt( pos: Vec4, aim: Vec4, up: Vec4, right: Vec4 ): Mat4 {
     let x = right.normalized;
     let y = up.normalized;
-    let z = aim.normalized;
+    let z = aim.negate().normalized;
 
     var lookAt = makeMat4FromRows( x, y, z, new Vec4( 0, 0, 0, 1 ) );
-    lookAt.tx = pos.x;
+
+    lookAt.tx = -pos.x;
     lookAt.ty = pos.y;
     lookAt.tz = pos.z;
 

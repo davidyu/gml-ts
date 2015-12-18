@@ -15,7 +15,7 @@ module gml {
   // internal matrix implementation; exported because Mat3, Mat4 needs access
   // note that matrices are stored in column major order to conform to WebGL
   export class Matrix {
-    m: Float32Array;
+    v: Float32Array;
     rows: number;
     cols: number;
 
@@ -27,14 +27,14 @@ module gml {
       this.cols = cols;
       if ( args.length == 1 ) {
         if ( args[0] instanceof Float32Array ) {
-          this.m = args[0];
+          this.v = args[0];
         } else if ( args[0] instanceof Array ) {
-          this.m = new Float32Array( args[0] );
+          this.v = new Float32Array( args[0] );
         }
       } else {
-        this.m = new Float32Array( args );
+        this.v = new Float32Array( args );
       }
-      if ( this.m.length != this.rows * this.cols ) {
+      if ( this.v.length != this.rows * this.cols ) {
         console.warn( "input values " + args + " is not " + this.rows * this.cols + " elements long!" );
       }
     }
@@ -50,11 +50,11 @@ module gml {
     }
 
     public transpose(): Matrix {
-      return new Matrix( this.cols, this.rows, this.transpose_Float32Array( this.m, this.rows, this.cols ) );
+      return new Matrix( this.cols, this.rows, this.transpose_Float32Array( this.v, this.rows, this.cols ) );
     }
 
     public get( r: number, c: number ): number {
-      return this.m[ c * this.rows + r ];
+      return this.v[ r * this.cols + c ];
     }
 
     public row( r: number ): Vector {
@@ -165,14 +165,14 @@ module gml {
     }
 
     public set( r: number, c: number, v: number ) {
-      this.m[ c * this.rows + r ] = v;
+      this.v[ r * this.cols + c ] = v;
     }
 
     public add( rhs: Matrix ): Matrix {
       let vs = [];
       let rvs = rhs.m;
       for ( let i = 0; i < this.m.length; i++ ) {
-        vs.push( this.m[i] + rvs[i] );
+        vs.push( this.v[i] + rvs[i] );
       }
       return new Matrix( this.rows, this.cols, vs );
     }
@@ -181,7 +181,7 @@ module gml {
       let vs = [];
       let rvs = rhs.m;
       for ( let i = 0; i < this.m.length; i++ ) {
-        vs.push( this.m[i] - rvs[i] );
+        vs.push( this.v[i] - rvs[i] );
       }
       return new Matrix( this.rows, this.cols, vs );
     }
@@ -199,7 +199,7 @@ module gml {
     public scalarmul( s: number ): Matrix {
       let vs = [];
       for ( let i = 0; i < this.m.length; i++ ) {
-        vs.push( this.m[i] * s );
+        vs.push( this.v[i] * s );
       }
       return new Matrix( this.rows, this.cols, vs );
     }
@@ -271,6 +271,10 @@ module gml {
 
       str += "}";
       return str;
+    }
+
+    public get m(): Float32Array {
+      return this.transpose_Float32Array( this.v, this.rows, this.cols );      
     }
   }
 }

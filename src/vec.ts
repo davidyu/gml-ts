@@ -113,11 +113,9 @@ module gml {
     }
 
     public get lensq(): number {
-      var acc = 0;
-      for ( var i = 0; i < this.v.length; i++ ) {
-        acc += this.v[i];
-      }
-      return acc;
+      return this.v.reduce( ( acc, c ) => {
+        return acc + c * c;
+      }, 0 );
     }
 
     // this alters the underlying vector

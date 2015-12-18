@@ -13,10 +13,6 @@ var customEqualityTesters = {
   }
 }
 
-var arrayifyGlMatrix = function( m ) {
-  return Object.keys( m ).map( function( k ) { return m[k]; } );
-}
-
 describe( "vector tests", function() {
   it( "tests sanity", function() {
     var a = new gml.Vector( 2, 0, 1 );
@@ -357,9 +353,9 @@ describe( "mat4 tests", function() {
     expect( a.multiply( b ) ).toEqual( gml.Mat4.identity() );
   } );
 
-  it( "tests gl helper methods", function() {
+  it( "tests perspective transform matrix", function() {
     var fov = 45;
-    var glMatrixPerspective = {};
+    var glMatrixPerspective = [];
     var aspect = 4/3;
     var near = 1;
     var far = 100;
@@ -370,9 +366,25 @@ describe( "mat4 tests", function() {
     mat4.transpose( glMatrixPerspective, glMatrixPerspective );
 
     var perspective = gml.makePerspective( gml.fromDegrees( fov ), aspect, near, far );
-    var groundTruthPerspective = new gml.Mat4( arrayifyGlMatrix( glMatrixPerspective ) );
+    var groundTruthPerspective = new gml.Mat4( glMatrixPerspective );
 
     expect( perspective ).toEqual( groundTruthPerspective );
+  } );
+
+  it( "tests camera matrix", function() {
+    var pos = new gml.Vec4( 0, 0, 5, 0 );
+    var aimV = new gml.Vec4( 0, 0, -1, 0 );
+    var upV = new gml.Vec4( 0, 1, 0, 0 );
+    var rightV = new gml.Vec4( 1, 0, 0, 0 );
+
+    var glMatrixLookAt = [];
+    mat4.lookAt( glMatrixLookAt, pos.xyz.v, pos.add( aimV ).xyz.v, upV.xyz.v );
+    // mat4.transpose( glMatrixLookAt, glMatrixLookAt );
+
+    var groundTruthLookAt = new gml.Mat4( glMatrixLookAt );
+    var lookAt = gml.makeLookAt( pos, aimV, upV, rightV );
+
+    expect( lookAt ).toEqual( groundTruthLookAt );
   } );
 } );
 

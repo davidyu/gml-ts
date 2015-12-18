@@ -13,6 +13,10 @@ var customEqualityTesters = {
   }
 }
 
+var arrayifyGlMatrix = function( m ) {
+  return Object.keys( m ).map( function( k ) { return m[k]; } );
+}
+
 describe( "vector tests", function() {
   it( "tests sanity", function() {
     var a = new gml.Vector( 2, 0, 1 );
@@ -355,15 +359,20 @@ describe( "mat4 tests", function() {
 
   it( "tests gl helper methods", function() {
     var fov = 45;
-    var perspectiveTruth = {};
+    var glMatrixPerspective = {};
     var aspect = 4/3;
     var near = 1;
     var far = 100;
-    mat4.perspective( perspectiveTruth, fov, aspect, near, far );
+
+    // construct ground truth to test against
+    glMatrix.setMatrixArrayType( Array );
+    mat4.perspective( glMatrixPerspective, gml.fromDegrees( fov ).toRadians(), aspect, near, far );
+    mat4.transpose( glMatrixPerspective, glMatrixPerspective );
 
     var perspective = gml.makePerspective( gml.fromDegrees( fov ), aspect, near, far );
+    var groundTruthPerspective = new gml.Mat4( arrayifyGlMatrix( glMatrixPerspective ) );
 
-    // TODO convert ground truth to gml.mat4!
+    expect( perspective ).toEqual( groundTruthPerspective );
   } );
 } );
 

@@ -237,6 +237,25 @@ module gml {
     }
 
     public toString() {
+      var str = "";
+
+      for ( var i = 0; i < this.rows; i++ ) {
+        str += "\n\t";
+        for ( var j = 0; j < this.cols; j++ ) {
+          var v = this.get( i, j );
+          str += v.toPrecision(5) + "\t";
+        }
+        str = str.slice( 0, -1 );
+        str += "\n"
+      }
+
+      str = str.slice( 0, -1 );
+
+      str += "\n";
+      return str;
+    }
+
+    public toWolframString() {
       var str = "{";
 
       for ( var i = 0; i < this.rows; i++ ) {

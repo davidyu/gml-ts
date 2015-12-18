@@ -250,7 +250,7 @@ module gml {
   }
 
   export function makePerspective( fov: Angle, aspectRatio: number, near: number, far: number ): Mat4 {
-    let t = near * Math.tan( fov.toRadians() );
+    let t = near * Math.tan( fov.toRadians() / 2 );
     let r = t * aspectRatio;
     let l = -r;
     let b = -t;

@@ -193,22 +193,22 @@ module gml {
     public multiply( s: number ): Mat4;
     public multiply( arg: any ): Mat4 {
       var m = super.multiply( arg );
-      return new Mat4( m.m );
+      return new Mat4( m.v );
     }
 
     public scalarmul( s: number ): Mat4 {
       var m = super.scalarmul( s );
-      return new Mat4( m.m );
+      return new Mat4( m.v );
     }
 
     public subtract( rhs: Mat4 ): Mat4 {
       var m = super.subtract( rhs );
-      return new Mat4( m.m );
+      return new Mat4( m.v );
     }
 
     public add( rhs: Matrix ): Mat4 {
       var m = super.add( rhs );
-      return new Mat4( m.m );
+      return new Mat4( m.v );
     }
 
     public invert(): Mat4 {
@@ -225,13 +225,13 @@ module gml {
     }
 
     public transpose(): Mat4 {
-      return new Mat4( super.transpose().m );
+      return new Mat4( super.transpose().v );
     }
 
     public get mat3(): Mat3 {
-      return new Mat3( this.r00, this.r10, this.r20
-                     , this.r01, this.r11, this.r21
-                     , this.r02, this.r21, this.r22 );
+      return new Mat3( this.r00, this.r01, this.r02
+                     , this.r10, this.r11, this.r12
+                     , this.r20, this.r21, this.r22 );
     }
 
     public static identity(): Mat4 {

@@ -57,6 +57,10 @@ module gml {
       return this.v[ r * this.cols + c ];
     }
 
+    public set( r: number, c: number, val: number ) {
+      this.v[ r * this.cols + c ] = val;
+    }
+
     public row( r: number ): Vector {
       var row = [];
       for ( var i = 0; i < this.cols; i++ ) {
@@ -65,9 +69,9 @@ module gml {
       return new Vector( this.cols, row );
     }
 
-    public setRow( r: number, v: Vector ) {
+    public setRow( r: number, row: Vector ) {
       for ( var i = 0; i < this.cols; i++ ) {
-        this.set( r, i, v.v[i] );
+        this.set( r, i, row.v[i] );
       }
     }
 
@@ -106,7 +110,7 @@ module gml {
       }
 
       let l = Matrix.identity( this.rows );
-      let u = new Matrix( this.rows, this.cols, this.m );
+      let u = new Matrix( this.rows, this.cols, this.v );
 
       let size = this.rows;
 
@@ -164,14 +168,10 @@ module gml {
       return det;
     }
 
-    public set( r: number, c: number, v: number ) {
-      this.v[ r * this.cols + c ] = v;
-    }
-
     public add( rhs: Matrix ): Matrix {
       let vs = [];
-      let rvs = rhs.m;
-      for ( let i = 0; i < this.m.length; i++ ) {
+      let rvs = rhs.v;
+      for ( let i = 0; i < this.v.length; i++ ) {
         vs.push( this.v[i] + rvs[i] );
       }
       return new Matrix( this.rows, this.cols, vs );
@@ -179,8 +179,8 @@ module gml {
 
     public subtract( rhs: Matrix ): Matrix {
       let vs = [];
-      let rvs = rhs.m;
-      for ( let i = 0; i < this.m.length; i++ ) {
+      let rvs = rhs.v;
+      for ( let i = 0; i < this.v.length; i++ ) {
         vs.push( this.v[i] - rvs[i] );
       }
       return new Matrix( this.rows, this.cols, vs );
@@ -198,7 +198,7 @@ module gml {
 
     public scalarmul( s: number ): Matrix {
       let vs = [];
-      for ( let i = 0; i < this.m.length; i++ ) {
+      for ( let i = 0; i < this.v.length; i++ ) {
         vs.push( this.v[i] * s );
       }
       return new Matrix( this.rows, this.cols, vs );
@@ -217,7 +217,7 @@ module gml {
           for ( let k = 0; k < lhs.cols; k++ ) {
             sum += lhs.get( i, k ) * rhs.get( k, j );
           }
-          out[ j * lhs.rows + i ] = sum;
+          out[ i * lhs.cols + j ] = sum;
         }
       }
 

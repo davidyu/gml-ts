@@ -1,7 +1,7 @@
 var customEqualityTesters = {
   matrixEquality: function( a, b ) {
     var ABSOLUTE_ERROR = 1e-6;
-    var RELATIVE_ERROR = 1e-4;
+    var RELATIVE_ERROR = 1e-3;
     if ( a instanceof gml.Matrix && b instanceof gml.Matrix ) {
       if ( a.rows != b.rows || a.cols != b.cols ) return false;
       for ( var i = 0; i < a.rows; i++ ) {
@@ -11,7 +11,7 @@ var customEqualityTesters = {
           var diff = Math.abs( a_i_j - b_i_j );
           var max = Math.max( Math.abs( a_i_j ), Math.abs( b_i_j ) );
           if ( diff > ABSOLUTE_ERROR && diff / max > RELATIVE_ERROR ) {
-            console.log( "relative error of " + diff / max );
+            console.log( "error comparing " + a_i_j + " and " + b_i_j + " relative error of " + diff / max );
             return false;
           }
         }

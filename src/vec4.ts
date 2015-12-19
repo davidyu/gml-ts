@@ -78,6 +78,14 @@ module gml {
       return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z + this.w * rhs.w;
     }
 
+    // ignores w component
+    public cross( rhs: Vec4 ): Vec4 {
+      return new Vec4( this.y * rhs.z - this.z * rhs.y
+                     , this.z * rhs.x - this.x * rhs.z
+                     , this.x * rhs.y - this.y * rhs.x
+                     , 0 );
+    }
+
     public get normalized(): Vec4 {
       var len = this.len;
       return new Vec4( this.x / len, this.y / len, this.z / len, this.w / len );

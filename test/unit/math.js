@@ -1,6 +1,6 @@
 var customEqualityTesters = {
   matrixEquality: function( a, b ) {
-    var ABSOLUTE_ERROR = 1e-6;
+    var ABSOLUTE_ERROR = 1e-5;
     var RELATIVE_ERROR = 1e-3;
     if ( a instanceof gml.Matrix && b instanceof gml.Matrix ) {
       if ( a.rows != b.rows || a.cols != b.cols ) return false;
@@ -388,13 +388,10 @@ describe( "mat4 tests", function() {
     var NUM_ITERATIONS = 10;
     var POSITION_UPPER_LIMIT = 1000;
     for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
-      var pos = new gml.Vec4( Math.random() * POSITION_UPPER_LIMIT
-                            , Math.random() * POSITION_UPPER_LIMIT
-                            , Math.random() * POSITION_UPPER_LIMIT
-                            , 0 );
+      var pos = gml.Vec4.randomInSphere( POSITION_UPPER_LIMIT );
 
-      var aimV = new gml.Vec4( Math.random(), Math.random(), Math.random(), 0 ).normalized;
-      var rightV = new gml.Vec4( Math.random(), Math.random(), Math.random(), 0 );
+      var aimV = gml.Vec4.randomInSphere();
+      var rightV = gml.Vec4.randomInSphere();
       var upV = rightV.cross( aimV ).normalized;
       var rightV = aimV.cross( upV ).normalized;
 

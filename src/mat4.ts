@@ -278,9 +278,11 @@ module gml {
 
     var lookAt = makeMat4FromRows( x, y, z, new Vec4( 0, 0, 0, 1 ) );
 
-    lookAt.tx = -pos.x;
-    lookAt.ty = pos.y;
-    lookAt.tz = pos.z;
+    var npos = pos.negate();
+
+    lookAt.tx = npos.dot( x );
+    lookAt.ty = npos.dot( y );
+    lookAt.tz = npos.dot( z );
 
     return lookAt;
   }

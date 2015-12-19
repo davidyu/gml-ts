@@ -243,7 +243,7 @@ module gml {
         str += "\n\t";
         for ( var j = 0; j < this.cols; j++ ) {
           var v = this.get( i, j );
-          str += v.toPrecision(5) + "\t";
+          str += v.toPrecision(8) + "\t";
         }
         str = str.slice( 0, -1 );
         str += "\n"

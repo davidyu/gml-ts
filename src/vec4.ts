@@ -94,5 +94,9 @@ module gml {
     public map( callback: ( v: number ) => number ): Vec4 {
       return new Vec4( this.v.map( callback ) );
     }
+
+    public static randomInSphere( radius: number = 1 ) {
+      return new Vec4( Math.random(), Math.random(), Math.random(), 0 ).normalized.multiply( radius );
+    }
   }
 }

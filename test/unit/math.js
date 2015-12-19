@@ -1,11 +1,19 @@
 var customEqualityTesters = {
   matrixEquality: function( a, b ) {
-    var e = 1e-6;
+    var ABSOLUTE_ERROR = 1e-6;
+    var RELATIVE_ERROR = 1e-4;
     if ( a instanceof gml.Matrix && b instanceof gml.Matrix ) {
       if ( a.rows != b.rows || a.cols != b.cols ) return false;
       for ( var i = 0; i < a.rows; i++ ) {
         for ( var j = 0; j < a.cols; j++ ) {
-          if ( Math.abs( a.get( i, j ) - b.get( i, j ) ) >= e ) return false;
+          var a_i_j = a.get( i, j );
+          var b_i_j = b.get( i, j );
+          var diff = Math.abs( a_i_j - b_i_j );
+          var max = Math.max( Math.abs( a_i_j ), Math.abs( b_i_j ) );
+          if ( diff > ABSOLUTE_ERROR && diff / max > RELATIVE_ERROR ) {
+            console.log( "relative error of " + diff / max );
+            return false;
+          }
         }
       }
       return true;
@@ -377,20 +385,27 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests camera matrix", function() {
-    var pos = new gml.Vec4( 0, 0, 5, 0 );
-    var aimV = new gml.Vec4( 0, 0, -1, 0 );
-    var upV = new gml.Vec4( 0, 1, 0, 0 );
-    var rightV = new gml.Vec4( 1, 0, 0, 0 );
+    var NUM_ITERATIONS = 10;
+    var POSITION_UPPER_LIMIT = 1000;
+    for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
+      var pos = new gml.Vec4( Math.random() * POSITION_UPPER_LIMIT
+                            , Math.random() * POSITION_UPPER_LIMIT
+                            , Math.random() * POSITION_UPPER_LIMIT
+                            , 0 );
 
-    var glMatrixLookAt = [];
-    mat4.lookAt( glMatrixLookAt, pos.xyz.v, pos.add( aimV ).xyz.v, upV.xyz.v );
-    mat4.transpose( glMatrixLookAt, glMatrixLookAt );
+      var aimV = new gml.Vec4( Math.random(), Math.random(), Math.random(), 0 ).normalized;
+      var rightV = new gml.Vec4( Math.random(), Math.random(), Math.random(), 0 );
+      var upV = rightV.cross( aimV ).normalized;
+      var rightV = aimV.cross( upV ).normalized;
 
-    var groundTruthLookAt = new gml.Mat4( glMatrixLookAt );
-    var lookAt = gml.makeLookAt( pos, aimV, upV, rightV );
+      var glMatrixLookAt = [];
+      mat4.lookAt( glMatrixLookAt, pos.xyz.v, pos.add( aimV ).xyz.v, upV.xyz.v );
+      mat4.transpose( glMatrixLookAt, glMatrixLookAt );
 
-    expect( lookAt ).toEqual( groundTruthLookAt );
+      var groundTruthLookAt = new gml.Mat4( glMatrixLookAt );
+      var lookAt = gml.makeLookAt( pos, aimV, upV, rightV );
+
+      expect( lookAt ).toEqual( groundTruthLookAt );
+    }
   } );
 } );
-
-

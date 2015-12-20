@@ -1,6 +1,6 @@
 var customEqualityTesters = {
   matrixEquality: function( a, b ) {
-    var ABSOLUTE_ERROR = 1e-5;
+    var ABSOLUTE_ERROR = 5e-5;
     var RELATIVE_ERROR = 1e-3;
     if ( a instanceof gml.Matrix && b instanceof gml.Matrix ) {
       if ( a.rows != b.rows || a.cols != b.cols ) return false;
@@ -403,6 +403,24 @@ describe( "mat4 tests", function() {
       var lookAt = gml.makeLookAt( pos, aimV, upV, rightV );
 
       expect( lookAt ).toEqual( groundTruthLookAt );
+    }
+  } );
+
+  it( "tests y-rotation matrix", function() {
+    var NUM_ITERATIONS = 10;
+    var POSITION_UPPER_LIMIT = 1000;
+    for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
+      var rot = Math.random() * Math.PI * 2;
+      var glMatrixId = mat4.create();
+      var glMatrixRotateY = [];
+
+      mat4.rotateY( glMatrixRotateY, glMatrixId, -rot );
+      mat4.transpose( glMatrixRotateY, glMatrixRotateY );
+
+      var groundTruthRotateY = new gml.Mat4( glMatrixRotateY );
+      var rotateY = gml.Mat4.rotateY( gml.fromRadians( rot ) );
+
+      expect( groundTruthRotateY ).toEqual( rotateY );
     }
   } );
 } );

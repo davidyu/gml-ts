@@ -408,7 +408,6 @@ describe( "mat4 tests", function() {
 
   it( "tests y-rotation matrix", function() {
     var NUM_ITERATIONS = 10;
-    var POSITION_UPPER_LIMIT = 1000;
     for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
       var rot = Math.random() * Math.PI * 2;
       var glMatrixId = mat4.create();
@@ -421,6 +420,40 @@ describe( "mat4 tests", function() {
       var rotateY = gml.Mat4.rotateY( gml.fromRadians( rot ) );
 
       expect( groundTruthRotateY ).toEqual( rotateY );
+    }
+  } );
+
+  it( "tests x-rotation matrix", function() {
+    var NUM_ITERATIONS = 10;
+    for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
+      var rot = Math.random() * Math.PI * 2;
+      var glMatrixId = mat4.create();
+      var glMatrixRotateX = [];
+
+      mat4.rotateX( glMatrixRotateX, glMatrixId, -rot );
+      mat4.transpose( glMatrixRotateX, glMatrixRotateX );
+
+      var groundTruthRotateX = new gml.Mat4( glMatrixRotateX );
+      var rotateX = gml.Mat4.rotateX( gml.fromRadians( rot ) );
+
+      expect( groundTruthRotateX ).toEqual( rotateX );
+    }
+  } );
+
+  it( "tests z-rotation matrix", function() {
+    var NUM_ITERATIONS = 10;
+    for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
+      var rot = Math.random() * Math.PI * 2;
+      var glMatrixId = mat4.create();
+      var glMatrixRotateZ = [];
+
+      mat4.rotateZ( glMatrixRotateZ, glMatrixId, -rot );
+      mat4.transpose( glMatrixRotateZ, glMatrixRotateZ );
+
+      var groundTruthRotateZ = new gml.Mat4( glMatrixRotateZ );
+      var rotateZ = gml.Mat4.rotateZ( gml.fromRadians( rot ) );
+
+      expect( groundTruthRotateZ ).toEqual( rotateZ );
     }
   } );
 } );

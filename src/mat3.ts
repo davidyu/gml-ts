@@ -38,6 +38,42 @@ module gml {
       super( 3, 3, args );
     }
 
+    public get r00(): number {
+      return this.get( 0, 0 );
+    }
+
+    public get r01(): number {
+      return this.get( 0, 1 );
+    }
+
+    public get r02(): number {
+      return this.get( 0, 2 );
+    }
+
+    public get r10(): number {
+      return this.get( 1, 0 );
+    }
+
+    public get r11(): number {
+      return this.get( 1, 1 );
+    }
+
+    public get r12(): number {
+      return this.get( 1, 2 );
+    }
+
+    public get r20(): number {
+      return this.get( 2, 0 );
+    }
+
+    public get r21(): number {
+      return this.get( 2, 1 );
+    }
+
+    public get r22(): number {
+      return this.get( 2, 2 );
+    }
+
     public get tx(): number {
       return this.get( 0, 2 );
     }
@@ -142,6 +178,13 @@ module gml {
     public multiply( arg: any ): Mat3 {
       var m = super.multiply( arg );
       return new Mat3( m.m );
+    }
+
+    public toMat4(): Mat4 {
+      return new Mat4( this.r00, this.r01, this.r02, 0
+                     , this.r10, this.r11, this.r12, 0
+                     , this.r20, this.r21, this.r22, 0
+                     ,        0,        0,        0, 1 );
     }
 
     public static identity(): Mat3 {

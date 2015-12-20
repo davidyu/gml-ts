@@ -240,6 +240,33 @@ module gml {
                      , 0, 0, 1, 0
                      , 0, 0, 0, 1 );
     }
+
+    public static rotateY( angle: Angle ): Mat4 {
+      let s = Math.sin( angle.toRadians() );
+      let c = Math.cos( angle.toRadians() );
+      return new Mat4( c, 0, -s, 0
+                     , 0, 1,  0, 0
+                     , s, 0,  c, 0
+                     , 0, 0,  0, 1 );
+    }
+
+    public static rotateX( angle: Angle ): Mat4 {
+      let s = Math.sin( angle.toRadians() );
+      let c = Math.cos( angle.toRadians() );
+      return new Mat4( 1,  0, 0, 0
+                     , 0,  c, s, 0
+                     , 0, -s, c, 0
+                     , 0,  0, 0, 1 );
+    }
+
+    public static rotateZ( angle: Angle ): Mat4 {
+      let s = Math.sin( angle.toRadians() );
+      let c = Math.cos( angle.toRadians() );
+      return new Mat4(  c, s, 0, 0
+                     , -s, c, 0, 0
+                     ,  0, 0, 1, 0
+                     ,  0, 0, 0, 1 );
+    }
   }
 
   export function makeMat4FromRows( r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4 ) {

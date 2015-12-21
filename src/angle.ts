@@ -4,9 +4,9 @@ module gml {
   export interface Angle {
     toDegrees(): number;
     toRadians(): number;
-    add( rhs: Angle ): void;
-    subtract( rhs: Angle ): void;
-    reduceToOneTurn(): void;
+    add( rhs: Angle ): Angle;
+    subtract( rhs: Angle ): Angle;
+    reduceToOneTurn(): Angle;
   }
 
   export function fromRadians( rad: number ): Angle {
@@ -33,19 +33,19 @@ module gml {
       return this.v * Math.PI / 180;
     }
 
-    add( rhs: Angle ) {
-      this.v += rhs.toDegrees();
+    add( rhs: Angle ): Angle {
+      return fromDegrees( this.v + rhs.toDegrees() );
     }
 
-    subtract( rhs: Angle ) {
-      this.v -= rhs.toDegrees();
+    subtract( rhs: Angle ): Angle {
+      return fromDegrees( this.v - rhs.toDegrees() );
     }
 
-    reduceToOneTurn() {
-      if ( this.v > 360 ) {
-        this.v -= 360 * Math.floor( this.v / 360 );
+    reduceToOneTurn(): Angle {
+      if ( this.v >= 360 ) {
+        return fromDegrees( this.v - 360 * Math.floor( this.v / 360 ) );
       } else if ( this.v < 0 ) {
-        this.v += 360 * Math.floor( -this.v / 360 );
+        return fromDegrees( this.v + 360 * Math.floor( -this.v / 360 ) );
       }
     }
   }
@@ -67,19 +67,19 @@ module gml {
       return this.v * 180 / Math.PI;
     }
 
-    add( rhs: Angle ) {
-      this.v += rhs.toRadians();
+    add( rhs: Angle ): Angle {
+      return fromRadians( this.v + rhs.toRadians() );
     }
 
-    subtract( rhs: Angle ) {
-      this.v -= rhs.toRadians();
+    subtract( rhs: Angle ): Angle {
+      return fromRadians( this.v - rhs.toRadians() );
     }
 
-    reduceToOneTurn() {
-      if ( this.v > Radian.TWO_PI ) {
-        this.v -= Radian.TWO_PI * Math.floor( this.v / Radian.TWO_PI );
+    reduceToOneTurn(): Angle {
+      if ( this.v >= Radian.TWO_PI ) {
+        return fromRadians( this.v - Radian.TWO_PI * Math.floor( this.v / Radian.TWO_PI ) );
       } else if ( this.v < 0 ) {
-        this.v += Radian.TWO_PI * Math.floor( -this.v / Radian.TWO_PI );
+        return fromRadians( this.v + Radian.TWO_PI * Math.floor( -this.v / Radian.TWO_PI ) );
       }
     }
   }

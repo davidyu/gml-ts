@@ -18,8 +18,25 @@ var customEqualityTesters = {
       }
       return true;
     }
+  },
+
+  angleEquality: function( a, b ) {
+    if ( a instanceof gml.Angle && b instanceof gml.Angle ) {
+      var ABSOLUTE_ERROR = 5e-5;
+      var diff = Math.abs( a.toDegrees() - b.toDegrees() );
+      return ( diff <= ABSOLUTE_ERROR );
+    }
   }
 }
+
+describe( "angle tests", function() {
+  it( "tests reduction", function() {
+    expect( gml.fromDegrees( 720 ).reduceToOneTurn() ).toEqual( gml.fromDegrees( 360 ).reduceToOneTurn() );
+    expect( gml.fromDegrees( 540 ).reduceToOneTurn() ).toEqual( gml.fromDegrees( 180 ) );
+    expect( gml.fromDegrees( 180 ).add( gml.fromDegrees( 180 ) ) ).toEqual( gml.fromDegrees( 360 ) );
+    expect( gml.fromDegrees( 180 ).add( gml.fromDegrees( -180 ) ) ).toEqual( gml.fromDegrees( 0 ) );
+  } );
+} );
 
 describe( "vector tests", function() {
   it( "tests sanity", function() {

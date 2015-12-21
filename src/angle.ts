@@ -51,7 +51,7 @@ module gml {
   }
 
   export class Radian implements Angle {
-    static TWO_PI: number = 2 * Math.PI;
+    public static get TWO_PI: number { return 6.283185307179586; }
 
     v: number;
 

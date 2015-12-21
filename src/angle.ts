@@ -4,6 +4,9 @@ module gml {
   export interface Angle {
     toDegrees(): number;
     toRadians(): number;
+    add( rhs: Angle ): void;
+    subtract( rhs: Angle ): void;
+    reduceToOneTurn(): void;
   }
 
   export function fromRadians( rad: number ): Angle {
@@ -29,9 +32,27 @@ module gml {
     toRadians(): number {
       return this.v * Math.PI / 180;
     }
+
+    add( rhs: Angle ) {
+      this.v += rhs.toDegrees();
+    }
+
+    subtract( rhs: Angle ) {
+      this.v -= rhs.toDegrees();
+    }
+
+    reduceToOneTurn() {
+      if ( this.v > 360 ) {
+        this.v -= 360 * Math.floor( this.v / 360 );
+      } else if ( this.v < 0 ) {
+        this.v += 360 * Math.floor( -this.v / 360 );
+      }
+    }
   }
 
   export class Radian implements Angle {
+    static TWO_PI: number = 2 * Math.PI;
+
     v: number;
 
     constructor( rad: number ) {
@@ -44,6 +65,22 @@ module gml {
 
     toDegrees(): number {
       return this.v * 180 / Math.PI;
+    }
+
+    add( rhs: Angle ) {
+      this.v += rhs.toRadians();
+    }
+
+    subtract( rhs: Angle ) {
+      this.v -= rhs.toRadians();
+    }
+
+    reduceToOneTurn() {
+      if ( this.v > Radian.TWO_PI ) {
+        this.v -= Radian.TWO_PI * Math.floor( this.v / Radian.TWO_PI );
+      } else if ( this.v < 0 ) {
+        this.v += Radian.TWO_PI * Math.floor( -this.v / Radian.TWO_PI );
+      }
     }
   }
 }

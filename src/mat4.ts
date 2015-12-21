@@ -211,6 +211,13 @@ module gml {
       return new Mat4( m.v );
     }
 
+    public transform( rhs: Vec4 ): Vec4 {
+      return new Vec4( this.r00 * rhs.x + this.r01 * rhs.y + this.r02 * rhs.z + this.tx * rhs.w
+                     , this.r10 * rhs.x + this.r11 * rhs.y + this.r12 * rhs.z + this.ty * rhs.w
+                     , this.r20 * rhs.x + this.r21 * rhs.y + this.r22 * rhs.z + this.tz * rhs.w
+                     , this.m30 * rhs.x + this.m31 * rhs.y + this.m32 * rhs.z + this.m33 * rhs.w );
+    }
+
     public invert(): Mat4 {
       let d = this.determinant;
       let tr = this.trace;

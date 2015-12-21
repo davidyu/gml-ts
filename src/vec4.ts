@@ -95,8 +95,20 @@ module gml {
       return new Vec4( this.v.map( callback ) );
     }
 
-    public static randomInSphere( radius: number = 1 ) {
+    public static randomInSphere( radius: number = 1 ): Vec4 {
       return new Vec4( Math.random(), Math.random(), Math.random(), 0 ).normalized.multiply( radius );
+    }
+
+    public static get origin(): Vec4 {
+      return new Vec4( 0, 0, 0, 1 );
+    }
+
+    public static get up(): Vec4 {
+      return new Vec4( 0, 1, 0, 0 );
+    }
+
+    public static get right(): Vec4 {
+      return new Vec4( 1, 0, 0, 0 );
     }
   }
 }

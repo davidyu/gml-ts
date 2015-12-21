@@ -50,6 +50,10 @@ module gml {
         return this;
       }
     }
+
+    static get zero(): Angle {
+      return new Degree( 0 );
+    }
   }
 
   export class Radian implements Angle {
@@ -85,6 +89,10 @@ module gml {
       } else {
         return this;
       }
+    }
+
+    static get zero(): Angle {
+      return new Radian( 0 );
     }
   }
 }

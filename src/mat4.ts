@@ -274,6 +274,21 @@ module gml {
                      ,  0, 0, 1, 0
                      ,  0, 0, 0, 1 );
     }
+
+    public static rotate( axis: Vec4, angle: Angle ): Mat4 {
+      let k = new Mat4(       0, -axis.z,  axis.y, 0
+                      ,  axis.z,       0, -axis.x, 0
+                      , -axis.y,  axis.x,       0, 0
+                      ,       0,       0,       0, 0 );
+
+      let k2 = k.multiply( k );
+
+      let r = angle.toRadians();
+    
+      return Mat4.identity()
+            .add( k.multiply( Math.sin( r ) ) )
+            .add( k2.multiply( 1 - Math.cos( r ) ) );
+    }
   }
 
   export function makeMat4FromRows( r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4 ) {

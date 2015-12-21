@@ -21,7 +21,7 @@ var customEqualityTesters = {
   },
 
   angleEquality: function( a, b ) {
-    if ( a instanceof gml.Angle && b instanceof gml.Angle ) {
+    if ( ( a instanceof gml.Degree || a instanceof gml.Radian ) && ( b instanceof gml.Degree || b instanceof gml.Radian ) ) {
       var ABSOLUTE_ERROR = 5e-5;
       var diff = Math.abs( a.toDegrees() - b.toDegrees() );
       return ( diff <= ABSOLUTE_ERROR );
@@ -475,6 +475,25 @@ describe( "mat4 tests", function() {
       var rotateZ = gml.Mat4.rotateZ( gml.fromRadians( rot ) );
 
       expect( groundTruthRotateZ ).toEqual( rotateZ );
+    }
+  } );
+
+  it( "tests arbitrary axis rotation matrix", function() {
+    var NUM_ITERATIONS = 10;
+    for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
+      var rot = Math.random() * Math.PI * 2;
+      var glAxis = vec3.create();
+      vec3.random( glAxis, 1 );
+      var glMatrixId = mat4.create();
+      var glMatrixRotate = [];
+
+      mat4.rotate( glMatrixRotate, glMatrixId, -rot, glAxis );
+      // not sure why I shouldn't transpose here...
+
+      var groundTruthRotate = new gml.Mat4( glMatrixRotate );
+      var rotate = gml.Mat4.rotate( new gml.Vec4( glAxis[0], glAxis[1], glAxis[2], 0 ), gml.fromRadians( rot ) );
+
+      expect( groundTruthRotate ).toEqual( rotate );
     }
   } );
 } );

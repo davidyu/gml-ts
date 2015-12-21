@@ -41,6 +41,10 @@ module gml {
       return fromDegrees( this.v - rhs.toDegrees() );
     }
 
+    negate(): Angle {
+      return fromDegrees( -this.v );
+    }
+
     reduceToOneTurn(): Angle {
       if ( this.v >= 360 ) {
         return fromDegrees( this.v - 360 * Math.floor( this.v / 360 ) );
@@ -79,6 +83,10 @@ module gml {
 
     subtract( rhs: Angle ): Angle {
       return fromRadians( this.v - rhs.toRadians() );
+    }
+
+    negate(): Angle {
+      return fromRadians( -this.v );
     }
 
     reduceToOneTurn(): Angle {

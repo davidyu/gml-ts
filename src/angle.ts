@@ -6,6 +6,7 @@ module gml {
     toRadians(): number;
     add( rhs: Angle ): Angle;
     subtract( rhs: Angle ): Angle;
+    negate(): Angle;
     reduceToOneTurn(): Angle;
   }
 

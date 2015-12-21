@@ -37,6 +37,8 @@ describe( "angle tests", function() {
     expect( gml.fromDegrees( -100 ).reduceToOneTurn() ).toEqual( gml.fromDegrees( 260 ) );
     expect( gml.fromDegrees( 180 ).add( gml.fromDegrees( 180 ) ) ).toEqual( gml.fromDegrees( 360 ) );
     expect( gml.fromDegrees( 180 ).add( gml.fromDegrees( -180 ) ) ).toEqual( gml.fromDegrees( 0 ) );
+    expect( gml.fromDegrees( 10 ).reduceToOneTurn() ).toEqual( gml.fromDegrees( 10 ) );
+    expect( gml.fromDegrees( 179 ).reduceToOneTurn() ).toEqual( gml.fromDegrees( 179 ) );
   } );
 } );
 

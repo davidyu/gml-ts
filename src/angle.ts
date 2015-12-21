@@ -46,12 +46,14 @@ module gml {
         return fromDegrees( this.v - 360 * Math.floor( this.v / 360 ) );
       } else if ( this.v < 0 ) {
         return fromDegrees( this.v + 360 * Math.ceil( -this.v / 360 ) );
+      } else {
+        return this;
       }
     }
   }
 
   export class Radian implements Angle {
-    public static get TWO_PI: number { return 6.283185307179586; }
+    public static get TWO_PI(): number { return 6.283185307179586; }
 
     v: number;
 
@@ -80,6 +82,8 @@ module gml {
         return fromRadians( this.v - Radian.TWO_PI * Math.floor( this.v / Radian.TWO_PI ) );
       } else if ( this.v < 0 ) {
         return fromRadians( this.v + Radian.TWO_PI * Math.ceil( -this.v / Radian.TWO_PI ) );
+      } else {
+        return this;
       }
     }
   }

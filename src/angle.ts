@@ -45,7 +45,7 @@ module gml {
       if ( this.v >= 360 ) {
         return fromDegrees( this.v - 360 * Math.floor( this.v / 360 ) );
       } else if ( this.v < 0 ) {
-        return fromDegrees( this.v + 360 * Math.floor( -this.v / 360 ) );
+        return fromDegrees( this.v + 360 * Math.ceil( -this.v / 360 ) );
       }
     }
   }
@@ -79,7 +79,7 @@ module gml {
       if ( this.v >= Radian.TWO_PI ) {
         return fromRadians( this.v - Radian.TWO_PI * Math.floor( this.v / Radian.TWO_PI ) );
       } else if ( this.v < 0 ) {
-        return fromRadians( this.v + Radian.TWO_PI * Math.floor( -this.v / Radian.TWO_PI ) );
+        return fromRadians( this.v + Radian.TWO_PI * Math.ceil( -this.v / Radian.TWO_PI ) );
       }
     }
   }

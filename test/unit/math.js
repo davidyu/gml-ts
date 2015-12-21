@@ -33,6 +33,8 @@ describe( "angle tests", function() {
   it( "tests reduction", function() {
     expect( gml.fromDegrees( 720 ).reduceToOneTurn() ).toEqual( gml.fromDegrees( 360 ).reduceToOneTurn() );
     expect( gml.fromDegrees( 540 ).reduceToOneTurn() ).toEqual( gml.fromDegrees( 180 ) );
+    expect( gml.fromDegrees( -180 ).reduceToOneTurn() ).toEqual( gml.fromDegrees( 180 ) );
+    expect( gml.fromDegrees( -100 ).reduceToOneTurn() ).toEqual( gml.fromDegrees( 260 ) );
     expect( gml.fromDegrees( 180 ).add( gml.fromDegrees( 180 ) ) ).toEqual( gml.fromDegrees( 360 ) );
     expect( gml.fromDegrees( 180 ).add( gml.fromDegrees( -180 ) ) ).toEqual( gml.fromDegrees( 0 ) );
   } );

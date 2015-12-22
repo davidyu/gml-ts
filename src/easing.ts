@@ -9,10 +9,28 @@ module gml {
     }
 
     public static QuadInOut( t: number ) {
-			if ( t < 0.5 )
+			if ( t < 0.5 ) {
+        /* we want verbatim behavior as QuadIn, except we're passing in t
+         * with a range of 0 to 0.5, and we want the output to also range from
+         * 0 to 0.5.
+         *
+         * we double the input parameter s.t. it is 0 to 1, then pass it into
+         * the QuadIn function (t*t), then half the result to get an output
+         * from 0 to 0.5. Constant terms cancel to resolve to 2*t*t
+         */
 				return 2*t*t;
-			else
-				return -0.5 * ( ( 2*t-1 ) * ( 2 * ( t-1 ) - 2 ) - 1 );
+      } else {
+        /* we want verbatim behavior as QuadOut, except we're passing in t
+         * with a range of 0.5 to 1, and we want the output to also range from
+         * 0.5 to 1.
+         *
+         * we transform the input parameter s.t. it is 0 to 1, then pass it into
+         * the QuadOut function -t(t-2), then transform the result s.t. it is
+         * from 0.5 to 1.
+         */
+        let _t = ( t - 0.5 ) * 2;
+        return ( -_t * ( _t - 2 ) ) / 2 + 0.5;
+      }
     }
 
     public static CubicIn( t: number ) {
@@ -26,9 +44,25 @@ module gml {
 
     public static CubicInOut( t: number ) {
       if ( t < 0.5 ) {
+        /* we want verbatim behavior as CubicIn, except we're passing in t
+         * with a range of 0 to 0.5, and we want the output to also range from
+         * 0 to 0.5.
+         *
+         * we transform the input parameter s.t. it is 0 to 1, then pass it into
+         * the CubicIn function (t*t*t), then half the result to get an output
+         * from 0 to 0.5
+         */
         let _t = 2 * t;
-        return _t * _t * _t;
+        return _t*_t*_t * 0.5;
       } else {
+        /* we want verbatim behavior as CubicOut, except we're passing in t
+         * with a range of 0.5 to 1, and we want the output to also range from
+         * 0.5 to 1.
+         *
+         * we transform the input parameter s.t. it is 0 to 1, then pass it into
+         * the CubicOut function (t-1)^3 + 1, then transform the result s.t. it is
+         * from 0.5 to 1.
+         */
         let _t = ( ( t - 0.5 ) * 2 ) - 1;
         return ( _t*_t*_t + 1 ) / 2 + 0.5;
       }

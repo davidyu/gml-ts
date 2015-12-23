@@ -1413,7 +1413,7 @@ var gml;
 ///<reference path = "mat.ts" />
 ///<reference path = "mat3.ts" />
 ///<reference path = "mat4.ts" />
-if (module != null) {
+if (typeof module !== 'undefined') {
     module.exports = gml;
 }
 //# sourceMappingURL=gml2d.js.map

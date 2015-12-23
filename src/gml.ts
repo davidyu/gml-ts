@@ -10,6 +10,6 @@
 
 // this is a hack for nodejs
 declare var module: any;
-if ( module != null ) {
+if ( typeof module !== 'undefined' ) {
   module.exports = gml;
 }

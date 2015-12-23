@@ -9,6 +9,8 @@
         "jasmine-core":"2.x",
         "karma-jasmine":"0.3.x",
         "karma-chrome-launcher": "~0.1",
-        "colors": "1.x"
+        "colors": "1.x",
+        "benchmark": "1.x",
+        "gl-matrix": "latest"
     }
 }

@@ -19,6 +19,7 @@ test: update lib
 	pushd $(SRC);
 	cp -rf $(TEST)/* $(DIST_TEST)/
 	@( pushd $(DIST_TEST) && npm install && popd ) > /dev/null
+	cp -f dist/gml.js $(DIST_TEST)/perf/
 
 update:
 	pushd $(TEST)/vendor && sh update.sh && popd

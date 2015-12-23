@@ -1,64 +1,72 @@
-var Benchmark = require('benchmark');
+var Benchtable = require('benchtable');
 
 var glm = require('gl-matrix');
 var gml = require('./gml');
 
-var vec2_suite = new Benchmark.Suite;
+var suite = {};
 
-vec2_suite.add( 'gml.Vec2.constructor', function() {
-  new gml.Vec2( 0, 1 ) != null;
-} )
-.add( 'glm.vec2.create', function() {
-  var v = glm.vec2.create();
-  v[0] = 0;
-  v[1] = 1;
-  v != null;
-} )
-.on( 'cycle', function( e ) {
-  console.log( String( e.target ) );
-} )
-.on( 'complete', function() {
-  console.log( 'Fastest is ' + this.filter( 'fastest' ).pluck( 'name' ) );
-} )
-.run( { 'async': true } );
+suite.constructors = {
+  vec2: new Benchtable(),
+  vec3: new Benchtable(),
+  vec4: new Benchtable()
+};
 
-var vec3_suite = new Benchmark.Suite;
+suite.constructors.vec2
+  .addFunction( 'new Vec2( x, y )', function( input ) {
+    new gml.Vec2( input[0], input[1] );
+  } )
+  .addFunction( '(gl-matrx) vec2.create()', function( input ) {
+    var v = glm.vec2.create();
+    v[0] = input[0];
+    v[1] = input[1];
+  } )
+  .addInput( '0, 1', [ 0, 1 ] )
+  .addInput( 'large numbers', [ 9007199254740991, 9007199254740991 ] )
+  .addInput( 'large negative numbers', [ -9007199254740991, -9007199254740991 ] )
+  .addInput( 'random floats', [ Math.random(), Math.random() ] )
+  .on('complete', function() {
+    console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+    console.log(this.table.toString());
+  }) 
+  .run();
 
-vec3_suite.add( 'gml.Vec3.constructor', function() {
-  new gml.Vec3( 0, 1, 2 ) != null;
-} )
-.add( 'glm.vec3.create', function() {
-  var v = glm.vec3.create();
-  v[0] = 0;
-  v[1] = 1;
-  v[2] = 2;
-  v != null;
-} )
-.on( 'cycle', function( e ) {
-  console.log( String( e.target ) );
-} )
-.on( 'complete', function() {
-  console.log( 'Fastest is ' + this.filter( 'fastest' ).pluck( 'name' ) );
-} )
-.run( { 'async': true } );
+suite.constructors.vec3
+  .addFunction( 'new Vec3( x, y, z )', function( input ) {
+    new gml.Vec3( input[0], input[1], input[2] );
+  } )
+  .addFunction( '(gl-matrx) vec3.create()', function( input ) {
+    var v = glm.vec3.create();
+    v[0] = input[0];
+    v[1] = input[1];
+    v[2] = input[2];
+  } )
+  .addInput( '0, 1, 2', [ 0, 1, 2 ] )
+  .addInput( 'large numbers', [ 9007199254740991, 9007199254740991, 9007199254740991 ] )
+  .addInput( 'large negative numbers', [ -9007199254740991, -9007199254740991, -9007199254740991 ] )
+  .addInput( 'random floats', [ Math.random(), Math.random(), Math.random() ] )
+  .on('complete', function() {
+    console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+    console.log(this.table.toString());
+  }) 
+  .run();
 
-var vec4_suite = new Benchmark.Suite;
-
-vec4_suite.add( 'gml.Vec4.constructor', function() {
-  new gml.Vec4( 0, 1, 2, 3 ) != null;
-} )
-.add( 'glm.vec4.create', function() {
-  var v = glm.vec4.create();
-  v[0] = 0;
-  v[1] = 1;
-  v[2] = 2;
-  v[3] = 3;
-  v != null;
-} )
-.on( 'cycle', function( e ) {
-  console.log( String( e.target ) );
-} )
-.on( 'complete', function() {
-  console.log( 'Fastest is ' + this.filter( 'fastest' ).pluck( 'name' ) );
-} )
-.run( { 'async': true } );
+suite.constructors.vec4
+  .addFunction( 'new Vec4( x, y, z, w )', function( input ) {
+    new gml.Vec4( input[0], input[1], input[2], input[3] );
+  } )
+  .addFunction( '(gl-matrx) vec4.create()', function( input ) {
+    var v = glm.vec4.create();
+    v[0] = input[0];
+    v[1] = input[1];
+    v[2] = input[2];
+    v[3] = input[3];
+  } )
+  .addInput( '0, 1, 2, 3', [ 0, 1, 2, 3 ] )
+  .addInput( 'large numbers', [ 9007199254740991, 9007199254740991, 9007199254740991, 9007199254740991 ] )
+  .addInput( 'large negative numbers', [ -9007199254740991, -9007199254740991, -9007199254740991, -9007199254740991 ] )
+  .addInput( 'random floats', [ Math.random(), Math.random(), Math.random(), Math.random() ] )
+  .on('complete', function() {
+    console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+    console.log(this.table.toString());
+  }) 
+  .run();

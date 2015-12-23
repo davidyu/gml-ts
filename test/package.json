@@ -10,7 +10,7 @@
         "karma-jasmine":"0.3.x",
         "karma-chrome-launcher": "~0.1",
         "colors": "1.x",
-        "benchmark": "1.x",
+        "benchtable": "latest",
         "gl-matrix": "latest"
     }
 }

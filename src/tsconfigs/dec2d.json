@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "out": "../dist/gml2d.d.ts",
+    "target": "ES5"
+  }, 
+  "files": [
+    "gml.ts",
+    "easing.ts",
+    "angle.ts",
+    "vec.ts",
+    "vec2.ts",
+    "mat.ts",
+    "mat3.ts"
+  ]
+}

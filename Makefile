@@ -10,6 +10,10 @@ lib: folders
 	pushd $(SRC); cp -r tsconfigs/lib.json tsconfig.json; tsc; popd
 	pushd $(SRC); cp -r tsconfigs/dec.json tsconfig.json; tsc; popd
 
+lib2d: folders
+	pushd $(SRC); cp -r tsconfigs/lib2d.json tsconfig.json; tsc; popd
+	pushd $(SRC); cp -r tsconfigs/dec2d.json tsconfig.json; tsc; popd
+
 folders:
 	@mkdir -p $(DIST)
 	@mkdir -p $(DIST)/lib

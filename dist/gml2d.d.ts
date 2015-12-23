@@ -1,4 +1,14 @@
 declare module gml {
+    class Easing {
+        static QuadIn(t: number): number;
+        static QuadOut(t: number): number;
+        static QuadInOut(t: number): number;
+        static CubicIn(t: number): number;
+        static CubicOut(t: number): number;
+        static CubicInOut(t: number): number;
+    }
+}
+declare module gml {
     interface Angle {
         toDegrees(): number;
         toRadians(): number;
@@ -31,16 +41,6 @@ declare module gml {
         negate(): Angle;
         reduceToOneTurn(): Angle;
         static zero: Angle;
-    }
-}
-declare module gml {
-    class Easing {
-        static QuadIn(t: number): number;
-        static QuadOut(t: number): number;
-        static QuadInOut(t: number): number;
-        static CubicIn(t: number): number;
-        static CubicOut(t: number): number;
-        static CubicInOut(t: number): number;
     }
 }
 declare module gml {
@@ -87,51 +87,6 @@ declare module gml {
     }
 }
 declare module gml {
-    class Vec3 extends Vector {
-        constructor(v: number[]);
-        constructor(v: Float32Array);
-        constructor(x: number, y: number, z: number);
-        x: number;
-        y: number;
-        z: number;
-        add(rhs: Vec3): Vec3;
-        subtract(rhs: Vec3): Vec3;
-        multiply(s: number): Vec3;
-        divide(d: number): Vec3;
-        negate(): Vec3;
-        dot(rhs: Vec3): number;
-        cross(rhs: Vec3): Vec3;
-        normalized: Vec3;
-        map(callback: (v: number) => number): Vec3;
-    }
-}
-declare module gml {
-    class Vec4 extends Vector {
-        constructor(v: number[]);
-        constructor(v: Float32Array);
-        constructor(x: number, y: number, z: number, w: number);
-        x: number;
-        y: number;
-        z: number;
-        w: number;
-        xyz: Vec3;
-        xy: Vec2;
-        add(rhs: Vec4): Vec4;
-        subtract(rhs: Vec4): Vec4;
-        multiply(s: number): Vec4;
-        divide(d: number): Vec4;
-        negate(): Vec4;
-        dot(rhs: Vec4): number;
-        cross(rhs: Vec4): Vec4;
-        normalized: Vec4;
-        map(callback: (v: number) => number): Vec4;
-        static randomInSphere(radius?: number): Vec4;
-        static origin: Vec4;
-        static up: Vec4;
-        static right: Vec4;
-    }
-}
-declare module gml {
     class Mat {
         constructor(r: number, c: number);
     }
@@ -168,80 +123,3 @@ declare module gml {
         m: Float32Array;
     }
 }
-declare module gml {
-    class Mat3 extends Matrix {
-        constructor(args: Float32Array);
-        constructor(args: number[]);
-        constructor(r00: number, r01: number, tx: number, r10: number, r11: number, ty: number, m20: number, m21: number, m22: number);
-        r00: number;
-        r01: number;
-        r02: number;
-        r10: number;
-        r11: number;
-        r12: number;
-        r20: number;
-        r21: number;
-        r22: number;
-        tx: number;
-        ty: number;
-        w: number;
-        rotation: Angle;
-        rot_raw: number;
-        sx: number;
-        sy: number;
-        row(r: number): Vec3;
-        column(c: number): Vec3;
-        multiply(rhs: Mat3): Mat3;
-        multiply(s: number): Mat3;
-        toMat4(): Mat4;
-        static identity(): Mat3;
-    }
-}
-declare module gml {
-    class Mat4 extends Matrix {
-        constructor(args: Float32Array);
-        constructor(args: number[]);
-        constructor(r00: number, r01: number, r02: number, tx: number, r10: number, r11: number, r12: number, ty: number, r20: number, r21: number, r22: number, tz: number, m30: number, m31: number, m32: number, m33: number);
-        r00: number;
-        r01: number;
-        r02: number;
-        r10: number;
-        r11: number;
-        r12: number;
-        r20: number;
-        r21: number;
-        r22: number;
-        m30: number;
-        m31: number;
-        m32: number;
-        m33: number;
-        tx: number;
-        ty: number;
-        tz: number;
-        w: number;
-        row(r: number): Vec4;
-        column(c: number): Vec4;
-        setColumn(c: number, v: Vec4): void;
-        translation: Vec4;
-        scale: Vec3;
-        multiply(rhs: Mat4): Mat4;
-        multiply(s: number): Mat4;
-        scalarmul(s: number): Mat4;
-        subtract(rhs: Mat4): Mat4;
-        add(rhs: Matrix): Mat4;
-        transform(rhs: Vec4): Vec4;
-        invert(): Mat4;
-        transpose(): Mat4;
-        mat3: Mat3;
-        static identity(): Mat4;
-        static rotateY(angle: Angle): Mat4;
-        static rotateX(angle: Angle): Mat4;
-        static rotateZ(angle: Angle): Mat4;
-        static rotate(axis: Vec4, angle: Angle): Mat4;
-    }
-    function makeMat4FromRows(r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4): Mat4;
-    function makeMat4FromCols(c1: Vec4, c2: Vec4, c3: Vec4, c4: Vec4): Mat4;
-    function makePerspective(fov: Angle, aspectRatio: number, near: number, far: number): Mat4;
-    function makeLookAt(pos: Vec4, aim: Vec4, up: Vec4, right: Vec4): Mat4;
-}
-declare var module: any;

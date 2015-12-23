@@ -1,2 +1,5 @@
-dist/
+dist/*
 src/tsconfig.json
+
+!dist/gml.js
+!dist/gml.d.ts

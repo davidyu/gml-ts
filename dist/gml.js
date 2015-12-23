@@ -1404,7 +1404,6 @@ var gml;
     }
     gml.makeLookAt = makeLookAt;
 })(gml || (gml = {}));
-// this is a hack for nodejs
 ///<reference path = "angle.ts" />
 ///<reference path = "easing.ts" />
 ///<reference path = "vec.ts" />
@@ -1414,5 +1413,7 @@ var gml;
 ///<reference path = "mat.ts" />
 ///<reference path = "mat3.ts" />
 ///<reference path = "mat4.ts" />
-module.exports = gml;
+if (module != null) {
+    module.exports = gml;
+}
 //# sourceMappingURL=gml.js.map

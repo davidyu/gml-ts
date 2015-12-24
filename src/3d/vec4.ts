@@ -1,4 +1,4 @@
-/// <reference path='vec.ts'/>
+/// <reference path='../vec.ts'/>
 
 module gml {
   export class Vec4 extends Vector {

@@ -70,23 +70,6 @@ declare module gml {
     }
 }
 declare module gml {
-    class Vec2 extends Vector {
-        constructor(v: number[]);
-        constructor(v: Float32Array);
-        constructor(x: number, y: number);
-        x: number;
-        y: number;
-        add(rhs: Vec2): Vec2;
-        subtract(rhs: Vec2): Vec2;
-        multiply(s: number): Vec2;
-        divide(d: number): Vec2;
-        negate(): Vec2;
-        dot(rhs: Vec2): number;
-        cross(rhs: Vec2): number;
-        map(callback: (v: number) => number): Vec2;
-    }
-}
-declare module gml {
     class Mat {
         constructor(r: number, c: number);
     }
@@ -121,5 +104,69 @@ declare module gml {
         toString(): string;
         toWolframString(): string;
         m: Float32Array;
+    }
+}
+declare module gml {
+    class Vec2 extends Vector {
+        constructor(v: number[]);
+        constructor(v: Float32Array);
+        constructor(x: number, y: number);
+        x: number;
+        y: number;
+        add(rhs: Vec2): Vec2;
+        subtract(rhs: Vec2): Vec2;
+        multiply(s: number): Vec2;
+        divide(d: number): Vec2;
+        negate(): Vec2;
+        dot(rhs: Vec2): number;
+        cross(rhs: Vec2): number;
+        map(callback: (v: number) => number): Vec2;
+    }
+}
+declare module gml {
+    class Vec3 extends Vector {
+        constructor(v: number[]);
+        constructor(v: Float32Array);
+        constructor(x: number, y: number, z: number);
+        x: number;
+        y: number;
+        z: number;
+        add(rhs: Vec3): Vec3;
+        subtract(rhs: Vec3): Vec3;
+        multiply(s: number): Vec3;
+        divide(d: number): Vec3;
+        negate(): Vec3;
+        dot(rhs: Vec3): number;
+        cross(rhs: Vec3): number;
+        normalized: Vec3;
+        map(callback: (v: number) => number): Vec3;
+    }
+}
+declare module gml {
+    class Mat3 extends Matrix {
+        constructor(args: Float32Array);
+        constructor(args: number[]);
+        constructor(r00: number, r01: number, tx: number, r10: number, r11: number, ty: number, m20: number, m21: number, m22: number);
+        r00: number;
+        r01: number;
+        r02: number;
+        r10: number;
+        r11: number;
+        r12: number;
+        r20: number;
+        r21: number;
+        r22: number;
+        tx: number;
+        ty: number;
+        w: number;
+        rotation: Angle;
+        rot_raw: number;
+        sx: number;
+        sy: number;
+        row(r: number): Vec3;
+        column(c: number): Vec3;
+        multiply(rhs: Mat3): Mat3;
+        multiply(s: number): Mat3;
+        static identity(): Mat3;
     }
 }

@@ -328,75 +328,6 @@ var gml;
     })();
     gml.Vector = Vector;
 })(gml || (gml = {}));
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var gml;
-(function (gml) {
-    var Vec2 = (function (_super) {
-        __extends(Vec2, _super);
-        function Vec2() {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            if (args.length == 2) {
-                _super.call(this, 2, args[0], args[1]);
-            }
-            else if (args.length == 1) {
-                _super.call(this, 2, args[0]);
-            }
-        }
-        Object.defineProperty(Vec2.prototype, "x", {
-            get: function () {
-                return this.v[0];
-            },
-            set: function (x) {
-                this.v[0] = x;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Vec2.prototype, "y", {
-            get: function () {
-                return this.v[1];
-            },
-            set: function (y) {
-                this.v[1] = y;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Vec2.prototype.add = function (rhs) {
-            return new Vec2(this.x + rhs.x, this.y + rhs.y);
-        };
-        Vec2.prototype.subtract = function (rhs) {
-            return new Vec2(this.x - rhs.x, this.y - rhs.y);
-        };
-        Vec2.prototype.multiply = function (s) {
-            return new Vec2(this.x * s, this.y * s);
-        };
-        Vec2.prototype.divide = function (d) {
-            return new Vec2(this.x / d, this.y / d);
-        };
-        Vec2.prototype.negate = function () {
-            return new Vec2(-this.x, -this.y);
-        };
-        Vec2.prototype.dot = function (rhs) {
-            return this.x * rhs.x + this.y * rhs.y;
-        };
-        Vec2.prototype.cross = function (rhs) {
-            return this.x * rhs.y - this.y * rhs.x;
-        };
-        Vec2.prototype.map = function (callback) {
-            return new Vec2(this.v.map(callback));
-        };
-        return Vec2;
-    })(gml.Vector);
-    gml.Vec2 = Vec2;
-})(gml || (gml = {}));
 var gml;
 (function (gml) {
     /* public-facing matrix (constructor sugar)
@@ -659,5 +590,353 @@ var gml;
         return Matrix;
     })();
     gml.Matrix = Matrix;
+})(gml || (gml = {}));
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var gml;
+(function (gml) {
+    var Vec2 = (function (_super) {
+        __extends(Vec2, _super);
+        function Vec2() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            if (args.length == 2) {
+                _super.call(this, 2, args[0], args[1]);
+            }
+            else if (args.length == 1) {
+                _super.call(this, 2, args[0]);
+            }
+        }
+        Object.defineProperty(Vec2.prototype, "x", {
+            get: function () {
+                return this.v[0];
+            },
+            set: function (x) {
+                this.v[0] = x;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vec2.prototype, "y", {
+            get: function () {
+                return this.v[1];
+            },
+            set: function (y) {
+                this.v[1] = y;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Vec2.prototype.add = function (rhs) {
+            return new Vec2(this.x + rhs.x, this.y + rhs.y);
+        };
+        Vec2.prototype.subtract = function (rhs) {
+            return new Vec2(this.x - rhs.x, this.y - rhs.y);
+        };
+        Vec2.prototype.multiply = function (s) {
+            return new Vec2(this.x * s, this.y * s);
+        };
+        Vec2.prototype.divide = function (d) {
+            return new Vec2(this.x / d, this.y / d);
+        };
+        Vec2.prototype.negate = function () {
+            return new Vec2(-this.x, -this.y);
+        };
+        Vec2.prototype.dot = function (rhs) {
+            return this.x * rhs.x + this.y * rhs.y;
+        };
+        Vec2.prototype.cross = function (rhs) {
+            return this.x * rhs.y - this.y * rhs.x;
+        };
+        Vec2.prototype.map = function (callback) {
+            return new Vec2(this.v.map(callback));
+        };
+        return Vec2;
+    })(gml.Vector);
+    gml.Vec2 = Vec2;
+})(gml || (gml = {}));
+var gml;
+(function (gml) {
+    var Vec3 = (function (_super) {
+        __extends(Vec3, _super);
+        function Vec3() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            if (args.length == 3) {
+                _super.call(this, 3, args[0], args[1], args[2]);
+            }
+            else if (args.length == 1) {
+                _super.call(this, 3, args[0]);
+            }
+        }
+        Object.defineProperty(Vec3.prototype, "x", {
+            get: function () {
+                return this.v[0];
+            },
+            set: function (x) {
+                this.v[0] = x;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vec3.prototype, "y", {
+            get: function () {
+                return this.v[1];
+            },
+            set: function (y) {
+                this.v[1] = y;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vec3.prototype, "z", {
+            get: function () {
+                return this.v[2];
+            },
+            set: function (z) {
+                this.v[2] = z;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Vec3.prototype.add = function (rhs) {
+            return new Vec3(this.x + rhs.x, this.y + rhs.y, this.z + rhs.z);
+        };
+        Vec3.prototype.subtract = function (rhs) {
+            return new Vec3(this.x - rhs.x, this.y - rhs.y, this.z - rhs.z);
+        };
+        Vec3.prototype.multiply = function (s) {
+            return new Vec3(this.x * s, this.y * s, this.z * s);
+        };
+        Vec3.prototype.divide = function (d) {
+            return new Vec3(this.x / d, this.y / d, this.z / d);
+        };
+        Vec3.prototype.negate = function () {
+            return new Vec3(-this.x, -this.y, -this.z);
+        };
+        Vec3.prototype.dot = function (rhs) {
+            return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z;
+        };
+        Vec3.prototype.cross = function (rhs) {
+            return this.x * rhs.y - this.y * rhs.x;
+        };
+        Object.defineProperty(Vec3.prototype, "normalized", {
+            get: function () {
+                var len = this.len;
+                return new Vec3(this.x / len, this.y / len, this.z / len);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Vec3.prototype.map = function (callback) {
+            return new Vec3(this.v.map(callback));
+        };
+        return Vec3;
+    })(gml.Vector);
+    gml.Vec3 = Vec3;
+})(gml || (gml = {}));
+var gml;
+(function (gml) {
+    var Mat3 = (function (_super) {
+        __extends(Mat3, _super);
+        function Mat3() {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            _super.call(this, 3, 3, args);
+        }
+        Object.defineProperty(Mat3.prototype, "r00", {
+            get: function () {
+                return this.get(0, 0);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r01", {
+            get: function () {
+                return this.get(0, 1);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r02", {
+            get: function () {
+                return this.get(0, 2);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r10", {
+            get: function () {
+                return this.get(1, 0);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r11", {
+            get: function () {
+                return this.get(1, 1);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r12", {
+            get: function () {
+                return this.get(1, 2);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r20", {
+            get: function () {
+                return this.get(2, 0);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r21", {
+            get: function () {
+                return this.get(2, 1);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r22", {
+            get: function () {
+                return this.get(2, 2);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "tx", {
+            get: function () {
+                return this.get(0, 2);
+            },
+            set: function (v) {
+                this.set(0, 2, v);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "ty", {
+            get: function () {
+                return this.get(1, 2);
+            },
+            set: function (v) {
+                this.set(1, 2, v);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "w", {
+            get: function () {
+                return this.get(2, 2);
+            },
+            set: function (v) {
+                this.set(2, 2, v);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "rotation", {
+            // slow public rotation accessor
+            get: function () {
+                var a = this.get(0, 0); // cos term
+                var b = this.get(0, 1); // sin term
+                // when 90 < rot <= 270, atan returns  rot-180 (atan returns results in the [ -90, 90 ] range), so correct it
+                if (a < 0) {
+                    return gml.fromRadians(Math.atan(b / a) + Math.PI);
+                }
+                else {
+                    return gml.fromRadians(Math.atan(b / a));
+                }
+            },
+            set: function (v) {
+                var rad = v.toRadians();
+                var sx = this.sx;
+                var sy = this.sy;
+                this.set(0, 0, sx * Math.cos(rad));
+                this.set(0, 1, -sx * Math.sin(rad));
+                this.set(1, 0, sy * Math.sin(rad));
+                this.set(1, 1, sy * Math.cos(rad));
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "rot_raw", {
+            // internal accessor
+            get: function () {
+                var a = this.get(0, 0); // cos term
+                var b = this.get(0, 1); // sin term
+                if (a < 0) {
+                    return Math.atan(b / a) + Math.PI;
+                }
+                else {
+                    return Math.atan(b / a);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "sx", {
+            get: function () {
+                var a = this.get(0, 0);
+                var b = this.get(0, 1);
+                return Math.sqrt(a * a + b * b);
+            },
+            set: function (v) {
+                var rad = this.rot_raw;
+                this.set(0, 0, v * Math.cos(rad));
+                this.set(0, 1, -v * Math.sin(rad));
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "sy", {
+            get: function () {
+                var c = this.get(1, 0);
+                var d = this.get(1, 1);
+                return Math.sqrt(c * c + d * d);
+            },
+            set: function (v) {
+                var rad = this.rot_raw;
+                this.set(1, 0, v * Math.sin(rad));
+                this.set(1, 1, v * Math.cos(rad));
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Mat3.prototype.row = function (r) {
+            var row = [];
+            for (var i = 0; i < 3; i++) {
+                row.push(this.get(r, i));
+            }
+            return new gml.Vec3(row);
+        };
+        Mat3.prototype.column = function (c) {
+            var column = [];
+            for (var i = 0; i < 3; i++) {
+                column.push(this.get(i, c));
+            }
+            return new gml.Vec3(column);
+        };
+        Mat3.prototype.multiply = function (arg) {
+            var m = _super.prototype.multiply.call(this, arg);
+            return new Mat3(m.m);
+        };
+        Mat3.identity = function () {
+            return new Mat3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+        };
+        return Mat3;
+    })(gml.Matrix);
+    gml.Mat3 = Mat3;
 })(gml || (gml = {}));
 //# sourceMappingURL=gml2d.js.map

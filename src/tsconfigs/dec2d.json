@@ -8,7 +8,9 @@
     "easing.ts",
     "angle.ts",
     "vec.ts",
-    "vec2.ts",
-    "mat.ts"
+    "mat.ts",
+    "2d/vec2.ts",
+    "2d/vec3.ts",
+    "2d/mat3.ts"
   ]
 }

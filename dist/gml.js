@@ -479,7 +479,7 @@ var gml;
     })(gml.Vector);
     gml.Vec3 = Vec3;
 })(gml || (gml = {}));
-/// <reference path='vec.ts'/>
+/// <reference path='../vec.ts'/>
 var gml;
 (function (gml) {
     var Vec4 = (function (_super) {
@@ -1407,12 +1407,12 @@ var gml;
 ///<reference path = "angle.ts" />
 ///<reference path = "easing.ts" />
 ///<reference path = "vec.ts" />
-///<reference path = "vec2.ts" />
-///<reference path = "vec3.ts" />
-///<reference path = "vec4.ts" />
+///<reference path = "3d/vec2.ts" />
+///<reference path = "3d/vec3.ts" />
+///<reference path = "3d/vec4.ts" />
 ///<reference path = "mat.ts" />
-///<reference path = "mat3.ts" />
-///<reference path = "mat4.ts" />
+///<reference path = "3d/mat3.ts" />
+///<reference path = "3d/mat4.ts" />
 if (typeof module !== 'undefined') {
     module.exports = gml;
 }

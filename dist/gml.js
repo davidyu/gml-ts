@@ -9,7 +9,6 @@ var gml;
         return new Degree(deg);
     }
     gml.fromDegrees = fromDegrees;
-    // implementation detail; no need to care about these classes
     var Degree = (function () {
         function Degree(deg) {
             this.v = deg;
@@ -109,25 +108,9 @@ var gml;
         };
         Easing.QuadInOut = function (t) {
             if (t < 0.5) {
-                /* we want verbatim behavior as QuadIn, except we're passing in t
-                 * with a range of 0 to 0.5, and we want the output to also range from
-                 * 0 to 0.5.
-                 *
-                 * we double the input parameter s.t. it is 0 to 1, then pass it into
-                 * the QuadIn function (t*t), then half the result to get an output
-                 * from 0 to 0.5. Constant terms cancel to resolve to 2*t*t
-                 */
                 return 2 * t * t;
             }
             else {
-                /* we want verbatim behavior as QuadOut, except we're passing in t
-                 * with a range of 0.5 to 1, and we want the output to also range from
-                 * 0.5 to 1.
-                 *
-                 * we transform the input parameter s.t. it is 0 to 1, then pass it into
-                 * the QuadOut function -t(t-2), then transform the result s.t. it is
-                 * from 0.5 to 1.
-                 */
                 var _t = (t - 0.5) * 2;
                 return (-_t * (_t - 2)) / 2 + 0.5;
             }
@@ -141,25 +124,9 @@ var gml;
         };
         Easing.CubicInOut = function (t) {
             if (t < 0.5) {
-                /* we want verbatim behavior as CubicIn, except we're passing in t
-                 * with a range of 0 to 0.5, and we want the output to also range from
-                 * 0 to 0.5.
-                 *
-                 * we double the input parameter s.t. it is 0 to 1, then pass it into
-                 * the CubicIn function (t*t*t), then half the result to get an output
-                 * from 0 to 0.5. Constant terms cancel to resolve to 4*t*t
-                 */
                 return 4 * t * t;
             }
             else {
-                /* we want verbatim behavior as CubicOut, except we're passing in t
-                 * with a range of 0.5 to 1, and we want the output to also range from
-                 * 0.5 to 1.
-                 *
-                 * we transform the input parameter s.t. it is 0 to 1, then pass it into
-                 * the CubicOut function (t-1)^3 + 1, then transform the result s.t. it is
-                 * from 0.5 to 1.
-                 */
                 var _t = ((t - 0.5) * 2) - 1;
                 return (_t * _t * _t + 1) / 2 + 0.5;
             }
@@ -170,13 +137,6 @@ var gml;
 })(gml || (gml = {}));
 var gml;
 (function (gml) {
-    /* public-facing vector (constructor sugar)
-  
-       usage:
-        new Vec(3)(x,y,z,...);
-        new Vec(4)(a,b,c,d,...);
-        new Vec(100)(x1,x2,...,x100);
-    */
     var Vec = (function () {
         function Vec(size) {
             return function () {
@@ -190,7 +150,6 @@ var gml;
         return Vec;
     })();
     gml.Vec = Vec;
-    // internal vector implementation; exported because Vec2, Vec3, Vec4 needs access
     var Vector = (function () {
         function Vector(size) {
             var args = [];
@@ -291,14 +250,12 @@ var gml;
             enumerable: true,
             configurable: true
         });
-        // this alters the underlying vector
         Vector.prototype.normalize = function () {
             var l = this.len;
             this.v = this.v.map(function (v) {
                 return v / l;
             });
         };
-        // this returns a new vector
         Vector.prototype.unit = function () {
             var l = this.len;
             var vs = [];
@@ -568,7 +525,6 @@ var gml;
         Vec4.prototype.dot = function (rhs) {
             return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z + this.w * rhs.w;
         };
-        // ignores w component
         Vec4.prototype.cross = function (rhs) {
             return new Vec4(this.y * rhs.z - this.z * rhs.y, this.z * rhs.x - this.x * rhs.z, this.x * rhs.y - this.y * rhs.x, 0);
         };
@@ -614,13 +570,6 @@ var gml;
 })(gml || (gml = {}));
 var gml;
 (function (gml) {
-    /* public-facing matrix (constructor sugar)
-      
-       usage:
-        new Matrix(3,3)(...);
-        new Matrix(4,4)(...);
-        new Matrix(100,6)(...);
-    */
     var Mat = (function () {
         function Mat(r, c) {
             return function () {
@@ -634,8 +583,6 @@ var gml;
         return Mat;
     })();
     gml.Mat = Mat;
-    // internal matrix implementation; exported because Mat3, Mat4 needs access
-    // note that matrices are stored in column major order to conform to WebGL
     var Matrix = (function () {
         function Matrix(rows, cols) {
             var args = [];
@@ -725,13 +672,9 @@ var gml;
             var l = Matrix.identity(this.rows);
             var u = new Matrix(this.rows, this.cols, this.v);
             var size = this.rows;
-            // apply doolittle algorithm
             for (var n = 0; n < size; n++) {
                 var l_i = Matrix.identity(size);
                 var l_i_inv = Matrix.identity(size);
-                // when multiplied with u, l_i eliminates elements below the main diagonal in the n-th column of matrix u
-                // l_i_inv is the inverse to l_i, and is very easy to construct if we already have l_i
-                // partial pivot
                 if (u.get(n, n) == 0) {
                     var success = false;
                     for (var j = n + 1; j < size; j++) {
@@ -980,11 +923,9 @@ var gml;
             configurable: true
         });
         Object.defineProperty(Mat3.prototype, "rotation", {
-            // slow public rotation accessor
             get: function () {
-                var a = this.get(0, 0); // cos term
-                var b = this.get(0, 1); // sin term
-                // when 90 < rot <= 270, atan returns  rot-180 (atan returns results in the [ -90, 90 ] range), so correct it
+                var a = this.get(0, 0);
+                var b = this.get(0, 1);
                 if (a < 0) {
                     return gml.fromRadians(Math.atan(b / a) + Math.PI);
                 }
@@ -1005,10 +946,9 @@ var gml;
             configurable: true
         });
         Object.defineProperty(Mat3.prototype, "rot_raw", {
-            // internal accessor
             get: function () {
-                var a = this.get(0, 0); // cos term
-                var b = this.get(0, 1); // sin term
+                var a = this.get(0, 0);
+                var b = this.get(0, 1);
                 if (a < 0) {
                     return Math.atan(b / a) + Math.PI;
                 }
@@ -1390,7 +1330,6 @@ var gml;
         return new Mat4((n * 2) / (r - l), 0, (r + l) / (r - l), 0, 0, (n * 2) / (t - b), (t + b) / (t - b), 0, 0, 0, -(f + n) / (f - n), -(f * n * 2) / (f - n), 0, 0, -1, 0);
     }
     gml.makePerspective = makePerspective;
-    // aim, up, and right are all vectors that are assumed to be orthogonal
     function makeLookAt(pos, aim, up, right) {
         var x = right.normalized;
         var y = up.normalized;

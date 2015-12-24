@@ -2,7 +2,8 @@
   "compilerOptions": {
     "sourceMap": true,
     "out": "../dist/gml2d.js",
-    "target": "ES5"
+    "target": "ES5",
+    "removeComments": true
   },
   "files": [
     "easing.ts",

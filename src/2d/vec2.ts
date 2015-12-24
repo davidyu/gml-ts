@@ -1,3 +1,5 @@
+///<reference path="../mat.ts"/>
+
 module gml2d {
   export class Vec2 extends gml.Vector {
     constructor( v: number[] );

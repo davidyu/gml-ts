@@ -285,6 +285,7 @@ var gml;
     })();
     gml.Vector = Vector;
 })(gml || (gml = {}));
+///<reference path="../vec.ts"/>
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -354,6 +355,7 @@ var gml;
     })(gml.Vector);
     gml.Vec2 = Vec2;
 })(gml || (gml = {}));
+///<reference path="../vec.ts"/>
 var gml;
 (function (gml) {
     var Vec3 = (function (_super) {
@@ -818,6 +820,7 @@ var gml;
     })();
     gml.Matrix = Matrix;
 })(gml || (gml = {}));
+///<reference path="../mat.ts"/>
 var gml;
 (function (gml) {
     var Mat3 = (function (_super) {
@@ -1015,6 +1018,7 @@ var gml;
     })(gml.Matrix);
     gml.Mat3 = Mat3;
 })(gml || (gml = {}));
+///<reference path="../mat.ts"/>
 var gml;
 (function (gml) {
     var Mat4 = (function (_super) {

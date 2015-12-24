@@ -1,3 +1,5 @@
+///<reference path="../vec.ts"/>
+
 module gml {
   export class Vec2 extends Vector {
     constructor( v: number[] );

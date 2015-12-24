@@ -1,5 +1,6 @@
-module gml2d {
+///<reference path="../mat.ts"/>
 
+module gml2d {
   export class Mat3 extends gml.Matrix {
     /*
 

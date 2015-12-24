@@ -1,3 +1,5 @@
+///<reference path="../mat.ts"/>
+
 module gml {
   export class Mat4 extends Matrix {
 

@@ -570,6 +570,7 @@ var gml;
     })(gml.Vector);
     gml.Vec4 = Vec4;
 })(gml || (gml = {}));
+///<reference path="vec.ts"/>
 var gml;
 (function (gml) {
     var Mat = (function () {

@@ -1,3 +1,5 @@
+///<reference path="vec.ts"/>
+
 module gml {
   /* public-facing matrix (constructor sugar)
     

@@ -540,8 +540,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var gml;
-(function (gml) {
+var gml2d;
+(function (gml2d) {
     var Vec2 = (function (_super) {
         __extends(Vec2, _super);
         function Vec2() {
@@ -602,10 +602,10 @@ var gml;
         };
         return Vec2;
     })(gml.Vector);
-    gml.Vec2 = Vec2;
-})(gml || (gml = {}));
-var gml;
-(function (gml) {
+    gml2d.Vec2 = Vec2;
+})(gml2d || (gml2d = {}));
+var gml2d;
+(function (gml2d) {
     var Vec3 = (function (_super) {
         __extends(Vec3, _super);
         function Vec3() {
@@ -684,10 +684,10 @@ var gml;
         };
         return Vec3;
     })(gml.Vector);
-    gml.Vec3 = Vec3;
-})(gml || (gml = {}));
-var gml;
-(function (gml) {
+    gml2d.Vec3 = Vec3;
+})(gml2d || (gml2d = {}));
+var gml2d;
+(function (gml2d) {
     var Mat3 = (function (_super) {
         __extends(Mat3, _super);
         function Mat3() {
@@ -860,14 +860,14 @@ var gml;
             for (var i = 0; i < 3; i++) {
                 row.push(this.get(r, i));
             }
-            return new gml.Vec3(row);
+            return new gml2d.Vec3(row);
         };
         Mat3.prototype.column = function (c) {
             var column = [];
             for (var i = 0; i < 3; i++) {
                 column.push(this.get(i, c));
             }
-            return new gml.Vec3(column);
+            return new gml2d.Vec3(column);
         };
         Mat3.prototype.multiply = function (arg) {
             var m = _super.prototype.multiply.call(this, arg);
@@ -878,6 +878,6 @@ var gml;
         };
         return Mat3;
     })(gml.Matrix);
-    gml.Mat3 = Mat3;
-})(gml || (gml = {}));
+    gml2d.Mat3 = Mat3;
+})(gml2d || (gml2d = {}));
 //# sourceMappingURL=gml2d.js.map

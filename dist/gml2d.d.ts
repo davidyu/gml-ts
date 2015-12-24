@@ -106,8 +106,8 @@ declare module gml {
         m: Float32Array;
     }
 }
-declare module gml {
-    class Vec2 extends Vector {
+declare module gml2d {
+    class Vec2 extends gml.Vector {
         constructor(v: number[]);
         constructor(v: Float32Array);
         constructor(x: number, y: number);
@@ -123,8 +123,8 @@ declare module gml {
         map(callback: (v: number) => number): Vec2;
     }
 }
-declare module gml {
-    class Vec3 extends Vector {
+declare module gml2d {
+    class Vec3 extends gml.Vector {
         constructor(v: number[]);
         constructor(v: Float32Array);
         constructor(x: number, y: number, z: number);
@@ -142,8 +142,8 @@ declare module gml {
         map(callback: (v: number) => number): Vec3;
     }
 }
-declare module gml {
-    class Mat3 extends Matrix {
+declare module gml2d {
+    class Mat3 extends gml.Matrix {
         constructor(args: Float32Array);
         constructor(args: number[]);
         constructor(r00: number, r01: number, tx: number, r10: number, r11: number, ty: number, m20: number, m21: number, m22: number);
@@ -159,7 +159,7 @@ declare module gml {
         tx: number;
         ty: number;
         w: number;
-        rotation: Angle;
+        rotation: gml.Angle;
         rot_raw: number;
         sx: number;
         sy: number;

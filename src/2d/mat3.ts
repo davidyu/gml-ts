@@ -1,6 +1,6 @@
-module gml {
+module gml2d {
 
-  export class Mat3 extends Matrix {
+  export class Mat3 extends gml.Matrix {
     /*
 
       an expanded homogenous transformation matrix looks like this (assuming cw of theta):
@@ -99,15 +99,15 @@ module gml {
     }
 
     // slow public rotation accessor
-    public get rotation(): Angle {
+    public get rotation(): gml.Angle {
       var a = this.get( 0, 0 ); // cos term
       var b = this.get( 0, 1 ); // sin term
 
       // when 90 < rot <= 270, atan returns  rot-180 (atan returns results in the [ -90, 90 ] range), so correct it
       if ( a < 0 ) {
-        return fromRadians( Math.atan( b / a ) + Math.PI );
+        return gml.fromRadians( Math.atan( b / a ) + Math.PI );
       } else {
-        return fromRadians( Math.atan( b / a ) );
+        return gml.fromRadians( Math.atan( b / a ) );
       }
     }
 
@@ -123,7 +123,7 @@ module gml {
       }
     }
 
-    public set rotation( v: Angle ) {
+    public set rotation( v: gml.Angle ) {
       var rad = v.toRadians();
       var sx = this.sx;
       var sy = this.sy;

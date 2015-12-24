@@ -1,5 +1,5 @@
-module gml {
-  export class Vec3 extends Vector {
+module gml2d {
+  export class Vec3 extends gml.Vector {
     constructor( v: number[] );
     constructor( v: Float32Array );
     constructor( x: number, y: number, z: number );

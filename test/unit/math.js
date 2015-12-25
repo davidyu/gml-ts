@@ -1,6 +1,6 @@
 var customEqualityTesters = {
   matrixEquality: function( a, b ) {
-    var ABSOLUTE_ERROR = 5e-5;
+    var ABSOLUTE_ERROR = 1e-4;
     var RELATIVE_ERROR = 2e-3;
     if ( a instanceof gml.Matrix && b instanceof gml.Matrix ) {
       if ( a.rows != b.rows || a.cols != b.cols ) return false;

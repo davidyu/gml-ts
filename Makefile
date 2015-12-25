@@ -24,6 +24,7 @@ test: update lib
 	cp -rf $(TEST)/* $(DIST_TEST)/
 	@( pushd $(DIST_TEST) && npm install && popd ) > /dev/null
 	cp -f dist/gml.js $(DIST_TEST)/perf/
+	pushd $(DIST_TEST) && ./node_modules/.bin/karma start --browsers Firefox --single run && popd
 
 update:
 	pushd $(TEST)/vendor && sh update.sh && popd

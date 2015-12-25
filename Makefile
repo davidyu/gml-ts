@@ -21,8 +21,9 @@ folders:
 	@mkdir -p $(DIST)/lib
 	@mkdir -p $(DIST_TEST)
 
-test-local: lib update
+test-local: lib
 	@echo "setting up tests..."
+	@( pushd $(TEST)/vendor > /dev/null && sh update.sh && popd > /dev/null )
 	@cp -rf $(TEST)/* $(DIST_TEST)/ > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && npm install && popd > /dev/null
 	@cp -f dist/gml.js $(DIST_TEST)/perf/ > /dev/null
@@ -30,11 +31,8 @@ test-local: lib update
 
 test: folders
 	@echo "setting up tests..."
+	@( pushd $(TEST)/vendor > /dev/null && sh update.sh && popd > /dev/null )
 	@cp -rf $(TEST)/* $(DIST_TEST)/ > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && npm install && popd > /dev/null
 	@cp -f dist/gml.js $(DIST_TEST)/perf/ > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && ./node_modules/.bin/karma start && popd > /dev/null
-
-update:
-	@echo "updating vendor & library code...";
-	@( pushd $(TEST)/vendor > /dev/null && sh update.sh && popd > /dev/null )

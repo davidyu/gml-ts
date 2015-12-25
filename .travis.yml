@@ -1,6 +1,6 @@
 language: node_js
 addons:
-    firefox: "latest-beta"
+    firefox: "latest"
 node_js:
   - 0.10
 before_script:

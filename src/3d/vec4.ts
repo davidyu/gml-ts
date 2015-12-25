@@ -99,6 +99,12 @@ module gml {
       return new Vec4( Math.random(), Math.random(), Math.random(), 0 ).normalized.multiply( radius );
     }
 
+    public static randomPositionInSphere( radius: number = 1 ): Vec4 {
+      let random = new Vec4( Math.random(), Math.random(), Math.random(), 0 ).normalized.multiply( radius )
+      random.w = 1;
+      return random;
+    }
+
     public static get origin(): Vec4 {
       return new Vec4( 0, 0, 0, 1 );
     }

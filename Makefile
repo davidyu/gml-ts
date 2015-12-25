@@ -21,7 +21,14 @@ folders:
 	@mkdir -p $(DIST)/lib
 	@mkdir -p $(DIST_TEST)
 
-test: update lib
+test-local: update lib
+	@echo "setting up tests..."
+	@cp -rf $(TEST)/* $(DIST_TEST)/ > /dev/null
+	@pushd $(DIST_TEST) > /dev/null && npm install && popd > /dev/null
+	@cp -f dist/gml.js $(DIST_TEST)/perf/ > /dev/null
+	@pushd $(DIST_TEST) > /dev/null && ./node_modules/.bin/karma start && popd > /dev/null
+
+test:
 	@echo "setting up tests..."
 	@cp -rf $(TEST)/* $(DIST_TEST)/ > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && npm install && popd > /dev/null

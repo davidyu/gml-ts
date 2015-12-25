@@ -7,12 +7,14 @@ DIST=dist
 DIST_TEST=$(DIST)/$(TEST)
 
 lib: folders
-	pushd $(SRC); cp -r tsconfigs/lib.json tsconfig.json; tsc; popd
-	pushd $(SRC); cp -r tsconfigs/dec.json tsconfig.json; tsc; popd
+	@echo "building gml library..."
+	@( pushd $(SRC); cp -r tsconfigs/lib.json tsconfig.json; tsc; popd ) > /dev/null
+	@( pushd $(SRC); cp -r tsconfigs/dec.json tsconfig.json; tsc; popd ) > /dev/null
 
 lib2d: folders
-	pushd $(SRC); cp -r tsconfigs/lib2d.json tsconfig.json; tsc; popd
-	pushd $(SRC); cp -r tsconfigs/dec2d.json tsconfig.json; tsc; popd
+	@echo "building gml2d library..."
+	@( pushd $(SRC); cp -r tsconfigs/lib2d.json tsconfig.json; tsc; popd ) > /dev/null
+	@( pushd $(SRC); cp -r tsconfigs/dec2d.json tsconfig.json; tsc; popd ) > /dev/null
 
 folders:
 	@mkdir -p $(DIST)
@@ -20,11 +22,12 @@ folders:
 	@mkdir -p $(DIST_TEST)
 
 test: update lib
-	pushd $(SRC);
-	cp -rf $(TEST)/* $(DIST_TEST)/
-	@( pushd $(DIST_TEST) && npm install && popd ) > /dev/null
-	cp -f dist/gml.js $(DIST_TEST)/perf/
-	pushd $(DIST_TEST) && ./node_modules/.bin/karma start --browsers Firefox --single run && popd
+	@echo "setting up tests..."
+	@cp -rf $(TEST)/* $(DIST_TEST)/ > /dev/null
+	@pushd $(DIST_TEST) > /dev/null && npm install && popd > /dev/null
+	@cp -f dist/gml.js $(DIST_TEST)/perf/ > /dev/null
+	@pushd $(DIST_TEST) > /dev/null && ./node_modules/.bin/karma start && popd > /dev/null
 
 update:
-	pushd $(TEST)/vendor && sh update.sh && popd
+	@echo "updating vendor & library code...";
+	@( pushd $(TEST)/vendor > /dev/null && sh update.sh && popd > /dev/null )

@@ -406,7 +406,7 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests camera matrix", function() {
-    var NUM_ITERATIONS = 10;
+    var NUM_ITERATIONS = 1000;
     var POSITION_UPPER_LIMIT = 1000;
     for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
       var pos = gml.Vec4.randomInSphere( POSITION_UPPER_LIMIT );

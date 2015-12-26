@@ -1,7 +1,7 @@
 var customEqualityTesters = {
   matrixEquality: function( a, b ) {
-    var ABSOLUTE_ERROR = 1e-4;
-    var RELATIVE_ERROR = 2e-3;
+    var ABSOLUTE_ERROR = 1e-5;
+    var RELATIVE_ERROR = 1e-4;
     if ( a instanceof gml.Matrix && b instanceof gml.Matrix ) {
       if ( a.rows != b.rows || a.cols != b.cols ) return false;
       for ( var i = 0; i < a.rows; i++ ) {
@@ -406,8 +406,8 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests camera matrix", function() {
-    var NUM_ITERATIONS = 1000;
-    var POSITION_UPPER_LIMIT = 1000;
+    var NUM_ITERATIONS = 100;
+    var POSITION_UPPER_LIMIT = 1;
     for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
       var pos = gml.Vec4.randomInSphere( POSITION_UPPER_LIMIT );
 
@@ -428,7 +428,7 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests y-rotation matrix", function() {
-    var NUM_ITERATIONS = 10;
+    var NUM_ITERATIONS = 100;
     for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
       var rot = Math.random() * Math.PI * 2;
       var glMatrixId = mat4.create();
@@ -445,7 +445,7 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests x-rotation matrix", function() {
-    var NUM_ITERATIONS = 10;
+    var NUM_ITERATIONS = 100;
     for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
       var rot = Math.random() * Math.PI * 2;
       var glMatrixId = mat4.create();
@@ -462,7 +462,7 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests z-rotation matrix", function() {
-    var NUM_ITERATIONS = 10;
+    var NUM_ITERATIONS = 100;
     for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
       var rot = Math.random() * Math.PI * 2;
       var glMatrixId = mat4.create();
@@ -479,7 +479,7 @@ describe( "mat4 tests", function() {
   } );
 
   it( "tests arbitrary axis rotation matrix", function() {
-    var NUM_ITERATIONS = 10;
+    var NUM_ITERATIONS = 100;
     for ( var i = 0; i < NUM_ITERATIONS; i++ ) {
       var rot = Math.random() * Math.PI * 2;
       var glAxis = vec3.create();

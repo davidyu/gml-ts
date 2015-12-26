@@ -114,6 +114,10 @@ declare module gml {
         y: number;
         z: number;
         w: number;
+        r: number;
+        g: number;
+        b: number;
+        a: number;
         xyz: Vec3;
         xy: Vec2;
         add(rhs: Vec4): Vec4;
@@ -126,6 +130,7 @@ declare module gml {
         normalized: Vec4;
         map(callback: (v: number) => number): Vec4;
         static randomInSphere(radius?: number): Vec4;
+        static randomPositionInSphere(radius?: number): Vec4;
         static origin: Vec4;
         static up: Vec4;
         static right: Vec4;

@@ -495,6 +495,46 @@ var gml;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Vec4.prototype, "r", {
+            get: function () {
+                return this.v[0];
+            },
+            set: function (r) {
+                this.v[0] = r;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vec4.prototype, "g", {
+            get: function () {
+                return this.v[1];
+            },
+            set: function (g) {
+                this.v[1] = g;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vec4.prototype, "b", {
+            get: function () {
+                return this.v[2];
+            },
+            set: function (b) {
+                this.v[2] = b;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vec4.prototype, "a", {
+            get: function () {
+                return this.v[3];
+            },
+            set: function (a) {
+                this.v[3] = a;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Vec4.prototype, "xyz", {
             get: function () {
                 return new gml.Vec3(this.x, this.y, this.z);
@@ -544,6 +584,12 @@ var gml;
         Vec4.randomInSphere = function (radius) {
             if (radius === void 0) { radius = 1; }
             return new Vec4(Math.random(), Math.random(), Math.random(), 0).normalized.multiply(radius);
+        };
+        Vec4.randomPositionInSphere = function (radius) {
+            if (radius === void 0) { radius = 1; }
+            var random = new Vec4(Math.random(), Math.random(), Math.random(), 0).normalized.multiply(radius);
+            random.w = 1;
+            return random;
         };
         Object.defineProperty(Vec4, "origin", {
             get: function () {

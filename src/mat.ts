@@ -81,19 +81,6 @@ module gml {
       return new Vector( this.cols, row );
     }
 
-    public setRow( r: number, row: Vector ) {
-      for ( var i = 0; i < this.cols; i++ ) {
-        this.set( r, i, row.v[i] );
-      }
-    }
-
-    public swapRows( r1: number, r2: number ) {
-      var row1 = this.row( r1 );
-      var row2 = this.row( r2 );
-      this.setRow( r2, row1 );
-      this.setRow( r1, row2 );
-    }
-
     public column( c: number ): Vector {
       var column = [];
       for ( var i = 0; i < this.rows; i++ ) {
@@ -102,12 +89,34 @@ module gml {
       return new Vector( this.rows, column );
     }
 
-    public get trace(): number {
-      if ( this.rows != this.cols ) {
-        console.warn( "matrix not square, cannot compute trace!" );
-        return 0;
+    /**
+     * Changes a row in the matrix.
+     * @param r   the row index
+     * @param row the new contents of the row
+     */
+    public setRow( r: number, row: Vector ) {
+      for ( var i = 0; i < this.cols; i++ ) {
+        this.set( r, i, row.v[i] );
       }
+    }
 
+    /**
+     * Swaps two rows in the matrix.
+     */
+    public swapRows( r1: number, r2: number ) {
+      var row1 = this.row( r1 );
+      var row2 = this.row( r2 );
+      this.setRow( r2, row1 );
+      this.setRow( r1, row2 );
+    }
+
+    /**
+     * NOTE: a trace is only defined for square matrices.
+     * If you try to acquire the trace of a nonsquare matrix, the library
+     * will not stop you or throw an excpetion, but the result will be
+     * undefined/incorrect.
+     */
+    public get trace(): number {
       var tr = 0;
       for ( let i = 0; i < this.rows; i++ ) {
         tr += this.get( i, i );
@@ -119,7 +128,7 @@ module gml {
      * @returns The LU decomposition of the matrix. If no such decomposition
      * exists, the l and u properties of the return object are both null.
      *
-     * Implements the Doolittle algorithm.
+     * This implementation of LU decomposition uses the Doolittle algorithm.
      */
     public lu(): { l: Matrix, u: Matrix } {
       if ( this.rows != this.cols ) {
@@ -167,9 +176,18 @@ module gml {
       return { l: l, u: u };
     }
 
+    /**
+     * @returns the determinant of the matrix, if it is square.
+     *
+     * NOTE: If you try to acquire the determinant of a nonsquare matrix,
+     * the result returned will be 0.
+     *
+     * If the LU decomposition of the matrix fails (IE: the matrix is linearly
+     * dependent in terms of its row vectors or columns vectors), the result
+     * returned will be 0.
+     */
     public get determinant(): number {
       if ( this.rows != this.cols ) {
-        console.warn( "matrix not square, cannot perform LU decomposition!" );
         return 0;
       }
 
@@ -186,6 +204,11 @@ module gml {
       return det;
     }
 
+    /**
+     * Componentwise addition of two matrices. Does not alter the original matrix.
+     *
+     * @returns a new matrix resulting from the addition
+     */
     public add( rhs: Matrix ): Matrix {
       let vs = [];
       let rvs = rhs.v;
@@ -195,6 +218,11 @@ module gml {
       return new Matrix( this.rows, this.cols, vs );
     }
 
+    /**
+     * Componentwise subtraction of two matrices. Does not alter the original matrix.
+     *
+     * @returns a new matrix resulting from the subtraction operation this - rhs
+     */
     public subtract( rhs: Matrix ): Matrix {
       let vs = [];
       let rvs = rhs.v;

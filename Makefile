@@ -8,13 +8,13 @@ DIST_TEST=$(DIST)/$(TEST)
 
 lib: folders
 	@echo "building gml library..."
-	@( pushd $(SRC); cp -r tsconfigs/lib.json tsconfig.json; tsc; popd ) > /dev/null
-	@( pushd $(SRC); cp -r tsconfigs/dec.json tsconfig.json; tsc; popd ) > /dev/null
+	@( pushd $(SRC) > /dev/null; cp -r tsconfigs/lib.json tsconfig.json; tsc; popd > /dev/null )
+	@( pushd $(SRC) > /dev/null; cp -r tsconfigs/dec.json tsconfig.json; tsc; popd > /dev/null )
 
 lib2d: folders
 	@echo "building gml2d library..."
-	@( pushd $(SRC); cp -r tsconfigs/lib2d.json tsconfig.json; tsc; popd ) > /dev/null
-	@( pushd $(SRC); cp -r tsconfigs/dec2d.json tsconfig.json; tsc; popd ) > /dev/null
+	@( pushd $(SRC) > /dev/null; cp -r tsconfigs/lib2d.json tsconfig.json; tsc; popd > /dev/null ) 
+	@( pushd $(SRC) > /dev/null; cp -r tsconfigs/dec2d.json tsconfig.json; tsc; popd > /dev/null ) 
 
 folders:
 	@mkdir -p $(DIST)

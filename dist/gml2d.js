@@ -241,17 +241,14 @@ var gml;
                 return v / l;
             });
         };
-        Vector.prototype.unit = function () {
-            var l = this.len;
-            var vs = [];
-            for (var i = 0; i < this.size; i++) {
-                vs.push(this.v[i] / l);
-            }
-            return new Vector(vs.unshift(this.size));
-        };
         Object.defineProperty(Vector.prototype, "normalized", {
             get: function () {
-                return this.unit();
+                var l = this.len;
+                var vs = [];
+                for (var i = 0; i < this.size; i++) {
+                    vs.push(this.v[i] / l);
+                }
+                return new Vector(vs.unshift(this.size));
             },
             enumerable: true,
             configurable: true
@@ -321,6 +318,13 @@ var gml;
             }
             return new gml.Vector(this.cols, row);
         };
+        Matrix.prototype.column = function (c) {
+            var column = [];
+            for (var i = 0; i < this.rows; i++) {
+                column.push(this.get(i, c));
+            }
+            return new gml.Vector(this.rows, column);
+        };
         Matrix.prototype.setRow = function (r, row) {
             for (var i = 0; i < this.cols; i++) {
                 this.set(r, i, row.v[i]);
@@ -332,19 +336,8 @@ var gml;
             this.setRow(r2, row1);
             this.setRow(r1, row2);
         };
-        Matrix.prototype.column = function (c) {
-            var column = [];
-            for (var i = 0; i < this.rows; i++) {
-                column.push(this.get(i, c));
-            }
-            return new gml.Vector(this.rows, column);
-        };
         Object.defineProperty(Matrix.prototype, "trace", {
             get: function () {
-                if (this.rows != this.cols) {
-                    console.warn("matrix not square, cannot compute trace!");
-                    return 0;
-                }
                 var tr = 0;
                 for (var i = 0; i < this.rows; i++) {
                     tr += this.get(i, i);
@@ -392,7 +385,6 @@ var gml;
         Object.defineProperty(Matrix.prototype, "determinant", {
             get: function () {
                 if (this.rows != this.cols) {
-                    console.warn("matrix not square, cannot perform LU decomposition!");
                     return 0;
                 }
                 var _a = this.lu(), l = _a.l, u = _a.u;

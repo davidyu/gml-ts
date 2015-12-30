@@ -37,7 +37,6 @@ declare module gml {
         len: number;
         lensq: number;
         normalize(): void;
-        unit(): Vector;
         normalized: Vector;
         map(callback: (v: number) => number): Vector;
         toString(): string;
@@ -123,9 +122,9 @@ declare module gml {
         get(r: number, c: number): number;
         set(r: number, c: number, val: number): void;
         row(r: number): Vector;
+        column(c: number): Vector;
         setRow(r: number, row: Vector): void;
         swapRows(r1: number, r2: number): void;
-        column(c: number): Vector;
         trace: number;
         lu(): {
             l: Matrix;

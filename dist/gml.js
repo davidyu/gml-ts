@@ -48,7 +48,6 @@ var gml;
         });
         return Degree;
     })();
-    gml.Degree = Degree;
     var Radian = (function () {
         function Radian(rad) {
             this.v = rad;
@@ -93,7 +92,6 @@ var gml;
         });
         return Radian;
     })();
-    gml.Radian = Radian;
 })(gml || (gml = {}));
 var gml;
 (function (gml) {
@@ -1359,6 +1357,9 @@ var gml;
             return Mat4.identity()
                 .add(k.multiply(Math.sin(r)))
                 .add(k2.multiply(1 - Math.cos(r)));
+        };
+        Mat4.translate = function (v) {
+            return new Mat4(1, 0, 0, v.x, 0, 1, 0, v.y, 0, 0, 1, v.z, 0, 0, 0, 1);
         };
         return Mat4;
     })(gml.Matrix);

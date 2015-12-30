@@ -291,6 +291,13 @@ module gml {
             .add( k.multiply( Math.sin( r ) ) )
             .add( k2.multiply( 1 - Math.cos( r ) ) );
     }
+
+    public static translate( v: Vec4 ): Mat4 {
+      return new Mat4( 1, 0, 0, v.x
+                     , 0, 1, 0, v.y
+                     , 0, 0, 1, v.z
+                     , 0, 0, 0, 1 );
+    }
   }
 
   export function makeMat4FromRows( r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4 ) {

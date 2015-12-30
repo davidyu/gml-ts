@@ -1,39 +1,28 @@
 declare module gml {
+    /**
+     * Construct Angles with gml.fromDegrees() or gml.fromRadians().
+     */
     interface Angle {
         toDegrees(): number;
         toRadians(): number;
         add(rhs: Angle): Angle;
         subtract(rhs: Angle): Angle;
         negate(): Angle;
+        /**
+         * ensures the Angle is within one full turn. IE: between 0 and 360 degrees
+         * or 0 and 2 PI radians
+         */
         reduceToOneTurn(): Angle;
     }
     function fromRadians(rad: number): Angle;
     function fromDegrees(deg: number): Angle;
-    class Degree implements Angle {
-        v: number;
-        constructor(deg: number);
-        toDegrees(): number;
-        toRadians(): number;
-        add(rhs: Angle): Angle;
-        subtract(rhs: Angle): Angle;
-        negate(): Angle;
-        reduceToOneTurn(): Angle;
-        static zero: Angle;
-    }
-    class Radian implements Angle {
-        static TWO_PI: number;
-        v: number;
-        constructor(rad: number);
-        toRadians(): number;
-        toDegrees(): number;
-        add(rhs: Angle): Angle;
-        subtract(rhs: Angle): Angle;
-        negate(): Angle;
-        reduceToOneTurn(): Angle;
-        static zero: Angle;
-    }
 }
 declare module gml {
+    /**
+     * Implements common easing methods (generally used) for animation.
+     * All methods assume a normalized input t (time) between 0 and 1
+     * and returns an output t' between 0 and 1.
+     */
     class Easing {
         static QuadIn(t: number): number;
         static QuadOut(t: number): number;
@@ -44,12 +33,42 @@ declare module gml {
     }
 }
 declare module gml {
+    /**
+     * Vector constructor sugar that curries the size parameter.
+     *
+     * usage:
+     * <pre>
+     *  new Vec(3)(x,y,z);
+     *  new Vec(4)(a,b,c,d);
+     *  new Vec(100)(x1,x2,...,x100);
+     * </pre>
+     */
     class Vec {
         constructor(size: number);
     }
     class Vector {
+        /**
+         * The raw contents of the vector, encoded as a Float32Array for WebGL.
+         */
         v: Float32Array;
         size: number;
+        /**
+         * The generic vector constructor accepts three combinations of inputs:
+         *
+         * <pre>
+         *  // its contents in the constructor parameters directly
+         *  new Vector(2,x,y);
+         *
+         *  // its contents as an array
+         *  new Vector(2,[x,y]);
+         *
+         *  // its contents as a Float32Array
+         *  new Vector(2, new Float32Array([x,y]));
+         * </pre>
+         *
+         * Regardless of the input type, it will convert the contents of the array
+         * into a Float32Array.
+         */
         constructor(size: number, args: Float32Array);
         constructor(size: number, args: number[]);
         constructor(size: number, ...args: number[]);
@@ -62,6 +81,10 @@ declare module gml {
         equals(b: Vector): boolean;
         len: number;
         lensq: number;
+        /**
+         * NOTE: this alters the underlying vector. For construction of
+         * a new normalized vector, use the vector.normalized property.
+         */
         normalize(): void;
         unit(): Vector;
         normalized: Vector;
@@ -137,13 +160,48 @@ declare module gml {
     }
 }
 declare module gml {
+    /**
+     * Matrix constructor sugar that curries the size parameters.
+     *
+     * usage:
+     * <pre>
+     *  new Matrix(3,3)(...);
+     *  new Matrix(4,4)(...);
+     *  new Matrix(100,10)(...);
+     * </pre>
+     */
     class Mat {
         constructor(r: number, c: number);
     }
     class Matrix {
+        /**
+         * The raw contents of the matrix, encoded as a Float32Array.
+         * Note that this is stored in row-major order, so it cannot be
+         * directly passed into WebGL uniform methods. Use the matrix.m
+         * property, which returns a transposed Float32Array.
+         */
         v: Float32Array;
         rows: number;
         cols: number;
+        /**
+         * The generic matrix constructor accepts three combinations of inputs:
+         *
+         * <pre>
+         *  // its contents in the constructor parameters directly
+         *  new Matrix(2,2,m00,m01,m10,m11);
+         *
+         *  // its contents as an array
+         *  new Matrix(2,2,[m00,m01,m10,m11]);
+         *
+         *  // its contents as a Float32Array
+         *  new Matrix(2,2,new Float32Array([m00,m01,m10,m11]));
+         * </pre>
+         *
+         * Regardless of the input type, it will convert the contents of the array
+         * into a Float32Array.
+         *
+         * Note that the contents are specified as a flattened row-major 2D array
+         */
         constructor(rows: number, cols: number, args: Float32Array);
         constructor(rows: number, cols: number, args: number[]);
         constructor(rows: number, cols: number, ...args: number[]);
@@ -156,6 +214,12 @@ declare module gml {
         swapRows(r1: number, r2: number): void;
         column(c: number): Vector;
         trace: number;
+        /**
+         * @returns The LU decomposition of the matrix. If no such decomposition
+         * exists, the l and u properties of the return object are both null.
+         *
+         * Implements the Doolittle algorithm.
+         */
         lu(): {
             l: Matrix;
             u: Matrix;
@@ -170,6 +234,10 @@ declare module gml {
         static identity(size: number): Matrix;
         toString(): string;
         toWolframString(): string;
+        /**
+         * @returns The contents of the matrix, stored in column-major order and
+         * encoded as a Float32Array.
+         */
         m: Float32Array;
     }
 }
@@ -243,6 +311,7 @@ declare module gml {
         static rotateX(angle: Angle): Mat4;
         static rotateZ(angle: Angle): Mat4;
         static rotate(axis: Vec4, angle: Angle): Mat4;
+        static translate(): Mat4;
     }
     function makeMat4FromRows(r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4): Mat4;
     function makeMat4FromCols(c1: Vec4, c2: Vec4, c3: Vec4, c4: Vec4): Mat4;

@@ -7,4 +7,4 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - npm install typescript
-  - export PATH=$(pwd)/node_modues/.bin:$PATH
+  - export PATH=$(pwd)/node_modules/.bin:$PATH

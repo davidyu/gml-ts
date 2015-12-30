@@ -327,9 +327,6 @@ var gml;
         Vec2.prototype.dot = function (rhs) {
             return this.x * rhs.x + this.y * rhs.y;
         };
-        Vec2.prototype.cross = function (rhs) {
-            return this.x * rhs.y - this.y * rhs.x;
-        };
         Vec2.prototype.map = function (callback) {
             return new Vec2(this.v.map(callback));
         };
@@ -384,6 +381,43 @@ var gml;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Vec3.prototype, "r", {
+            get: function () {
+                return this.v[0];
+            },
+            set: function (r) {
+                this.v[0] = r;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vec3.prototype, "g", {
+            get: function () {
+                return this.v[1];
+            },
+            set: function (g) {
+                this.v[1] = g;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vec3.prototype, "b", {
+            get: function () {
+                return this.v[2];
+            },
+            set: function (b) {
+                this.v[2] = b;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vec3.prototype, "xy", {
+            get: function () {
+                return new gml.Vec2(this.x, this.y);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Vec3.prototype.add = function (rhs) {
             return new Vec3(this.x + rhs.x, this.y + rhs.y, this.z + rhs.z);
         };
@@ -416,6 +450,17 @@ var gml;
         Vec3.prototype.map = function (callback) {
             return new Vec3(this.v.map(callback));
         };
+        Vec3.randomInSphere = function (radius) {
+            if (radius === void 0) { radius = 1; }
+            return new Vec3(Math.random(), Math.random(), Math.random()).normalized.multiply(radius);
+        };
+        Object.defineProperty(Vec3, "zero", {
+            get: function () {
+                return new Vec3(0, 0, 0);
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Vec3;
     })(gml.Vector);
     gml.Vec3 = Vec3;

@@ -26,6 +26,22 @@ module gml {
       return this.v[2];
     }
 
+    public get r(): number {
+      return this.v[0];
+    }
+
+    public get g(): number {
+      return this.v[1];
+    }
+
+    public get b(): number {
+      return this.v[2];
+    }
+
+    public get xy(): Vec2 {
+      return new Vec2( this.x, this.y );
+    }
+
     public set x( x: number ) {
       this.v[0] = x;
     }
@@ -36,6 +52,18 @@ module gml {
 
     public set z( z: number ) {
       this.v[2] = z;
+    }
+
+    public set r( r: number ) {
+      this.v[0] = r;
+    }
+
+    public set g( g: number ) {
+      this.v[1] = g;
+    }
+
+    public set b( b: number ) {
+      this.v[2] = b;
     }
 
     public add( rhs: Vec3 ): Vec3 {
@@ -75,6 +103,14 @@ module gml {
 
     public map( callback: ( v: number ) => number ): Vec3 {
       return new Vec3( this.v.map( callback ) );
+    }
+
+    public static randomInSphere( radius: number = 1 ): Vec3 {
+      return new Vec3( Math.random(), Math.random(), Math.random() ).normalized.multiply( radius );
+    }
+
+    public static get zero(): Vec3 {
+      return new Vec3( 0, 0, 0 );
     }
   }
 }

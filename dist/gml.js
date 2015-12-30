@@ -732,6 +732,11 @@ var gml;
                 this.set(r, i, row.v[i]);
             }
         };
+        Matrix.prototype.setColumn = function (c, col) {
+            for (var i = 0; i < this.rows; i++) {
+                this.set(i, c, col.v[i]);
+            }
+        };
         Matrix.prototype.swapRows = function (r1, r2) {
             var row1 = this.row(r1);
             var row2 = this.row(r2);
@@ -912,11 +917,19 @@ var gml;
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
-            _super.call(this, 3, 3, args);
+            if (args.length === 1) {
+                _super.call(this, 3, 3, args[0]);
+            }
+            else {
+                _super.call(this, 3, 3, args);
+            }
         }
         Object.defineProperty(Mat3.prototype, "r00", {
             get: function () {
                 return this.get(0, 0);
+            },
+            set: function (v) {
+                this.set(0, 0, v);
             },
             enumerable: true,
             configurable: true
@@ -925,59 +938,13 @@ var gml;
             get: function () {
                 return this.get(0, 1);
             },
+            set: function (v) {
+                this.set(0, 1, v);
+            },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(Mat3.prototype, "r02", {
-            get: function () {
-                return this.get(0, 2);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "r10", {
-            get: function () {
-                return this.get(1, 0);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "r11", {
-            get: function () {
-                return this.get(1, 1);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "r12", {
-            get: function () {
-                return this.get(1, 2);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "r20", {
-            get: function () {
-                return this.get(2, 0);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "r21", {
-            get: function () {
-                return this.get(2, 1);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "r22", {
-            get: function () {
-                return this.get(2, 2);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "tx", {
             get: function () {
                 return this.get(0, 2);
             },
@@ -987,7 +954,27 @@ var gml;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Mat3.prototype, "ty", {
+        Object.defineProperty(Mat3.prototype, "r10", {
+            get: function () {
+                return this.get(1, 0);
+            },
+            set: function (v) {
+                this.set(1, 0, v);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r11", {
+            get: function () {
+                return this.get(1, 1);
+            },
+            set: function (v) {
+                this.set(1, 1, v);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r12", {
             get: function () {
                 return this.get(1, 2);
             },
@@ -997,77 +984,32 @@ var gml;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Mat3.prototype, "w", {
+        Object.defineProperty(Mat3.prototype, "r20", {
+            get: function () {
+                return this.get(2, 0);
+            },
+            set: function (v) {
+                this.set(2, 0, v);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r21", {
+            get: function () {
+                return this.get(2, 1);
+            },
+            set: function (v) {
+                this.set(2, 1, v);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Mat3.prototype, "r22", {
             get: function () {
                 return this.get(2, 2);
             },
             set: function (v) {
                 this.set(2, 2, v);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "rotation", {
-            get: function () {
-                var a = this.get(0, 0);
-                var b = this.get(0, 1);
-                if (a < 0) {
-                    return gml.fromRadians(Math.atan(b / a) + Math.PI);
-                }
-                else {
-                    return gml.fromRadians(Math.atan(b / a));
-                }
-            },
-            set: function (v) {
-                var rad = v.toRadians();
-                var sx = this.sx;
-                var sy = this.sy;
-                this.set(0, 0, sx * Math.cos(rad));
-                this.set(0, 1, -sx * Math.sin(rad));
-                this.set(1, 0, sy * Math.sin(rad));
-                this.set(1, 1, sy * Math.cos(rad));
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "rot_raw", {
-            get: function () {
-                var a = this.get(0, 0);
-                var b = this.get(0, 1);
-                if (a < 0) {
-                    return Math.atan(b / a) + Math.PI;
-                }
-                else {
-                    return Math.atan(b / a);
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "sx", {
-            get: function () {
-                var a = this.get(0, 0);
-                var b = this.get(0, 1);
-                return Math.sqrt(a * a + b * b);
-            },
-            set: function (v) {
-                var rad = this.rot_raw;
-                this.set(0, 0, v * Math.cos(rad));
-                this.set(0, 1, -v * Math.sin(rad));
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "sy", {
-            get: function () {
-                var c = this.get(1, 0);
-                var d = this.get(1, 1);
-                return Math.sqrt(c * c + d * d);
-            },
-            set: function (v) {
-                var rad = this.rot_raw;
-                this.set(1, 0, v * Math.sin(rad));
-                this.set(1, 1, v * Math.cos(rad));
             },
             enumerable: true,
             configurable: true
@@ -1088,7 +1030,48 @@ var gml;
         };
         Mat3.prototype.multiply = function (arg) {
             var m = _super.prototype.multiply.call(this, arg);
-            return new Mat3(m.m);
+            return new Mat3(m.v);
+        };
+        Mat3.prototype.scalarmul = function (s) {
+            var m = _super.prototype.scalarmul.call(this, s);
+            return new Mat3(m.v);
+        };
+        Mat3.prototype.subtract = function (rhs) {
+            var m = _super.prototype.subtract.call(this, rhs);
+            return new Mat3(m.v);
+        };
+        Mat3.prototype.add = function (rhs) {
+            var m = _super.prototype.add.call(this, rhs);
+            return new Mat3(m.v);
+        };
+        Mat3.prototype.transpose = function () {
+            return new Mat3(_super.prototype.transpose.call(this).v);
+        };
+        Mat3.prototype.transform = function (rhs) {
+            return new gml.Vec3(this.r00 * rhs.x + this.r01 * rhs.y + this.r02 * rhs.z, this.r10 * rhs.x + this.r11 * rhs.y + this.r12 * rhs.z, this.r20 * rhs.x + this.r21 * rhs.y + this.r22 * rhs.z);
+        };
+        Mat3.rotateY = function (angle) {
+            var s = Math.sin(angle.toRadians());
+            var c = Math.cos(angle.toRadians());
+            return new Mat3(c, 0, -s, 0, 1, 0, s, 0, c);
+        };
+        Mat3.rotateX = function (angle) {
+            var s = Math.sin(angle.toRadians());
+            var c = Math.cos(angle.toRadians());
+            return new Mat3(1, 0, 0, 0, c, s, 0, -s, c);
+        };
+        Mat3.rotateZ = function (angle) {
+            var s = Math.sin(angle.toRadians());
+            var c = Math.cos(angle.toRadians());
+            return new Mat3(c, s, 0, -s, c, 0, 0, 0, 1);
+        };
+        Mat3.rotate = function (axis, angle) {
+            var k = new Mat3(0, -axis.z, axis.y, axis.z, 0, -axis.x, -axis.y, axis.x, 0);
+            var k2 = k.multiply(k);
+            var r = angle.toRadians();
+            return Mat3.identity()
+                .add(k.multiply(Math.sin(r)))
+                .add(k2.multiply(1 - Math.cos(r)));
         };
         Mat3.prototype.toMat4 = function () {
             return new gml.Mat4(this.r00, this.r01, this.r02, 0, this.r10, this.r11, this.r12, 0, this.r20, this.r21, this.r22, 0, 0, 0, 0, 1);
@@ -1300,11 +1283,6 @@ var gml;
                 column.push(this.get(i, c));
             }
             return new gml.Vec4(column);
-        };
-        Mat4.prototype.setColumn = function (c, v) {
-            for (var i = 0; i < 4; i++) {
-                this.set(i, c, v.v[i]);
-            }
         };
         Object.defineProperty(Mat4.prototype, "translation", {
             get: function () {

@@ -90,13 +90,24 @@ module gml {
     }
 
     /**
-     * Changes a row in the matrix.
+     * Sets a row in the matrix.
      * @param r   the row index
      * @param row the new contents of the row
      */
     public setRow( r: number, row: Vector ) {
       for ( var i = 0; i < this.cols; i++ ) {
         this.set( r, i, row.v[i] );
+      }
+    }
+
+    /**
+     * Sets a column in the matrix.
+     * @param c   the column index
+     * @param col the new contents of the column
+     */
+    public setColumn( c: number, col: Vector ) {
+      for ( var i = 0; i < this.rows; i++ ) {
+        this.set( i, c, col.v[i] );
       }
     }
 

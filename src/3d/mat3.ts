@@ -3,41 +3,16 @@
 module gml {
 
   export class Mat3 extends Matrix {
-    /*
-
-      an expanded homogenous transformation matrix looks like this (assuming cw of theta):
-
-      sx * cos(theta), sx * sin(theta), tx
-     -sy * sin(theta), sy * cos(theta), ty
-      0              , 0              ,  1
-
-      now assuming ccw rotation of theta (which is idiomatic in game/graphics programming, and is what Mat3 follows):
-
-      sx * cos(theta),-sx * sin(theta), tx
-      sy * sin(theta), sy * cos(theta), ty
-      0              , 0              ,  1
-
-      from this, given a mat3:
-
-      a b tx
-      c d ty
-      0 0 1
-
-      we can derive:
-
-      sx = sqrt( a*a + b*b )
-      sy = sqrt( c*c + d*d )
-
-      theta = atan( b/a ) or atan( -c/d ) with some caveats
-
-    */
-
     constructor( args: Float32Array );
     constructor( args: number[] );
     constructor( r00: number, r01: number, tx: number, r10: number, r11: number, ty: number, m20: number, m21: number, m22: number );
 
     constructor( ...args: any[] ) {
-      super( 3, 3, args );
+      if ( args.length === 1 ) {
+        super( 3, 3, args[0] );
+      } else {
+        super( 3, 3, args );
+      }
     }
 
     public get r00(): number {
@@ -76,87 +51,40 @@ module gml {
       return this.get( 2, 2 );
     }
 
-    public get tx(): number {
-      return this.get( 0, 2 );
+    public set r00( v: number ) {
+      this.set( 0, 0, v );
     }
 
-    public get ty(): number {
-      return this.get( 1, 2 );
+    public set r01( v: number ) {
+      this.set( 0, 1, v );
     }
 
-    public set tx( v: number ) {
+    public set r02( v: number ) {
       this.set( 0, 2, v );
     }
 
-    public set ty( v: number ) {
-      this.set( 1, 2, v ) ;
+    public set r10( v: number ) {
+      this.set( 1, 0, v );
     }
 
-    public get w(): number {
-      return this.get( 2, 2 );
+    public set r11( v: number ) {
+      this.set( 1, 1, v );
     }
 
-    public set w( v: number ) {
+    public set r12( v: number ) {
+      this.set( 1, 2, v );
+    }
+
+    public set r20( v: number ) {
+      this.set( 2, 0, v );
+    }
+
+    public set r21( v: number ) {
+      this.set( 2, 1, v );
+    }
+
+    public set r22( v: number ) {
       this.set( 2, 2, v );
-    }
-
-    // slow public rotation accessor
-    public get rotation(): Angle {
-      var a = this.get( 0, 0 ); // cos term
-      var b = this.get( 0, 1 ); // sin term
-
-      // when 90 < rot <= 270, atan returns  rot-180 (atan returns results in the [ -90, 90 ] range), so correct it
-      if ( a < 0 ) {
-        return fromRadians( Math.atan( b / a ) + Math.PI );
-      } else {
-        return fromRadians( Math.atan( b / a ) );
-      }
-    }
-
-    // internal accessor
-    public get rot_raw(): number {
-      var a = this.get( 0, 0 ); // cos term
-      var b = this.get( 0, 1 ); // sin term
-
-      if ( a < 0 ) {
-        return Math.atan( b / a ) + Math.PI;
-      } else {
-        return Math.atan( b / a );
-      }
-    }
-
-    public set rotation( v: Angle ) {
-      var rad = v.toRadians();
-      var sx = this.sx;
-      var sy = this.sy;
-      this.set( 0, 0, sx * Math.cos( rad ) );
-      this.set( 0, 1, -sx * Math.sin( rad ) );
-      this.set( 1, 0, sy * Math.sin( rad ) );
-      this.set( 1, 1, sy * Math.cos( rad ) );
-    }
-
-    public get sx() {
-      var a = this.get( 0, 0 );
-      var b = this.get( 0, 1 );
-      return Math.sqrt( a*a + b*b );
-    }
-
-    public get sy() {
-      var c = this.get( 1, 0 );
-      var d = this.get( 1, 1 );
-      return Math.sqrt( c*c + d*d );
-    }
-
-    public set sx( v: number ) {
-      var rad = this.rot_raw;
-      this.set( 0, 0, v * Math.cos( rad ) );
-      this.set( 0, 1, -v * Math.sin( rad ) );
-    }
-
-    public set sy( v: number ) {
-      var rad = this.rot_raw;
-      this.set( 1, 0, v * Math.sin( rad ) );
-      this.set( 1, 1, v * Math.cos( rad ) );
     }
 
     public row( r: number ): Vec3 {
@@ -179,7 +107,70 @@ module gml {
     public multiply( s: number ): Mat3;
     public multiply( arg: any ): Mat3 {
       var m = super.multiply( arg );
-      return new Mat3( m.m );
+      return new Mat3( m.v );
+    }
+
+    public scalarmul( s: number ): Mat3 {
+      var m = super.scalarmul( s );
+      return new Mat3( m.v );
+    }
+
+    public subtract( rhs: Mat3 ): Mat3 {
+      var m = super.subtract( rhs );
+      return new Mat3( m.v );
+    }
+
+    public add( rhs: Matrix ): Mat3 {
+      var m = super.add( rhs );
+      return new Mat3( m.v );
+    }
+
+    public transpose(): Mat3 {
+      return new Mat3( super.transpose().v );
+    }
+
+    public transform( rhs: Vec3 ): Vec3 {
+      return new Vec3( this.r00 * rhs.x + this.r01 * rhs.y + this.r02 * rhs.z
+                     , this.r10 * rhs.x + this.r11 * rhs.y + this.r12 * rhs.z
+                     , this.r20 * rhs.x + this.r21 * rhs.y + this.r22 * rhs.z );
+    }
+
+    public static rotateY( angle: Angle ): Mat3 {
+      let s = Math.sin( angle.toRadians() );
+      let c = Math.cos( angle.toRadians() );
+      return new Mat3( c, 0, -s
+                     , 0, 1,  0
+                     , s, 0,  c );
+    }
+
+    public static rotateX( angle: Angle ): Mat3 {
+      let s = Math.sin( angle.toRadians() );
+      let c = Math.cos( angle.toRadians() );
+      return new Mat3( 1,  0, 0
+                     , 0,  c, s
+                     , 0, -s, c );
+    }
+
+    public static rotateZ( angle: Angle ): Mat3 {
+      let s = Math.sin( angle.toRadians() );
+      let c = Math.cos( angle.toRadians() );
+      return new Mat3(  c, s, 0
+                     , -s, c, 0
+                     ,  0, 0, 1 );
+    }
+
+    public static rotate( axis: Vec4, angle: Angle ): Mat3 {
+      let k = new Mat3(       0, -axis.z,  axis.y
+                      ,  axis.z,       0, -axis.x
+                      , -axis.y,  axis.x,       0 );
+
+      let k2 = k.multiply( k );
+
+      let r = angle.toRadians();
+    
+      return Mat3.identity()
+            .add( k.multiply( Math.sin( r ) ) )
+            .add( k2.multiply( 1 - Math.cos( r ) ) );
     }
 
     public toMat4(): Mat4 {

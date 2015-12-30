@@ -110,7 +110,13 @@ module gml {
       return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z + this.w * rhs.w;
     }
 
-    // ignores w component
+    /**
+     * Computes the cross product as if this were a 3D vector (Vec3)
+     *
+     * @returns a Vec4 with its xyz components representing the 3D cross product
+     *          between this and rhs. The w component of the resulting vector is
+     *          always set to 0
+     */
     public cross( rhs: Vec4 ): Vec4 {
       return new Vec4( this.y * rhs.z - this.z * rhs.y
                      , this.z * rhs.x - this.x * rhs.z

@@ -57,6 +57,7 @@ declare module gml {
         row(r: number): Vector;
         column(c: number): Vector;
         setRow(r: number, row: Vector): void;
+        setColumn(c: number, col: Vector): void;
         swapRows(r1: number, r2: number): void;
         trace: number;
         lu(): {

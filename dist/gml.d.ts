@@ -133,6 +133,7 @@ declare module gml {
         row(r: number): Vector;
         column(c: number): Vector;
         setRow(r: number, row: Vector): void;
+        setColumn(c: number, col: Vector): void;
         swapRows(r1: number, r2: number): void;
         trace: number;
         lu(): {
@@ -166,17 +167,19 @@ declare module gml {
         r20: number;
         r21: number;
         r22: number;
-        tx: number;
-        ty: number;
-        w: number;
-        rotation: Angle;
-        rot_raw: number;
-        sx: number;
-        sy: number;
         row(r: number): Vec3;
         column(c: number): Vec3;
         multiply(rhs: Mat3): Mat3;
         multiply(s: number): Mat3;
+        scalarmul(s: number): Mat3;
+        subtract(rhs: Mat3): Mat3;
+        add(rhs: Matrix): Mat3;
+        transpose(): Mat3;
+        transform(rhs: Vec3): Vec3;
+        static rotateY(angle: Angle): Mat3;
+        static rotateX(angle: Angle): Mat3;
+        static rotateZ(angle: Angle): Mat3;
+        static rotate(axis: Vec4, angle: Angle): Mat3;
         toMat4(): Mat4;
         static identity(): Mat3;
     }
@@ -205,7 +208,6 @@ declare module gml {
         w: number;
         row(r: number): Vec4;
         column(c: number): Vec4;
-        setColumn(c: number, v: Vec4): void;
         translation: Vec4;
         scale: Vec3;
         multiply(rhs: Mat4): Mat4;

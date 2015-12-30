@@ -330,6 +330,11 @@ var gml;
                 this.set(r, i, row.v[i]);
             }
         };
+        Matrix.prototype.setColumn = function (c, col) {
+            for (var i = 0; i < this.rows; i++) {
+                this.set(i, c, col.v[i]);
+            }
+        };
         Matrix.prototype.swapRows = function (r1, r2) {
             var row1 = this.row(r1);
             var row2 = this.row(r2);

@@ -167,12 +167,6 @@ module gml {
       return new Vec4( column );
     }
 
-    public setColumn( c: number, v: Vec4 ) {
-      for ( var i = 0; i < 4; i++ ) {
-        this.set( i, c, v.v[i] );
-      }
-    }
-
     public get translation(): Vec4 {
       return this.column( 3 );
     }

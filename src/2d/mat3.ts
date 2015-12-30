@@ -1,36 +1,35 @@
 ///<reference path="../mat.ts"/>
 
 module gml2d {
+  /**
+   *
+   * @preferred
+   *
+   * an homogenous 2D transformation matrix (with rotations in theta specified in CCW):
+   *
+   * <pre>
+   * sx * cos(theta),-sx * sin(theta), tx
+   * sy * sin(theta), sy * cos(theta), ty
+   * 0              , 0              ,  1
+   * </pre>
+   */
+
+
+  /*
+    from this, given a mat3:
+
+    a b tx
+    c d ty
+    0 0 1
+
+    we can derive:
+
+    sx = sqrt( a*a + b*b )
+    sy = sqrt( c*c + d*d )
+
+    theta = atan( b/a ) or atan( -c/d ) with some caveats
+  */
   export class Mat3 extends gml.Matrix {
-    /*
-
-      an expanded homogenous transformation matrix looks like this (assuming cw of theta):
-
-      sx * cos(theta), sx * sin(theta), tx
-     -sy * sin(theta), sy * cos(theta), ty
-      0              , 0              ,  1
-
-      now assuming ccw rotation of theta (which is idiomatic in game/graphics programming, and is what Mat3 follows):
-
-      sx * cos(theta),-sx * sin(theta), tx
-      sy * sin(theta), sy * cos(theta), ty
-      0              , 0              ,  1
-
-      from this, given a mat3:
-
-      a b tx
-      c d ty
-      0 0 1
-
-      we can derive:
-
-      sx = sqrt( a*a + b*b )
-      sy = sqrt( c*c + d*d )
-
-      theta = atan( b/a ) or atan( -c/d ) with some caveats
-
-    */
-
     constructor( args: Float32Array );
     constructor( args: number[] );
     constructor( r00: number, r01: number, tx: number, r10: number, r11: number, ty: number, m20: number, m21: number, m22: number );
@@ -47,10 +46,6 @@ module gml2d {
       return this.get( 0, 1 );
     }
 
-    public get r02(): number {
-      return this.get( 0, 2 );
-    }
-
     public get r10(): number {
       return this.get( 1, 0 );
     }
@@ -59,11 +54,7 @@ module gml2d {
       return this.get( 1, 1 );
     }
 
-    public get r12(): number {
-      return this.get( 1, 2 );
-    }
-
-    public get r20(): number {
+    public get m20(): number {
       return this.get( 2, 0 );
     }
 
@@ -91,14 +82,6 @@ module gml2d {
       this.set( 1, 2, v ) ;
     }
 
-    public get w(): number {
-      return this.get( 2, 2 );
-    }
-
-    public set w( v: number ) {
-      this.set( 2, 2, v );
-    }
-
     // slow public rotation accessor
     public get rotation(): gml.Angle {
       var a = this.get( 0, 0 ); // cos term
@@ -113,7 +96,7 @@ module gml2d {
     }
 
     // internal accessor
-    public get rot_raw(): number {
+    private get rot_rad(): number {
       var a = this.get( 0, 0 ); // cos term
       var b = this.get( 0, 1 ); // sin term
 
@@ -147,13 +130,13 @@ module gml2d {
     }
 
     public set sx( v: number ) {
-      var rad = this.rot_raw;
+      var rad = this.rot_rad;
       this.set( 0, 0, v * Math.cos( rad ) );
       this.set( 0, 1, -v * Math.sin( rad ) );
     }
 
     public set sy( v: number ) {
-      var rad = this.rot_raw;
+      var rad = this.rot_rad;
       this.set( 1, 0, v * Math.sin( rad ) );
       this.set( 1, 1, v * Math.cos( rad ) );
     }
@@ -185,6 +168,18 @@ module gml2d {
       return new Mat3( 1, 0, 0
                      , 0, 1, 0
                      , 0, 0, 1 );
+    }
+
+    static fromRows( r1: Vec3, r2: Vec3, r3: Vec3 ) {
+      return new Mat3( r1.x , r1.y , r1.w
+                     , r2.x , r2.y , r2.w
+                     , r3.x , r3.y , r3.w );
+    }
+
+    static fromCols( c1: Vec3, c2: Vec3, c3: Vec3 ) {
+      return new Mat3( c1.x, c2.x, c3.x
+                     , c1.y, c2.y, c3.y
+                     , c1.w, c2.w, c3.w );
     }
   }
 }

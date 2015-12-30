@@ -505,7 +505,7 @@ var gml;
     })();
     gml.Matrix = Matrix;
 })(gml || (gml = {}));
-///<reference path="../mat.ts"/>
+///<reference path="../vec.ts"/>
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -565,12 +565,31 @@ var gml2d;
         Vec2.prototype.dot = function (rhs) {
             return this.x * rhs.x + this.y * rhs.y;
         };
+        Object.defineProperty(Vec2.prototype, "normalized", {
+            get: function () {
+                var len = this.len;
+                return new Vec2(this.x / len, this.y / len);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Vec2.prototype.cross = function (rhs) {
             return this.x * rhs.y - this.y * rhs.x;
         };
         Vec2.prototype.map = function (callback) {
             return new Vec2(this.v.map(callback));
         };
+        Vec2.randomInCircle = function (radius) {
+            if (radius === void 0) { radius = 1; }
+            return new Vec2(Math.random(), Math.random()).normalized.multiply(radius);
+        };
+        Object.defineProperty(Vec2, "zero", {
+            get: function () {
+                return new Vec2(0, 0);
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Vec2;
     })(gml.Vector);
     gml2d.Vec2 = Vec2;
@@ -612,33 +631,33 @@ var gml2d;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Vec3.prototype, "z", {
+        Object.defineProperty(Vec3.prototype, "w", {
             get: function () {
                 return this.v[2];
             },
-            set: function (z) {
-                this.v[2] = z;
+            set: function (w) {
+                this.v[2] = w;
             },
             enumerable: true,
             configurable: true
         });
         Vec3.prototype.add = function (rhs) {
-            return new Vec3(this.x + rhs.x, this.y + rhs.y, this.z + rhs.z);
+            return new Vec3(this.x + rhs.x, this.y + rhs.y, this.w + rhs.w);
         };
         Vec3.prototype.subtract = function (rhs) {
-            return new Vec3(this.x - rhs.x, this.y - rhs.y, this.z - rhs.z);
+            return new Vec3(this.x - rhs.x, this.y - rhs.y, this.w - rhs.w);
         };
         Vec3.prototype.multiply = function (s) {
-            return new Vec3(this.x * s, this.y * s, this.z * s);
+            return new Vec3(this.x * s, this.y * s, this.w * s);
         };
         Vec3.prototype.divide = function (d) {
-            return new Vec3(this.x / d, this.y / d, this.z / d);
+            return new Vec3(this.x / d, this.y / d, this.w / d);
         };
         Vec3.prototype.negate = function () {
-            return new Vec3(-this.x, -this.y, -this.z);
+            return new Vec3(-this.x, -this.y, -this.w);
         };
         Vec3.prototype.dot = function (rhs) {
-            return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z;
+            return this.x * rhs.x + this.y * rhs.y + this.w * rhs.w;
         };
         Vec3.prototype.cross = function (rhs) {
             return this.x * rhs.y - this.y * rhs.x;
@@ -646,7 +665,7 @@ var gml2d;
         Object.defineProperty(Vec3.prototype, "normalized", {
             get: function () {
                 var len = this.len;
-                return new Vec3(this.x / len, this.y / len, this.z / len);
+                return new Vec3(this.x / len, this.y / len, this.w / len);
             },
             enumerable: true,
             configurable: true
@@ -654,6 +673,23 @@ var gml2d;
         Vec3.prototype.map = function (callback) {
             return new Vec3(this.v.map(callback));
         };
+        Vec3.randomInCircle = function (radius) {
+            if (radius === void 0) { radius = 1; }
+            return new Vec3(Math.random(), Math.random(), 0).normalized.multiply(radius);
+        };
+        Vec3.randomPositionInCircle = function (radius) {
+            if (radius === void 0) { radius = 1; }
+            var random = new Vec3(Math.random(), Math.random(), 0).normalized.multiply(radius);
+            random.w = 1;
+            return random;
+        };
+        Object.defineProperty(Vec3, "zero", {
+            get: function () {
+                return new Vec3(0, 0, 0);
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Vec3;
     })(gml.Vector);
     gml2d.Vec3 = Vec3;
@@ -684,13 +720,6 @@ var gml2d;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Mat3.prototype, "r02", {
-            get: function () {
-                return this.get(0, 2);
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(Mat3.prototype, "r10", {
             get: function () {
                 return this.get(1, 0);
@@ -705,14 +734,7 @@ var gml2d;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Mat3.prototype, "r12", {
-            get: function () {
-                return this.get(1, 2);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Mat3.prototype, "r20", {
+        Object.defineProperty(Mat3.prototype, "m20", {
             get: function () {
                 return this.get(2, 0);
             },
@@ -753,16 +775,6 @@ var gml2d;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Mat3.prototype, "w", {
-            get: function () {
-                return this.get(2, 2);
-            },
-            set: function (v) {
-                this.set(2, 2, v);
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(Mat3.prototype, "rotation", {
             get: function () {
                 var a = this.get(0, 0);
@@ -786,7 +798,7 @@ var gml2d;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Mat3.prototype, "rot_raw", {
+        Object.defineProperty(Mat3.prototype, "rot_rad", {
             get: function () {
                 var a = this.get(0, 0);
                 var b = this.get(0, 1);
@@ -807,7 +819,7 @@ var gml2d;
                 return Math.sqrt(a * a + b * b);
             },
             set: function (v) {
-                var rad = this.rot_raw;
+                var rad = this.rot_rad;
                 this.set(0, 0, v * Math.cos(rad));
                 this.set(0, 1, -v * Math.sin(rad));
             },
@@ -821,7 +833,7 @@ var gml2d;
                 return Math.sqrt(c * c + d * d);
             },
             set: function (v) {
-                var rad = this.rot_raw;
+                var rad = this.rot_rad;
                 this.set(1, 0, v * Math.sin(rad));
                 this.set(1, 1, v * Math.cos(rad));
             },
@@ -848,6 +860,12 @@ var gml2d;
         };
         Mat3.identity = function () {
             return new Mat3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+        };
+        Mat3.fromRows = function (r1, r2, r3) {
+            return new Mat3(r1.x, r1.y, r1.w, r2.x, r2.y, r2.w, r3.x, r3.y, r3.w);
+        };
+        Mat3.fromCols = function (c1, c2, c3) {
+            return new Mat3(c1.x, c2.x, c3.x, c1.y, c2.y, c3.y, c1.w, c2.w, c3.w);
         };
         return Mat3;
     })(gml.Matrix);

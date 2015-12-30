@@ -90,18 +90,21 @@ declare module gml2d {
         divide(d: number): Vec2;
         negate(): Vec2;
         dot(rhs: Vec2): number;
+        normalized: Vec2;
         cross(rhs: Vec2): number;
         map(callback: (v: number) => number): Vec2;
+        static randomInCircle(radius?: number): Vec2;
+        static zero: Vec2;
     }
 }
 declare module gml2d {
     class Vec3 extends gml.Vector {
         constructor(v: number[]);
         constructor(v: Float32Array);
-        constructor(x: number, y: number, z: number);
+        constructor(x: number, y: number, w: number);
         x: number;
         y: number;
-        z: number;
+        w: number;
         add(rhs: Vec3): Vec3;
         subtract(rhs: Vec3): Vec3;
         multiply(s: number): Vec3;
@@ -111,6 +114,9 @@ declare module gml2d {
         cross(rhs: Vec3): number;
         normalized: Vec3;
         map(callback: (v: number) => number): Vec3;
+        static randomInCircle(radius?: number): Vec3;
+        static randomPositionInCircle(radius?: number): Vec3;
+        static zero: Vec3;
     }
 }
 declare module gml2d {
@@ -120,18 +126,15 @@ declare module gml2d {
         constructor(r00: number, r01: number, tx: number, r10: number, r11: number, ty: number, m20: number, m21: number, m22: number);
         r00: number;
         r01: number;
-        r02: number;
         r10: number;
         r11: number;
-        r12: number;
-        r20: number;
+        m20: number;
         r21: number;
         r22: number;
         tx: number;
         ty: number;
-        w: number;
         rotation: gml.Angle;
-        rot_raw: number;
+        private rot_rad;
         sx: number;
         sy: number;
         row(r: number): Vec3;
@@ -139,5 +142,7 @@ declare module gml2d {
         multiply(rhs: Mat3): Mat3;
         multiply(s: number): Mat3;
         static identity(): Mat3;
+        static fromRows(r1: Vec3, r2: Vec3, r3: Vec3): Mat3;
+        static fromCols(c1: Vec3, c2: Vec3, c3: Vec3): Mat3;
     }
 }

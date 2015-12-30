@@ -1,5 +1,9 @@
-///<reference path="../mat.ts"/>
+///<reference path="../vec.ts"/>
 
+/**
+ * The gml2d library is mostly designed with 2D usage (games/visualization)
+ * in mind.
+ */
 module gml2d {
   export class Vec2 extends gml.Vector {
     constructor( v: number[] );
@@ -54,12 +58,28 @@ module gml2d {
       return this.x * rhs.x + this.y * rhs.y;
     }
 
+    public get normalized(): Vec2 {
+      var len = this.len;
+      return new Vec2( this.x / len, this.y / len );
+    }
+
+    /**
+     * Computes the '2D' cross product
+     */
     public cross( rhs: Vec2 ): number {
       return this.x * rhs.y - this.y * rhs.x;
     }
 
     public map( callback: ( v: number ) => number ): Vec2 {
       return new Vec2( this.v.map( callback ) );
+    }
+
+    public static randomInCircle( radius: number = 1 ): Vec2 {
+      return new Vec2( Math.random(), Math.random() ).normalized.multiply( radius );
+    }
+
+    public static get zero(): Vec2 {
+      return new Vec2( 0, 0 );
     }
   }
 }

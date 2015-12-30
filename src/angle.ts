@@ -1,12 +1,20 @@
 // simple angle interface with explicit constructors
 
 module gml {
+  /**
+   * Construct Angles with gml.fromDegrees() or gml.fromRadians().
+   */
   export interface Angle {
     toDegrees(): number;
     toRadians(): number;
     add( rhs: Angle ): Angle;
     subtract( rhs: Angle ): Angle;
     negate(): Angle;
+
+   /**
+    * ensures the Angle is within one full turn. IE: between 0 and 360 degrees
+    * or 0 and 2 PI radians
+    */
     reduceToOneTurn(): Angle;
   }
 

@@ -1,13 +1,17 @@
 ///<reference path="vec.ts"/>
 
 module gml {
-  /* public-facing matrix (constructor sugar)
-    
-     usage:
-      new Matrix(3,3)(...);
-      new Matrix(4,4)(...);
-      new Matrix(100,6)(...);
-  */
+
+  /**
+   * Matrix constructor sugar that curries the size parameters.
+   *
+   * usage:
+   * <pre>
+   *  new Matrix(3,3)(...);
+   *  new Matrix(4,4)(...);
+   *  new Matrix(100,10)(...);
+   * </pre>
+   */
   export class Mat {
     constructor( r: number, c: number ) {
       return ( ...values: number[] ) => { return new Matrix( r, c, values ); }
@@ -17,10 +21,35 @@ module gml {
   // internal matrix implementation; exported because Mat3, Mat4 needs access
   // note that matrices are stored in column major order to conform to WebGL
   export class Matrix {
+  /**
+   * The raw contents of the matrix, encoded as a Float32Array.
+   * Note that this is stored in row-major order, so it cannot be
+   * directly passed into WebGL uniform methods. Use the matrix.m
+   * property, which returns a transposed Float32Array. 
+   */
     v: Float32Array;
     rows: number;
     cols: number;
 
+  /**
+   * The generic matrix constructor accepts three combinations of inputs:
+   *
+   * <pre>
+   *  // its contents in the constructor parameters directly
+   *  new Matrix(2,2,m00,m01,m10,m11);
+   *
+   *  // its contents as an array
+   *  new Matrix(2,2,[m00,m01,m10,m11]);
+   *
+   *  // its contents as a Float32Array
+   *  new Matrix(2,2,new Float32Array([m00,m01,m10,m11]));
+   * </pre>
+   *
+   * Regardless of the input type, it will convert the contents of the array
+   * into a Float32Array.
+   *
+   * Note that the contents are specified as a flattened row-major 2D array
+   */
     constructor( rows: number, cols: number, args: Float32Array );
     constructor( rows: number, cols: number, args: number[] );
     constructor( rows: number, cols: number, ...args: number[] );
@@ -105,6 +134,12 @@ module gml {
       return tr;
     }
 
+    /**
+     * @returns The LU decomposition of the matrix. If no such decomposition
+     * exists, the l and u properties of the return object are both null.
+     *
+     * Implements the Doolittle algorithm.
+     */
     public lu(): { l: Matrix, u: Matrix } {
       if ( this.rows != this.cols ) {
         console.warn( "matrix not square; cannot perform LU decomposition!" );
@@ -275,6 +310,10 @@ module gml {
       return str;
     }
 
+    /**
+     * @returns The contents of the matrix, stored in column-major order and
+     * encoded as a Float32Array.
+     */
     public get m(): Float32Array {
       return this.transpose_Float32Array( this.v, this.rows, this.cols );      
     }

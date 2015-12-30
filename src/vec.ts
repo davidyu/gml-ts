@@ -1,12 +1,14 @@
 module gml {
-  /* public-facing vector (constructor sugar)
-
-     usage:
-      new Vec(3)(x,y,z,...);
-      new Vec(4)(a,b,c,d,...);
-      new Vec(100)(x1,x2,...,x100);
-  */
-
+  /**
+   * Vector constructor sugar that curries the size parameter.
+   *
+   * usage:
+   * <pre>
+   *  new Vec(3)(x,y,z);
+   *  new Vec(4)(a,b,c,d);
+   *  new Vec(100)(x1,x2,...,x100);
+   * </pre>
+   */
   export class Vec {
     constructor( size: number ) {
       return ( ...array: number[] ) => { return new Vector( size, array ); }
@@ -15,9 +17,30 @@ module gml {
 
   // internal vector implementation; exported because Vec2, Vec3, Vec4 needs access
   export class Vector {
+
+  /**
+   * The raw contents of the vector, encoded as a Float32Array for WebGL.
+   */
     v: Float32Array;
     size: number;
 
+  /**
+   * The generic vector constructor accepts three combinations of inputs:
+   *
+   * <pre>
+   *  // its contents in the constructor parameters directly
+   *  new Vector(2,x,y);
+   *
+   *  // its contents as an array
+   *  new Vector(2,[x,y]);
+   *
+   *  // its contents as a Float32Array
+   *  new Vector(2, new Float32Array([x,y]));
+   * </pre>
+   *
+   * Regardless of the input type, it will convert the contents of the array
+   * into a Float32Array.
+   */
     constructor( size: number, args: Float32Array );
     constructor( size: number, args: number[] );
     constructor( size: number, ...args: number[] );
@@ -118,7 +141,10 @@ module gml {
       }, 0 );
     }
 
-    // this alters the underlying vector
+    /**
+     * NOTE: this alters the underlying vector. For construction of
+     * a new normalized vector, use the vector.normalized property.
+     */
     public normalize(): void {
       const l = this.len;
       this.v = this.v.map( v => {
@@ -126,7 +152,6 @@ module gml {
       } );
     }
 
-    // this returns a new vector
     public unit(): Vector {
       const l = this.len;
       var vs = [];

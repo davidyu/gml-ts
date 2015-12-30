@@ -1,4 +1,9 @@
 module gml {
+  /**
+   * Implements common easing methods (generally used) for animation.
+   * All methods assume a normalized input t (time) between 0 and 1
+   * and returns an output t' between 0 and 1.
+   */
   export class Easing {
     public static QuadIn( t: number ) {
 			return t*t;

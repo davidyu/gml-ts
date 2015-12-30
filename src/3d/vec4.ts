@@ -133,10 +133,18 @@ module gml {
       return new Vec4( this.v.map( callback ) );
     }
 
+    /**
+     * @returns a random directional Vec4 in a user-specified sphere centered around (0, 0, 0).
+     *          Note that the w-component of the Vec4 is 0.
+     */
     public static randomInSphere( radius: number = 1 ): Vec4 {
       return new Vec4( Math.random(), Math.random(), Math.random(), 0 ).normalized.multiply( radius );
     }
 
+    /**
+     * @returns a random positional Vec4 in a user-specified sphere centered around (0, 0, 0).
+     *          Note that the w-component of the Vec4 is 1.
+     */
     public static randomPositionInSphere( radius: number = 1 ): Vec4 {
       let random = new Vec4( Math.random(), Math.random(), Math.random(), 0 ).normalized.multiply( radius )
       random.w = 1;

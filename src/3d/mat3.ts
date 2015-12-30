@@ -135,6 +135,30 @@ module gml {
                      , this.r20 * rhs.x + this.r21 * rhs.y + this.r22 * rhs.z );
     }
 
+    /**
+     * constructs a Mat4 with the contents of this Mat3 forming the top-left
+     * portion of the new Mat4. The translation portion of the new Mat4 is assumed
+     * to be zero.
+     *
+     * E.G.:
+     * <pre>
+     * a b c       a b c 0
+     * d e f  -->  d e f 0
+     * g h i       g h i 0
+     *             0 0 0 1
+     * </pre>
+     */
+    public toMat4(): Mat4 {
+      return new Mat4( this.r00, this.r01, this.r02, 0
+                     , this.r10, this.r11, this.r12, 0
+                     , this.r20, this.r21, this.r22, 0
+                     ,        0,        0,        0, 1 );
+    }
+
+    /**
+     * constructs a matrix representing a rotation around the Y axis, IE yaw.
+     * @param angle the angle to rotate around the Y-axis by (rotation is counter-clockwise).
+     */
     public static rotateY( angle: Angle ): Mat3 {
       let s = Math.sin( angle.toRadians() );
       let c = Math.cos( angle.toRadians() );
@@ -143,6 +167,10 @@ module gml {
                      , s, 0,  c );
     }
 
+    /**
+     * constructs a matrix representing a rotation around the X axis, IE pitch.
+     * @param angle the angle to rotate around the X-axis by (rotation is counter-clockwise).
+     */
     public static rotateX( angle: Angle ): Mat3 {
       let s = Math.sin( angle.toRadians() );
       let c = Math.cos( angle.toRadians() );
@@ -151,6 +179,10 @@ module gml {
                      , 0, -s, c );
     }
 
+    /**
+     * constructs a matrix representing a rotation around the Z axis, IE roll.
+     * @param angle the angle to rotate around the Z-axis by (rotation is counter-clockwise).
+     */
     public static rotateZ( angle: Angle ): Mat3 {
       let s = Math.sin( angle.toRadians() );
       let c = Math.cos( angle.toRadians() );
@@ -159,6 +191,11 @@ module gml {
                      ,  0, 0, 1 );
     }
 
+    /**
+     * constructs a matrix representing a rotation around a user-specified axis.
+     * @param axis  the axis of rotation.
+     * @param angle the angle to rotate around the axis by (rotation is counter-clockwise).
+     */
     public static rotate( axis: Vec4, angle: Angle ): Mat3 {
       let k = new Mat3(       0, -axis.z,  axis.y
                       ,  axis.z,       0, -axis.x
@@ -173,17 +210,22 @@ module gml {
             .add( k2.multiply( 1 - Math.cos( r ) ) );
     }
 
-    public toMat4(): Mat4 {
-      return new Mat4( this.r00, this.r01, this.r02, 0
-                     , this.r10, this.r11, this.r12, 0
-                     , this.r20, this.r21, this.r22, 0
-                     ,        0,        0,        0, 1 );
-    }
-
     public static identity(): Mat3 {
       return new Mat3( 1, 0, 0
                      , 0, 1, 0
                      , 0, 0, 1 );
+    }
+
+    static fromRows( r1: Vec3, r2: Vec3, r3: Vec3 ) {
+      return new Mat3( r1.x , r1.y , r1.z
+                     , r2.x , r2.y , r2.z
+                     , r3.x , r3.y , r3.z );
+    }
+
+    static fromCols( c1: Vec3, c2: Vec3, c3: Vec3 ) {
+      return new Mat3( c1.x, c2.x, c3.x
+                     , c1.y, c2.y, c3.y
+                     , c1.z, c2.z, c3.z );
     }
   }
 }

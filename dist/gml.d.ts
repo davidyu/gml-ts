@@ -176,12 +176,14 @@ declare module gml {
         add(rhs: Matrix): Mat3;
         transpose(): Mat3;
         transform(rhs: Vec3): Vec3;
+        toMat4(): Mat4;
         static rotateY(angle: Angle): Mat3;
         static rotateX(angle: Angle): Mat3;
         static rotateZ(angle: Angle): Mat3;
         static rotate(axis: Vec4, angle: Angle): Mat3;
-        toMat4(): Mat4;
         static identity(): Mat3;
+        static fromRows(r1: Vec3, r2: Vec3, r3: Vec3): Mat3;
+        static fromCols(c1: Vec3, c2: Vec3, c3: Vec3): Mat3;
     }
 }
 declare module gml {
@@ -225,9 +227,9 @@ declare module gml {
         static rotateZ(angle: Angle): Mat4;
         static rotate(axis: Vec4, angle: Angle): Mat4;
         static translate(v: Vec4): Mat4;
+        static fromRows(r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4): Mat4;
+        static fromCols(c1: Vec4, c2: Vec4, c3: Vec4, c4: Vec4): Mat4;
     }
-    function makeMat4FromRows(r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4): Mat4;
-    function makeMat4FromCols(c1: Vec4, c2: Vec4, c3: Vec4, c4: Vec4): Mat4;
     function makePerspective(fov: Angle, aspectRatio: number, near: number, far: number): Mat4;
     function makeLookAt(pos: Vec4, aim: Vec4, up: Vec4, right: Vec4): Mat4;
 }

@@ -244,6 +244,10 @@ module gml {
                      , 0, 0, 0, 1 );
     }
 
+    /**
+     * constructs a matrix representing a rotation around the Y axis, IE yaw.
+     * @param angle the angle to rotate around the Y-axis by (rotation is counter-clockwise).
+     */
     public static rotateY( angle: Angle ): Mat4 {
       let s = Math.sin( angle.toRadians() );
       let c = Math.cos( angle.toRadians() );
@@ -253,6 +257,10 @@ module gml {
                      , 0, 0,  0, 1 );
     }
 
+    /**
+     * constructs a matrix representing a rotation around the X axis, IE pitch.
+     * @param angle the angle to rotate around the X-axis by (rotation is counter-clockwise).
+     */
     public static rotateX( angle: Angle ): Mat4 {
       let s = Math.sin( angle.toRadians() );
       let c = Math.cos( angle.toRadians() );
@@ -262,6 +270,10 @@ module gml {
                      , 0,  0, 0, 1 );
     }
 
+    /**
+     * constructs a matrix representing a rotation around the Z axis, IE roll.
+     * @param angle the angle to rotate around the Z-axis by (rotation is counter-clockwise).
+     */
     public static rotateZ( angle: Angle ): Mat4 {
       let s = Math.sin( angle.toRadians() );
       let c = Math.cos( angle.toRadians() );
@@ -271,6 +283,11 @@ module gml {
                      ,  0, 0, 0, 1 );
     }
 
+    /**
+     * constructs a matrix representing a rotation around a user-specified axis.
+     * @param axis  the axis of rotation.
+     * @param angle the angle to rotate around the axis by (rotation is counter-clockwise).
+     */
     public static rotate( axis: Vec4, angle: Angle ): Mat4 {
       let k = new Mat4(       0, -axis.z,  axis.y, 0
                       ,  axis.z,       0, -axis.x, 0
@@ -286,26 +303,29 @@ module gml {
             .add( k2.multiply( 1 - Math.cos( r ) ) );
     }
 
+    /**
+     * constructs a matrix representing a translation.
+     */
     public static translate( v: Vec4 ): Mat4 {
       return new Mat4( 1, 0, 0, v.x
                      , 0, 1, 0, v.y
                      , 0, 0, 1, v.z
                      , 0, 0, 0, 1 );
     }
-  }
 
-  export function makeMat4FromRows( r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4 ) {
-    return new Mat4( r1.x , r1.y , r1.z , r1.w
-                   , r2.x , r2.y , r2.z , r2.w
-                   , r3.x , r3.y , r3.z , r3.w
-                   , r4.x , r4.y , r4.z , r4.w );
-  }
+    static fromRows( r1: Vec4, r2: Vec4, r3: Vec4, r4: Vec4 ) {
+      return new Mat4( r1.x , r1.y , r1.z , r1.w
+                     , r2.x , r2.y , r2.z , r2.w
+                     , r3.x , r3.y , r3.z , r3.w
+                     , r4.x , r4.y , r4.z , r4.w );
+    }
 
-  export function makeMat4FromCols( c1: Vec4, c2: Vec4, c3: Vec4, c4: Vec4 ) {
-    return new Mat4( c1.x, c2.x, c3.x, c4.x
-                   , c1.y, c2.y, c3.y, c4.y
-                   , c1.z, c2.z, c3.z, c4.z
-                   , c1.w, c2.w, c3.w, c4.w );
+    static fromCols( c1: Vec4, c2: Vec4, c3: Vec4, c4: Vec4 ) {
+      return new Mat4( c1.x, c2.x, c3.x, c4.x
+                     , c1.y, c2.y, c3.y, c4.y
+                     , c1.z, c2.z, c3.z, c4.z
+                     , c1.w, c2.w, c3.w, c4.w );
+    }
   }
 
   export function makePerspective( fov: Angle, aspectRatio: number, near: number, far: number ): Mat4 {
@@ -328,7 +348,7 @@ module gml {
     let y = up.normalized;
     let z = aim.negate().normalized;
 
-    var lookAt = makeMat4FromRows( x, y, z, new Vec4( 0, 0, 0, 1 ) );
+    var lookAt = Mat4.fromRows( x, y, z, new Vec4( 0, 0, 0, 1 ) );
 
     var npos = pos.negate();
 

@@ -1050,6 +1050,9 @@ var gml;
         Mat3.prototype.transform = function (rhs) {
             return new gml.Vec3(this.r00 * rhs.x + this.r01 * rhs.y + this.r02 * rhs.z, this.r10 * rhs.x + this.r11 * rhs.y + this.r12 * rhs.z, this.r20 * rhs.x + this.r21 * rhs.y + this.r22 * rhs.z);
         };
+        Mat3.prototype.toMat4 = function () {
+            return new gml.Mat4(this.r00, this.r01, this.r02, 0, this.r10, this.r11, this.r12, 0, this.r20, this.r21, this.r22, 0, 0, 0, 0, 1);
+        };
         Mat3.rotateY = function (angle) {
             var s = Math.sin(angle.toRadians());
             var c = Math.cos(angle.toRadians());
@@ -1073,11 +1076,14 @@ var gml;
                 .add(k.multiply(Math.sin(r)))
                 .add(k2.multiply(1 - Math.cos(r)));
         };
-        Mat3.prototype.toMat4 = function () {
-            return new gml.Mat4(this.r00, this.r01, this.r02, 0, this.r10, this.r11, this.r12, 0, this.r20, this.r21, this.r22, 0, 0, 0, 0, 1);
-        };
         Mat3.identity = function () {
             return new Mat3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+        };
+        Mat3.fromRows = function (r1, r2, r3) {
+            return new Mat3(r1.x, r1.y, r1.z, r2.x, r2.y, r2.z, r3.x, r3.y, r3.z);
+        };
+        Mat3.fromCols = function (c1, c2, c3) {
+            return new Mat3(c1.x, c2.x, c3.x, c1.y, c2.y, c3.y, c1.z, c2.z, c3.z);
         };
         return Mat3;
     })(gml.Matrix);
@@ -1376,17 +1382,15 @@ var gml;
         Mat4.translate = function (v) {
             return new Mat4(1, 0, 0, v.x, 0, 1, 0, v.y, 0, 0, 1, v.z, 0, 0, 0, 1);
         };
+        Mat4.fromRows = function (r1, r2, r3, r4) {
+            return new Mat4(r1.x, r1.y, r1.z, r1.w, r2.x, r2.y, r2.z, r2.w, r3.x, r3.y, r3.z, r3.w, r4.x, r4.y, r4.z, r4.w);
+        };
+        Mat4.fromCols = function (c1, c2, c3, c4) {
+            return new Mat4(c1.x, c2.x, c3.x, c4.x, c1.y, c2.y, c3.y, c4.y, c1.z, c2.z, c3.z, c4.z, c1.w, c2.w, c3.w, c4.w);
+        };
         return Mat4;
     })(gml.Matrix);
     gml.Mat4 = Mat4;
-    function makeMat4FromRows(r1, r2, r3, r4) {
-        return new Mat4(r1.x, r1.y, r1.z, r1.w, r2.x, r2.y, r2.z, r2.w, r3.x, r3.y, r3.z, r3.w, r4.x, r4.y, r4.z, r4.w);
-    }
-    gml.makeMat4FromRows = makeMat4FromRows;
-    function makeMat4FromCols(c1, c2, c3, c4) {
-        return new Mat4(c1.x, c2.x, c3.x, c4.x, c1.y, c2.y, c3.y, c4.y, c1.z, c2.z, c3.z, c4.z, c1.w, c2.w, c3.w, c4.w);
-    }
-    gml.makeMat4FromCols = makeMat4FromCols;
     function makePerspective(fov, aspectRatio, near, far) {
         var t = near * Math.tan(fov.toRadians() / 2);
         var r = t * aspectRatio;
@@ -1401,7 +1405,7 @@ var gml;
         var x = right.normalized;
         var y = up.normalized;
         var z = aim.negate().normalized;
-        var lookAt = makeMat4FromRows(x, y, z, new gml.Vec4(0, 0, 0, 1));
+        var lookAt = Mat4.fromRows(x, y, z, new gml.Vec4(0, 0, 0, 1));
         var npos = pos.negate();
         lookAt.tx = npos.dot(x);
         lookAt.ty = npos.dot(y);

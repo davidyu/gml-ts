@@ -135,19 +135,6 @@ var gml;
 })(gml || (gml = {}));
 var gml;
 (function (gml) {
-    var Vec = (function () {
-        function Vec(size) {
-            return function () {
-                var array = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    array[_i - 0] = arguments[_i];
-                }
-                return new Vector(size, array);
-            };
-        }
-        return Vec;
-    })();
-    gml.Vec = Vec;
     var Vector = (function () {
         function Vector(size) {
             var args = [];
@@ -286,19 +273,6 @@ var gml;
 ///<reference path="vec.ts"/>
 var gml;
 (function (gml) {
-    var Mat = (function () {
-        function Mat(r, c) {
-            return function () {
-                var values = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    values[_i - 0] = arguments[_i];
-                }
-                return new Matrix(r, c, values);
-            };
-        }
-        return Mat;
-    })();
-    gml.Mat = Mat;
     var Matrix = (function () {
         function Matrix(rows, cols) {
             var args = [];

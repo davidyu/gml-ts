@@ -21,9 +21,6 @@ declare module gml {
     }
 }
 declare module gml {
-    class Vec {
-        constructor(size: number);
-    }
     class Vector {
         v: Float32Array;
         size: number;
@@ -114,9 +111,6 @@ declare module gml {
     }
 }
 declare module gml {
-    class Mat {
-        constructor(r: number, c: number);
-    }
     class Matrix {
         v: Float32Array;
         rows: number;

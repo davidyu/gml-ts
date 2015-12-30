@@ -53,22 +53,6 @@ describe( "vector tests", function() {
     expect( b.v[1] ).toBe( 3 );
   } );
 
-  it( "tests vector construction sugar", function() {
-    var a = new gml.Vec( 2 )( 0, 1 );
-    var b = new gml.Vec( 2 )( 2, 3 );
-    var c = new gml.Vec( 5 )( 1, 2, 3, 4, 5 );
-
-    expect( a.v[0] ).toBe( 0 );
-    expect( a.v[1] ).toBe( 1 );
-    expect( b.v[0] ).toBe( 2 );
-    expect( b.v[1] ).toBe( 3 );
-    expect( c.v[0] ).toBe( 1 );
-    expect( c.v[1] ).toBe( 2 );
-    expect( c.v[2] ).toBe( 3 );
-    expect( c.v[3] ).toBe( 4 );
-    expect( c.v[4] ).toBe( 5 );
-  } );
-
   it( "tests vec2 accessors", function() {
     var a = new gml.Vec2( 0, 1 );
     expect( a.x ).toBe( 0 );

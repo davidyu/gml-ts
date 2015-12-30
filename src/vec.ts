@@ -1,21 +1,4 @@
 module gml {
-  /**
-   * Vector constructor sugar that curries the size parameter.
-   *
-   * usage:
-   * <pre>
-   *  new Vec(3)(x,y,z);
-   *  new Vec(4)(a,b,c,d);
-   *  new Vec(100)(x1,x2,...,x100);
-   * </pre>
-   */
-  export class Vec {
-    constructor( size: number ) {
-      return ( ...array: number[] ) => { return new Vector( size, array ); }
-    }
-  }
-
-  // internal vector implementation; exported because Vec2, Vec3, Vec4 needs access
   export class Vector {
 
   /**

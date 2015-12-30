@@ -1,25 +1,6 @@
 ///<reference path="vec.ts"/>
 
 module gml {
-
-  /**
-   * Matrix constructor sugar that curries the size parameters.
-   *
-   * usage:
-   * <pre>
-   *  new Matrix(3,3)(...);
-   *  new Matrix(4,4)(...);
-   *  new Matrix(100,10)(...);
-   * </pre>
-   */
-  export class Mat {
-    constructor( r: number, c: number ) {
-      return ( ...values: number[] ) => { return new Matrix( r, c, values ); }
-    }
-  }
-  
-  // internal matrix implementation; exported because Mat3, Mat4 needs access
-  // note that matrices are stored in column major order to conform to WebGL
   export class Matrix {
   /**
    * The raw contents of the matrix, encoded as a Float32Array.

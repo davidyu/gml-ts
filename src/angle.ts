@@ -27,7 +27,7 @@ module gml {
   }
 
   // implementation detail; no need to care about these classes
-  export class Degree implements Angle {
+  class Degree implements Angle {
     v: number;
 
     constructor( deg: number ) {
@@ -69,7 +69,7 @@ module gml {
     }
   }
 
-  export class Radian implements Angle {
+  class Radian implements Angle {
     public static get TWO_PI(): number { return 6.283185307179586; }
 
     v: number;

@@ -88,7 +88,6 @@ var gml;
         });
         return Degree;
     })();
-    gml.Degree = Degree;
     var Radian = (function () {
         function Radian(rad) {
             this.v = rad;
@@ -133,7 +132,6 @@ var gml;
         });
         return Radian;
     })();
-    gml.Radian = Radian;
 })(gml || (gml = {}));
 var gml;
 (function (gml) {
@@ -285,6 +283,7 @@ var gml;
     })();
     gml.Vector = Vector;
 })(gml || (gml = {}));
+///<reference path="vec.ts"/>
 var gml;
 (function (gml) {
     var Mat = (function () {
@@ -535,6 +534,7 @@ var gml;
     })();
     gml.Matrix = Matrix;
 })(gml || (gml = {}));
+///<reference path="../mat.ts"/>
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -604,6 +604,7 @@ var gml2d;
     })(gml.Vector);
     gml2d.Vec2 = Vec2;
 })(gml2d || (gml2d = {}));
+///<reference path="../vec.ts"/>
 var gml2d;
 (function (gml2d) {
     var Vec3 = (function (_super) {
@@ -686,6 +687,7 @@ var gml2d;
     })(gml.Vector);
     gml2d.Vec3 = Vec3;
 })(gml2d || (gml2d = {}));
+///<reference path="../mat.ts"/>
 var gml2d;
 (function (gml2d) {
     var Mat3 = (function (_super) {

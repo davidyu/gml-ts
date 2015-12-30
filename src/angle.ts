@@ -1,5 +1,10 @@
 // simple angle interface with explicit constructors
 
+/**
+ * The gml library is mostly designed with 3D usage (WebGL) in mind.
+ * It aspires to be performant, but is not yet up to par with incumbent
+ * libraries (EG: gl-matrix)
+ */
 module gml {
   /**
    * Construct Angles with gml.fromDegrees() or gml.fromRadians().

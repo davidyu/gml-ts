@@ -2,7 +2,8 @@
   "compilerOptions": {
     "declaration": true,
     "out": "../dist/gml.d.ts",
-    "target": "ES5"
+    "target": "ES5",
+    "removeComments": true
   },
   "files": [
     "gml.ts",

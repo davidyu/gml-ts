@@ -19,29 +19,6 @@ declare module gml {
     }
     function fromRadians(rad: number): Angle;
     function fromDegrees(deg: number): Angle;
-    class Degree implements Angle {
-        v: number;
-        constructor(deg: number);
-        toDegrees(): number;
-        toRadians(): number;
-        add(rhs: Angle): Angle;
-        subtract(rhs: Angle): Angle;
-        negate(): Angle;
-        reduceToOneTurn(): Angle;
-        static zero: Angle;
-    }
-    class Radian implements Angle {
-        static TWO_PI: number;
-        v: number;
-        constructor(rad: number);
-        toRadians(): number;
-        toDegrees(): number;
-        add(rhs: Angle): Angle;
-        subtract(rhs: Angle): Angle;
-        negate(): Angle;
-        reduceToOneTurn(): Angle;
-        static zero: Angle;
-    }
 }
 declare module gml {
     class Vec {

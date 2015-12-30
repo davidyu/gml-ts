@@ -327,9 +327,28 @@ var gml;
         Vec2.prototype.dot = function (rhs) {
             return this.x * rhs.x + this.y * rhs.y;
         };
+        Object.defineProperty(Vec2.prototype, "normalized", {
+            get: function () {
+                var len = this.len;
+                return new Vec2(this.x / len, this.y / len);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Vec2.prototype.map = function (callback) {
             return new Vec2(this.v.map(callback));
         };
+        Vec2.randomInCircle = function (radius) {
+            if (radius === void 0) { radius = 1; }
+            return new Vec2(Math.random(), Math.random()).normalized.multiply(radius);
+        };
+        Object.defineProperty(Vec2, "zero", {
+            get: function () {
+                return new Vec2(0, 0);
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Vec2;
     })(gml.Vector);
     gml.Vec2 = Vec2;
@@ -618,6 +637,13 @@ var gml;
             random.w = 1;
             return random;
         };
+        Object.defineProperty(Vec4, "zero", {
+            get: function () {
+                return new Vec4(0, 0, 0, 0);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Vec4, "origin", {
             get: function () {
                 return new Vec4(0, 0, 0, 1);

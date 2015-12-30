@@ -54,8 +54,21 @@ module gml {
       return this.x * rhs.x + this.y * rhs.y;
     }
 
+    public get normalized(): Vec2 {
+      var len = this.len;
+      return new Vec2( this.x / len, this.y / len );
+    }
+
     public map( callback: ( v: number ) => number ): Vec2 {
       return new Vec2( this.v.map( callback ) );
+    }
+
+    public static randomInCircle( radius: number = 1 ): Vec2 {
+      return new Vec2( Math.random(), Math.random() ).normalized.multiply( radius );
+    }
+
+    public static get zero(): Vec2 {
+      return new Vec2( 0, 0 );
     }
   }
 }

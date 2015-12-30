@@ -55,7 +55,10 @@ declare module gml {
         divide(d: number): Vec2;
         negate(): Vec2;
         dot(rhs: Vec2): number;
+        normalized: Vec2;
         map(callback: (v: number) => number): Vec2;
+        static randomInCircle(radius?: number): Vec2;
+        static zero: Vec2;
     }
 }
 declare module gml {
@@ -109,6 +112,7 @@ declare module gml {
         map(callback: (v: number) => number): Vec4;
         static randomInSphere(radius?: number): Vec4;
         static randomPositionInSphere(radius?: number): Vec4;
+        static zero: Vec4;
         static origin: Vec4;
         static up: Vec4;
         static right: Vec4;

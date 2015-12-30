@@ -137,6 +137,10 @@ module gml {
       return random;
     }
 
+    public static get zero(): Vec4 {
+      return new Vec4( 0, 0, 0, 0 );
+    }
+
     public static get origin(): Vec4 {
       return new Vec4( 0, 0, 0, 1 );
     }

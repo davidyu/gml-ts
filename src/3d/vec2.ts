@@ -54,10 +54,6 @@ module gml {
       return this.x * rhs.x + this.y * rhs.y;
     }
 
-    public cross( rhs: Vec2 ): number {
-      return this.x * rhs.y - this.y * rhs.x;
-    }
-
     public map( callback: ( v: number ) => number ): Vec2 {
       return new Vec2( this.v.map( callback ) );
     }

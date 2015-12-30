@@ -1,7 +1,2 @@
 dist/*
 src/tsconfig.json
-
-!dist/gml.js
-!dist/gml.d.ts
-!dist/gml2d.js
-!dist/gml2d.d.ts

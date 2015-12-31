@@ -57,9 +57,9 @@ module gml {
          *
          * we double the input parameter s.t. it is 0 to 1, then pass it into
          * the CubicIn function (t*t*t), then half the result to get an output
-         * from 0 to 0.5. Constant terms cancel to resolve to 4*t*t
+         * from 0 to 0.5. Constant terms cancel to resolve to 4*t*t*t
          */
-        return 4*t*t;
+        return 4*t*t*t;
       } else {
         /* we want verbatim behavior as CubicOut, except we're passing in t
          * with a range of 0.5 to 1, and we want the output to also range from

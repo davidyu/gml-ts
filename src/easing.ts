@@ -89,5 +89,26 @@ module gml {
         return -0.5 * ( Math.cos( Math.PI * ( 2 * t - 1 ) / 2 ) - 2 );
       }
     }
+
+    public static ExpIn( t: number ) {
+      return t == 0 ? 0 : Math.pow( 2, 10 * ( t - 1 ) );
+    }
+
+    public static ExpOut( t: number ) {
+      return t == 1 ? 1 : 1 - Math.pow( 2, -10 * t );
+    }
+
+    public static ExpInOut( t: number ) {
+      if ( t == 0 ) return 0;
+      else if ( t == 1 ) return 1;
+      else {
+        if ( t < 0.5 ) {
+          return 0.5 * Math.pow( 2, 10 * ( 2 * t - 1 ) );
+        } else {
+          let _t = ( ( t - 0.5 ) * 2 ) - 1;
+          return ( 1 - Math.pow( 2, -10 * _t ) ) / 2 + 0.5;
+        }
+      }
+    }
   }
 }

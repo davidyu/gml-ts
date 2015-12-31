@@ -90,24 +90,43 @@ module gml {
       }
     }
 
-    public static ExpIn( t: number ) {
-      return t == 0 ? 0 : Math.pow( 2, 10 * ( t - 1 ) );
+    public static ExpIn( t: number, base: number = 10 ) {
+      return t == 0 ? 0 : Math.pow( 2, base * ( t - 1 ) );
     }
 
-    public static ExpOut( t: number ) {
-      return t == 1 ? 1 : 1 - Math.pow( 2, -10 * t );
+    public static ExpOut( t: number, base: number = 10 ) {
+      return t == 1 ? 1 : 1 - Math.pow( 2, -base * t );
     }
 
-    public static ExpInOut( t: number ) {
+    public static ExpInOut( t: number, base: number = 10 ) {
       if ( t == 0 ) return 0;
       else if ( t == 1 ) return 1;
       else {
         if ( t < 0.5 ) {
-          return 0.5 * Math.pow( 2, 10 * ( 2 * t - 1 ) );
+          return 0.5 * Math.pow( 2, base * ( 2 * t - 1 ) );
         } else {
-          let _t = ( ( t - 0.5 ) * 2 ) - 1;
-          return ( 1 - Math.pow( 2, -10 * _t ) ) / 2 + 0.5;
+          let _t = ( ( t - 0.5 ) * 2 );
+          return ( 1 - Math.pow( 2, -base * _t ) ) / 2 + 0.5;
         }
+      }
+    }
+
+    public static BackIn( t: number, s: number = 1.70158 ) {
+      return t * t * ( ( s + 1 ) * t - s );
+    }
+
+    public static BackOut( t: number, s: number = 1.70158 ) {
+      let _t = t - 1;
+      return _t * _t * ( ( s + 1 ) * _t + s ) + 1;
+    }
+
+    public static BackInOut( t: number, s: number = 1.70158 ) {
+      if ( t < 0.5 ) {
+        let _t = t * 2;
+        return 0.5 * _t * _t * ( ( s + 1 ) * _t - s );
+      } else {
+        let _t = ( ( t - 0.5 ) * 2 ) - 1;
+        return ( _t * _t * ( ( s + 1 ) * _t + s ) + 1 ) / 2 + 0.5;
       }
     }
   }

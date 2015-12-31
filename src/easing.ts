@@ -1,6 +1,8 @@
 module gml {
   /**
-   * Implements common easing methods (generally used) for animation.
+   * Implements common easing methods (generally used) for tweening/
+   * animations.
+   *
    * All methods assume a normalized input t (time) between 0 and 1
    * and returns an output t' between 0 and 1.
    */
@@ -69,6 +71,22 @@ module gml {
          */
         let _t = ( ( t - 0.5 ) * 2 ) - 1;
         return ( _t*_t*_t + 1 ) / 2 + 0.5;
+      }
+    }
+
+    public static CircleIn( t: number ) {
+      return 1 - Math.sin ( t * ( Math.PI / 2 ) );
+    }
+
+    public static CircleOut( t: number ) {
+      return Math.sin( t * ( Math.PI / 2 ) );
+    }
+
+    public static CircleInOut( t: number ) {
+      if ( t < 0.5 ) {
+        return 0.5 * ( Math.sin( Math.PI * t ) );
+      } else {
+        return -0.5 * ( Math.cos( Math.PI * ( 2 * t - 1 ) / 2 ) - 2 );
       }
     }
   }

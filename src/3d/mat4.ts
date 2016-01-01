@@ -196,22 +196,22 @@ module gml {
     }
 
     public scalarmul( s: number ): Mat4 {
-      return new Mat4( this.r00 * s
-                     , this.r01 * s
-                     , this.r02 * s
-                     , this.tx * s
-                     , this.r10 * s
-                     , this.r11 * s
-                     , this.r12 * s
-                     , this.ty * s
-                     , this.r20 * s
-                     , this.r21 * s
-                     , this.r22 * s
-                     , this.tz * s
-                     , this.m30 * s
-                     , this.m31 * s
-                     , this.m32 * s
-                     , this.m33 * s );
+      return new Mat4( this.v[ 0] * s
+                     , this.v[ 1] * s
+                     , this.v[ 2] * s
+                     , this.v[ 3] * s
+                     , this.v[ 4] * s
+                     , this.v[ 5] * s
+                     , this.v[ 6] * s
+                     , this.v[ 7] * s
+                     , this.v[ 8] * s
+                     , this.v[ 9] * s
+                     , this.v[10] * s
+                     , this.v[11] * s
+                     , this.v[12] * s
+                     , this.v[13] * s
+                     , this.v[14] * s
+                     , this.v[15] * s );
     }
 
     public subtract( rhs: Mat4 ): Mat4 {
@@ -251,22 +251,22 @@ module gml {
      * expensive for real-time applications.
      */
     public get determinant(): number {
-      let m00 = this.r00;
-      let m01 = this.r01;
-      let m02 = this.r02;
-      let m03 = this.tx;
-      let m10 = this.r10;
-      let m11 = this.r11;
-      let m12 = this.r12;
-      let m13 = this.ty;
-      let m20 = this.r20;
-      let m21 = this.r21;
-      let m22 = this.r22;
-      let m23 = this.tz;
-      let m30 = this.m30;
-      let m31 = this.m31;
-      let m32 = this.m32;
-      let m33 = this.m33;
+      let m00 = this.v[ 0];
+      let m01 = this.v[ 1];
+      let m02 = this.v[ 2];
+      let m03 = this.v[ 3];
+      let m10 = this.v[ 4];
+      let m11 = this.v[ 5];
+      let m12 = this.v[ 6];
+      let m13 = this.v[ 7];
+      let m20 = this.v[ 8];
+      let m21 = this.v[ 9];
+      let m22 = this.v[10];
+      let m23 = this.v[11];
+      let m30 = this.v[12];
+      let m31 = this.v[13];
+      let m32 = this.v[14];
+      let m33 = this.v[15];
 
       return m03 * m12 * m21 * m30 - m02 * m13 * m21 * m30 - m03 * m11 * m22 * m30 + m01 * m13 * m22 * m30 +
              m02 * m11 * m23 * m30 - m01 * m12 * m23 * m30 - m03 * m12 * m20 * m31 + m02 * m13 * m20 * m31 +
@@ -377,38 +377,38 @@ module gml {
     }
 
     public static matmul( lhs: Mat4, rhs: Mat4 ): Mat4 {
-      let l00 = lhs.r00;
-      let l01 = lhs.r01;
-      let l02 = lhs.r02;
-      let l03 = lhs.tx;
-      let l10 = lhs.r10;
-      let l11 = lhs.r11;
-      let l12 = lhs.r12;
-      let l13 = lhs.ty;
-      let l20 = lhs.r20;
-      let l21 = lhs.r21;
-      let l22 = lhs.r22;
-      let l23 = lhs.tz;
-      let l30 = lhs.m30;
-      let l31 = lhs.m31;
-      let l32 = lhs.m32;
-      let l33 = lhs.m33;
-      let r00 = rhs.r00;
-      let r01 = rhs.r01;
-      let r02 = rhs.r02;
-      let r03 = rhs.tx;
-      let r10 = rhs.r10;
-      let r11 = rhs.r11;
-      let r12 = rhs.r12;
-      let r13 = rhs.ty;
-      let r20 = rhs.r20;
-      let r21 = rhs.r21;
-      let r22 = rhs.r22;
-      let r23 = rhs.tz;
-      let r30 = rhs.m30;
-      let r31 = rhs.m31;
-      let r32 = rhs.m32;
-      let r33 = rhs.m33;
+      let l00 = lhs.v[ 0];
+      let l01 = lhs.v[ 1];
+      let l02 = lhs.v[ 2];
+      let l03 = lhs.v[ 3];
+      let l10 = lhs.v[ 4];
+      let l11 = lhs.v[ 5];
+      let l12 = lhs.v[ 6];
+      let l13 = lhs.v[ 7];
+      let l20 = lhs.v[ 8];
+      let l21 = lhs.v[ 9];
+      let l22 = lhs.v[10];
+      let l23 = lhs.v[11];
+      let l30 = lhs.v[12];
+      let l31 = lhs.v[13];
+      let l32 = lhs.v[14];
+      let l33 = lhs.v[15];
+      let r00 = rhs.v[ 0];
+      let r01 = rhs.v[ 1];
+      let r02 = rhs.v[ 2];
+      let r03 = rhs.v[ 3];
+      let r10 = rhs.v[ 4];
+      let r11 = rhs.v[ 5];
+      let r12 = rhs.v[ 6];
+      let r13 = rhs.v[ 7];
+      let r20 = rhs.v[ 8];
+      let r21 = rhs.v[ 9];
+      let r22 = rhs.v[10];
+      let r23 = rhs.v[11];
+      let r30 = rhs.v[12];
+      let r31 = rhs.v[13];
+      let r32 = rhs.v[14];
+      let r33 = rhs.v[15];
 
       return new Mat4( l00 * r00 + l01 * r10 + l02 * r20 + l03 * r30
                      , l00 * r01 + l01 * r11 + l02 * r21 + l03 * r31

@@ -215,13 +215,41 @@ module gml {
     }
 
     public subtract( rhs: Mat4 ): Mat4 {
-      var m = super.subtract( rhs );
-      return new Mat4( m.v );
+      return new Mat4( this.v[ 0] - rhs.v[ 0]
+                     , this.v[ 1] - rhs.v[ 1]
+                     , this.v[ 2] - rhs.v[ 2]
+                     , this.v[ 3] - rhs.v[ 3]
+                     , this.v[ 4] - rhs.v[ 4]
+                     , this.v[ 5] - rhs.v[ 5]
+                     , this.v[ 6] - rhs.v[ 6]
+                     , this.v[ 7] - rhs.v[ 7]
+                     , this.v[ 8] - rhs.v[ 8]
+                     , this.v[ 9] - rhs.v[ 9]
+                     , this.v[10] - rhs.v[10]
+                     , this.v[11] - rhs.v[11]
+                     , this.v[12] - rhs.v[12]
+                     , this.v[13] - rhs.v[13]
+                     , this.v[14] - rhs.v[14]
+                     , this.v[15] - rhs.v[15] );
     }
 
     public add( rhs: Matrix ): Mat4 {
-      var m = super.add( rhs );
-      return new Mat4( m.v );
+      return new Mat4( this.v[ 0] + rhs.v[ 0]
+                     , this.v[ 1] + rhs.v[ 1]
+                     , this.v[ 2] + rhs.v[ 2]
+                     , this.v[ 3] + rhs.v[ 3]
+                     , this.v[ 4] + rhs.v[ 4]
+                     , this.v[ 5] + rhs.v[ 5]
+                     , this.v[ 6] + rhs.v[ 6]
+                     , this.v[ 7] + rhs.v[ 7]
+                     , this.v[ 8] + rhs.v[ 8]
+                     , this.v[ 9] + rhs.v[ 9]
+                     , this.v[10] + rhs.v[10]
+                     , this.v[11] + rhs.v[11]
+                     , this.v[12] + rhs.v[12]
+                     , this.v[13] + rhs.v[13]
+                     , this.v[14] + rhs.v[14]
+                     , this.v[15] + rhs.v[15] );
     }
 
     public transform( rhs: Vec4 ): Vec4 {

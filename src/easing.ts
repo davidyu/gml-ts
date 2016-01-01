@@ -74,15 +74,15 @@ module gml {
       }
     }
 
-    public static CircleIn( t: number ) {
-      return 1 - Math.sin ( t * ( Math.PI / 2 ) );
+    public static TrigIn( t: number ) {
+      return 1 - Math.cos( t * ( Math.PI / 2 ) );
     }
 
-    public static CircleOut( t: number ) {
+    public static TrigOut( t: number ) {
       return Math.sin( t * ( Math.PI / 2 ) );
     }
 
-    public static CircleInOut( t: number ) {
+    public static TrigInOut( t: number ) {
       if ( t < 0.5 ) {
         return 0.5 * ( Math.sin( Math.PI * t ) );
       } else {

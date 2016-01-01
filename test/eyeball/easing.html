@@ -17,6 +17,24 @@
       function init() {
         dot = document.getElementById( "dot" );
         setInterval( update, 1000 / fps );
+
+        // set up dropdown
+        {
+          var drop = document.getElementById( "easing-dropdown" );
+
+          var easeFuncs = Object.keys( gml.Easing );
+          easeFuncs.forEach( function( e ) {
+            var opt = document.createElement( 'option' );
+            opt.value = "gml.Easing." + e;
+            opt.innerHTML = e;
+            drop.appendChild( opt );
+          } );
+
+          drop.onchange = function( e ) {
+            easing = eval( drop.options[ drop.selectedIndex ].value );
+            play();
+          }
+        }
       }
 
       function update() {
@@ -44,6 +62,10 @@
           </svg>
         </div>
         <br class="vspace" />
+          <label>Select tween function</label>
+          <br/>
+          <select id="easing-dropdown">
+          </select>
         </center>
       </div>
     </body>

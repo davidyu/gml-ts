@@ -27,4 +27,5 @@ test: lib
 	@cp -rf $(TEST)/* $(DIST_TEST)/ > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && npm install && popd > /dev/null
 	@cp -f dist/gml.js $(DIST_TEST)/perf/ > /dev/null
+	@cp -f dist/gml.js $(DIST_TEST)/eyeball/ > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && ./node_modules/.bin/karma start && popd > /dev/null

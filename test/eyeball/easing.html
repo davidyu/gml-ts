@@ -1,0 +1,50 @@
+<html>
+    <head>
+      <script src="./gml.js" type="text/javascript"></script>
+      <title>Easing Inspector</title>
+    </head>
+    <body onload="init()">
+    <script type="text/javascript">
+      var fps = 30;
+      var dot;
+      var easing = gml.Easing.CubicInOut;
+
+      var tween = {
+        duration: 1.0, // seconds
+        acc: 0.0,      // accumulated seconds
+      }
+
+      function init() {
+        dot = document.getElementById( "dot" );
+        setInterval( update, 1000 / fps );
+      }
+
+      function update() {
+        // update tween data
+        if ( tween.acc < tween.duration ) {
+          tween.acc += Math.min( 1.0 / fps, tween.duration - tween.acc );
+        } else {
+          tween.acc = tween.duration;
+        }
+
+        var startx = 50;
+        var endx = 450;
+        dot.cx.baseVal.value = startx + easing( tween.acc / tween.duration ) * ( endx - startx );
+      }
+
+      function play() {
+        tween.acc = 0.0;
+      }
+    </script>
+    <div role="main" id="maincolumn">
+      <center>
+        <div id="screen">
+          <svg id="viewport" height="100px" width="500px">
+            <circle id="dot" cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+          </svg>
+        </div>
+        <br class="vspace" />
+        </center>
+      </div>
+    </body>
+</html>

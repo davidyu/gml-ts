@@ -9,9 +9,16 @@
       var dot;
       var easing = gml.Easing.CubicInOut;
 
+      var juice = {
+        dx: 0.0,
+        maxdx: 120.0
+      }
+
       var tween = {
         duration: 1.0, // seconds
         acc: 0.0,      // accumulated seconds
+        startx: 50,
+        endx: 450,
       }
 
       function init() {
@@ -45,20 +52,26 @@
           tween.acc = tween.duration;
         }
 
-        var startx = 50;
-        var endx = 450;
-        dot.cx.baseVal.value = startx + easing( tween.acc / tween.duration ) * ( endx - startx );
+        var scalex = Math.min( Math.max( 1, Math.abs( juice.dx ) / juice.maxdx ), 1.2 );
+
+        dot.setAttribute( 'transform','scale(' + scalex + ',1)' );
+
+        var prevx = dot.cx.baseVal.value;
+        dot.cx.baseVal.value = tween.startx + easing( tween.acc / tween.duration ) * ( tween.endx - tween.startx );
+        juice.dx = dot.cx.baseVal.value - prevx;
       }
 
       function play() {
         tween.acc = 0.0;
+        dot.cx.baseVal.value = tween.startx;
+        juice.dx = 0.0;
       }
     </script>
     <div role="main" id="maincolumn">
       <center>
         <div id="screen">
-          <svg id="viewport" height="100px" width="500px">
-            <circle id="dot" cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+          <svg id="viewport" height="50px" width="500px">
+            <circle id="dot" cx="50" cy="10" r="10" stroke="black" stroke-width="0" fill="red" />
           </svg>
         </div>
         <br class="vspace" />

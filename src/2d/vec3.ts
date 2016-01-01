@@ -79,7 +79,7 @@ module gml2d {
     }
 
     public map( callback: ( v: number ) => number ): Vec3 {
-      return new Vec3( this.v.map( callback ) );
+      return new Vec3( callback( this.v[0] ), callback( this.v[1] ), callback( this.v[2] ) );
     }
 
     /**

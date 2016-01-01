@@ -130,7 +130,7 @@ module gml {
     }
 
     public map( callback: ( v: number ) => number ): Vec4 {
-      return new Vec4( this.v.map( callback ) );
+      return new Vec4( callback( this.v[0] ), callback( this.v[1] ), callback( this.v[2] ), callback( this.v[3] ) );
     }
 
     /**

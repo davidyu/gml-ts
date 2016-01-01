@@ -71,7 +71,7 @@ module gml2d {
     }
 
     public map( callback: ( v: number ) => number ): Vec2 {
-      return new Vec2( this.v.map( callback ) );
+      return new Vec2( callback( this.v[0] ), callback( this.v[1] ) );
     }
 
     public static randomInCircle( radius: number = 1 ): Vec2 {

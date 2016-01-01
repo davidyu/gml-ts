@@ -147,7 +147,7 @@ module gml {
     }
 
     public map( callback: ( v: number ) => number ): Vector {
-      return new Vector( this.size, this.v.map( callback ) );
+      return new Vector( this.size, Array.prototype.slice.call( this.v ).map( callback ) );
     }
 
     public toString(): string {

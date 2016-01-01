@@ -121,7 +121,7 @@ module gml {
     public get lensq(): number {
       let acc = 0;
       for ( var i = 0; i < this.v.length; i++ ) {
-        acc += this.v[i];
+        acc += this.v[i] * this.v[i];
       }
       return acc;
     }

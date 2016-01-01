@@ -188,13 +188,30 @@ module gml {
     public multiply( rhs: Mat4 ): Mat4;
     public multiply( s: number ): Mat4;
     public multiply( arg: any ): Mat4 {
-      var m = super.multiply( arg );
-      return new Mat4( m.v );
+      if ( arg instanceof Mat4 ) {
+        return Mat4.matmul( this, arg );
+      } else {
+        return this.scalarmul( arg );
+      }
     }
 
     public scalarmul( s: number ): Mat4 {
-      var m = super.scalarmul( s );
-      return new Mat4( m.v );
+      return new Mat4( this.r00 * s
+                     , this.r01 * s
+                     , this.r02 * s
+                     , this.tx * s
+                     , this.r10 * s
+                     , this.r11 * s
+                     , this.r12 * s
+                     , this.ty * s
+                     , this.r20 * s
+                     , this.r21 * s
+                     , this.r22 * s
+                     , this.tz * s
+                     , this.m30 * s
+                     , this.m31 * s
+                     , this.m32 * s
+                     , this.m33 * s );
     }
 
     public subtract( rhs: Mat4 ): Mat4 {
@@ -357,6 +374,59 @@ module gml {
                      , c1.y, c2.y, c3.y, c4.y
                      , c1.z, c2.z, c3.z, c4.z
                      , c1.w, c2.w, c3.w, c4.w );
+    }
+
+    public static matmul( lhs: Mat4, rhs: Mat4 ): Mat4 {
+      let l00 = lhs.r00;
+      let l01 = lhs.r01;
+      let l02 = lhs.r02;
+      let l03 = lhs.tx;
+      let l10 = lhs.r10;
+      let l11 = lhs.r11;
+      let l12 = lhs.r12;
+      let l13 = lhs.ty;
+      let l20 = lhs.r20;
+      let l21 = lhs.r21;
+      let l22 = lhs.r22;
+      let l23 = lhs.tz;
+      let l30 = lhs.m30;
+      let l31 = lhs.m31;
+      let l32 = lhs.m32;
+      let l33 = lhs.m33;
+      let r00 = rhs.r00;
+      let r01 = rhs.r01;
+      let r02 = rhs.r02;
+      let r03 = rhs.tx;
+      let r10 = rhs.r10;
+      let r11 = rhs.r11;
+      let r12 = rhs.r12;
+      let r13 = rhs.ty;
+      let r20 = rhs.r20;
+      let r21 = rhs.r21;
+      let r22 = rhs.r22;
+      let r23 = rhs.tz;
+      let r30 = rhs.m30;
+      let r31 = rhs.m31;
+      let r32 = rhs.m32;
+      let r33 = rhs.m33;
+
+      return new Mat4( l00 * r00 + l01 * r10 + l02 * r20 + l03 * r30
+                     , l00 * r01 + l01 * r11 + l02 * r21 + l03 * r31
+                     , l00 * r02 + l01 * r12 + l02 * r22 + l03 * r32
+                     , l00 * r03 + l01 * r13 + l02 * r23 + l03 * r33
+                     , l10 * r00 + l11 * r10 + l12 * r20 + l13 * r30
+                     , l10 * r01 + l11 * r11 + l12 * r21 + l13 * r31
+                     , l10 * r02 + l11 * r12 + l12 * r22 + l13 * r32
+                     , l10 * r03 + l11 * r13 + l12 * r23 + l13 * r33
+                     , l20 * r00 + l21 * r10 + l22 * r20 + l23 * r30
+                     , l20 * r01 + l21 * r11 + l22 * r21 + l23 * r31
+                     , l20 * r02 + l21 * r12 + l22 * r22 + l23 * r32
+                     , l20 * r03 + l21 * r13 + l22 * r23 + l23 * r33
+                     , l30 * r00 + l31 * r10 + l32 * r20 + l33 * r30
+                     , l30 * r01 + l31 * r11 + l32 * r21 + l33 * r31
+                     , l30 * r02 + l31 * r12 + l32 * r22 + l33 * r32
+                     , l30 * r03 + l31 * r13 + l32 * r23 + l33 * r33
+                     );
     }
   }
 

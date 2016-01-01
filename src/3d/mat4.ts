@@ -227,6 +227,38 @@ module gml {
       return Mat4.identity().scalarmul( a ).subtract( this.scalarmul( b ) ).add( c ).scalarmul( 1 / d );
     }
 
+    /**
+     * @returns the determinant of Mat4.
+     *
+     * Hand-rolled for Mat4 to avoid call to Mat.LU, which is unoptimized and
+     * expensive for real-time applications.
+     */
+    public get determinant(): number {
+      let m00 = this.r00;
+      let m01 = this.r01;
+      let m02 = this.r02;
+      let m03 = this.tx;
+      let m10 = this.r10;
+      let m11 = this.r11;
+      let m12 = this.r12;
+      let m13 = this.ty;
+      let m20 = this.r20;
+      let m21 = this.r21;
+      let m22 = this.r22;
+      let m23 = this.tz;
+      let m30 = this.m30;
+      let m31 = this.m31;
+      let m32 = this.m32;
+      let m33 = this.m33;
+
+      return m03 * m12 * m21 * m30 - m02 * m13 * m21 * m30 - m03 * m11 * m22 * m30 + m01 * m13 * m22 * m30 +
+             m02 * m11 * m23 * m30 - m01 * m12 * m23 * m30 - m03 * m12 * m20 * m31 + m02 * m13 * m20 * m31 +
+             m03 * m10 * m22 * m31 - m00 * m13 * m22 * m31 - m02 * m10 * m23 * m31 + m00 * m12 * m23 * m31 +
+             m03 * m11 * m20 * m32 - m01 * m13 * m20 * m32 - m03 * m10 * m21 * m32 + m00 * m13 * m21 * m32 +
+             m01 * m10 * m23 * m32 - m00 * m11 * m23 * m32 - m02 * m11 * m20 * m33 + m01 * m12 * m20 * m33 +
+             m02 * m10 * m21 * m33 - m00 * m12 * m21 * m33 - m01 * m10 * m22 * m33 + m00 * m11 * m22 * m33;
+    }
+
     public transpose(): Mat4 {
       return new Mat4( super.transpose().v );
     }

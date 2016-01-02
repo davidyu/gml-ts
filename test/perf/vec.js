@@ -16,9 +16,7 @@ suite.constructors.vec2
     new gml.Vec2( input[0], input[1] );
   } )
   .addFunction( '(gl-matrx) vec2.create()', function( input ) {
-    var v = glm.vec2.create();
-    v[0] = input[0];
-    v[1] = input[1];
+    var v = glm.vec2.clone( input );
   } )
   .addInput( '0, 1', [ 0, 1 ] )
   .addInput( 'large numbers', [ 9007199254740991, 9007199254740991 ] )
@@ -35,10 +33,7 @@ suite.constructors.vec3
     new gml.Vec3( input[0], input[1], input[2] );
   } )
   .addFunction( '(gl-matrx) vec3.create()', function( input ) {
-    var v = glm.vec3.create();
-    v[0] = input[0];
-    v[1] = input[1];
-    v[2] = input[2];
+    var v = glm.vec3.clone( input );
   } )
   .addInput( '0, 1, 2', [ 0, 1, 2 ] )
   .addInput( 'large numbers', [ 9007199254740991, 9007199254740991, 9007199254740991 ] )
@@ -55,11 +50,7 @@ suite.constructors.vec4
     new gml.Vec4( input[0], input[1], input[2], input[3] );
   } )
   .addFunction( '(gl-matrx) vec4.create()', function( input ) {
-    var v = glm.vec4.create();
-    v[0] = input[0];
-    v[1] = input[1];
-    v[2] = input[2];
-    v[3] = input[3];
+    var v = glm.vec4.clone( input );
   } )
   .addInput( '0, 1, 2, 3', [ 0, 1, 2, 3 ] )
   .addInput( 'large numbers', [ 9007199254740991, 9007199254740991, 9007199254740991, 9007199254740991 ] )

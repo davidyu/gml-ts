@@ -51,6 +51,22 @@ describe( "vector tests", function() {
     expect( a.v[1] ).toBe( 1 );
     expect( b.v[0] ).toBe( 2 );
     expect( b.v[1] ).toBe( 3 );
+
+    var c = new gml.Vector( 2, [ 0, 1 ] );
+    var d = new gml.Vector( 2, [ 2, 3 ] );
+
+    expect( c.v[0] ).toBe( 0 );
+    expect( c.v[1] ).toBe( 1 );
+    expect( d.v[0] ).toBe( 2 );
+    expect( d.v[1] ).toBe( 3 );
+
+    var e = new gml.Vector( 2, new Float32Array( [ 0, 1 ] ) );
+    var f = new gml.Vector( 2, new Float32Array( [ 2, 3 ] ) );
+
+    expect( e.v[0] ).toBe( 0 );
+    expect( e.v[1] ).toBe( 1 );
+    expect( f.v[0] ).toBe( 2 );
+    expect( f.v[1] ).toBe( 3 );
   } );
 
   it( "tests vec2 accessors", function() {

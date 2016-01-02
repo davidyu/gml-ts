@@ -7,10 +7,18 @@ module gml {
     constructor( x: number, y: number, z: number, w: number );
 
     constructor( ...args: any[] ) {
+      super( 4 );
       if ( args.length == 4 ) {
-        super( 4, args[0], args[1], args[2], args[3] );
+        this.v[0] = args[0];
+        this.v[1] = args[1];
+        this.v[2] = args[2];
+        this.v[3] = args[3];
       } else if ( args.length == 1 ) {
-        super( 4, args[0] );
+        let arr = args[0];
+        this.v[0] = arr[0];
+        this.v[1] = arr[1];
+        this.v[2] = arr[2];
+        this.v[3] = arr[3];
       }
     }
 

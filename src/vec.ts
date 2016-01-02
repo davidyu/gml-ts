@@ -27,20 +27,25 @@ module gml {
     constructor( size: number, args: Float32Array );
     constructor( size: number, args: number[] );
     constructor( size: number, ...args: number[] );
+
     constructor( size: number, ...args: any[] ) {
       this.size = size;
-      if ( args.length === 1 ) {
-        if ( args[0] instanceof Float32Array ) {
-          this.v = args[0];
-        } else if ( args[0] instanceof Array ) {
-          this.v = new Float32Array( args[0] );
+      this.v = new Float32Array( size );
+      if ( args.length === 0 ) {
+        return;
+      } else if ( args.length === 1 ) {
+        let arr = args[0];
+        if ( arr instanceof Float32Array ) {
+          this.v.set( arr );
+        } else if ( arr instanceof Array ) {
+          for ( let i = 0; i < size; i++ ) {
+            this.v[i] = arr[i];
+          }
         }
       } else {
-        this.v = new Float32Array( args );
-      }
-
-      if ( this.v.length != this.size ) {
-        console.warn( "input array " + args + " is not " + this.size + " elements long!" );
+        for ( let i = 0; i < size; i++ ) {
+          this.v[i] = args[i];
+        }
       }
     }
 

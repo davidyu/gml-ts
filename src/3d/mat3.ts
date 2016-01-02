@@ -136,6 +136,26 @@ module gml {
     }
 
     /**
+     * @returns the determinant of this 3x3 matrix.
+     *
+     * Hand expanded for speed and to avoid call to Mat.LU, which is unoptimized and
+     * expensive for real-time applications.
+     */
+    public get determinant(): number {
+      let m00 = this.v[0];
+      let m01 = this.v[1];
+      let m02 = this.v[2];
+      let m10 = this.v[3];
+      let m11 = this.v[4];
+      let m12 = this.v[5];
+      let m20 = this.v[6];
+      let m21 = this.v[7];
+      let m22 = this.v[8];
+
+      return m00 * m11 * m22 - m00 * m12 * m21 + m01 * m12 * m20 - m01 * m10 * m22;
+    }
+
+    /**
      * constructs a Mat4 with the contents of this Mat3 forming the top-left
      * portion of the new Mat4. The translation portion of the new Mat4 is assumed
      * to be zero.

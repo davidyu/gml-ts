@@ -273,9 +273,9 @@ module gml {
     }
 
     /**
-     * @returns the determinant of Mat4.
+     * @returns the determinant of this 4x4 matrix.
      *
-     * Hand-rolled for Mat4 to avoid call to Mat.LU, which is unoptimized and
+     * Hand expanded for speed and to avoid call to Mat.LU, which is unoptimized and
      * expensive for real-time applications.
      */
     public get determinant(): number {

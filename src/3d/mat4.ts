@@ -260,16 +260,46 @@ module gml {
     }
 
     public invert(): Mat4 {
-      let d = this.determinant;
-      let tr = this.trace;
-      let m2 = this.multiply( this );
-      let m3 = this.multiply( m2 );
-      let tr2 = m2.trace;
-      let tr3 = m3.trace;
-      let a = ( 1 / 6 ) * ( ( tr * tr * tr ) - ( 3 * tr * tr2 ) + ( 2 * tr3 ) );
-      let b = ( 1 / 2 ) * ( tr * tr - tr2 );
-      let c = m2.scalarmul( tr ).subtract( m3 );
-      return Mat4.identity().scalarmul( a ).subtract( this.scalarmul( b ) ).add( c ).scalarmul( 1 / d );
+      let m00 = this.v[ 0];
+      let m01 = this.v[ 1];
+      let m02 = this.v[ 2];
+      let m03 = this.v[ 3];
+      let m10 = this.v[ 4];
+      let m11 = this.v[ 5];
+      let m12 = this.v[ 6];
+      let m13 = this.v[ 7];
+      let m20 = this.v[ 8];
+      let m21 = this.v[ 9];
+      let m22 = this.v[10];
+      let m23 = this.v[11];
+      let m30 = this.v[12];
+      let m31 = this.v[13];
+      let m32 = this.v[14];
+      let m33 = this.v[15];
+
+      let det = this.determinant;
+      if ( det == 0 ) return Mat4.identity(); // fail
+
+      let f = 1 / det;
+      return new Mat4( f * -m13 * m22 * m31 + f * m12 * m23 * m31 + f * m13 * m21 * m32 - f * m11 * m23 * m32 - f * m12 * m21 * m33 + f * m11 * m22 * m33
+                     , f *  m03 * m22 * m31 - f * m02 * m23 * m31 - f * m03 * m21 * m32 + f * m01 * m23 * m32 + f * m02 * m21 * m33 - f * m01 * m22 * m33
+                     , f * -m03 * m12 * m31 + f * m02 * m13 * m31 + f * m03 * m11 * m32 - f * m01 * m13 * m32 - f * m02 * m11 * m33 + f * m01 * m12 * m33
+                     , f *  m03 * m12 * m21 - f * m02 * m13 * m21 - f * m03 * m11 * m22 + f * m01 * m13 * m22 + f * m02 * m11 * m23 - f * m01 * m12 * m23
+
+                     , f *  m13 * m22 * m30 - f * m12 * m23 * m30 - f * m13 * m20 * m32 + f * m10 * m23 * m32 + f * m12 * m20 * m33 - f * m10 * m22 * m33
+                     , f * -m03 * m22 * m30 + f * m02 * m23 * m30 + f * m03 * m20 * m32 - f * m00 * m23 * m32 - f * m02 * m20 * m33 + f * m00 * m22 * m33
+                     , f *  m03 * m12 * m30 - f * m02 * m13 * m30 - f * m03 * m10 * m32 + f * m00 * m13 * m32 + f * m02 * m10 * m33 - f * m00 * m12 * m33
+                     , f * -m03 * m12 * m20 + f * m02 * m13 * m20 + f * m03 * m10 * m22 - f * m00 * m13 * m22 - f * m02 * m10 * m23 + f * m00 * m12 * m23
+
+                     , f * -m13 * m21 * m30 + f * m11 * m23 * m30 + f * m13 * m20 * m31 - f * m10 * m23 * m31 - f * m11 * m20 * m33 + f * m10 * m21 * m33
+                     , f *  m03 * m21 * m30 - f * m01 * m23 * m30 - f * m03 * m20 * m31 + f * m00 * m23 * m31 + f * m01 * m20 * m33 - f * m00 * m21 * m33
+                     , f * -m03 * m11 * m30 + f * m01 * m13 * m30 + f * m03 * m10 * m31 - f * m00 * m13 * m31 - f * m01 * m10 * m33 + f * m00 * m11 * m33
+                     , f *  m03 * m11 * m20 - f * m01 * m13 * m20 - f * m03 * m10 * m21 + f * m00 * m13 * m21 + f * m01 * m10 * m23 - f * m00 * m11 * m23
+
+                     , f *  m12 * m21 * m30 - f * m11 * m22 * m30 - f * m12 * m20 * m31 + f * m10 * m22 * m31 + f * m11 * m20 * m32 - f * m10 * m21 * m32
+                     , f * -m02 * m21 * m30 + f * m01 * m22 * m30 + f * m02 * m20 * m31 - f * m00 * m22 * m31 - f * m01 * m20 * m32 + f * m00 * m21 * m32
+                     , f *  m02 * m11 * m30 - f * m01 * m12 * m30 - f * m02 * m10 * m31 + f * m00 * m12 * m31 + f * m01 * m10 * m32 - f * m00 * m11 * m32
+                     , f * -m02 * m11 * m20 + f * m01 * m12 * m20 + f * m02 * m10 * m21 - f * m00 * m12 * m21 - f * m01 * m10 * m22 + f * m00 * m11 * m22 );
     }
 
     /**

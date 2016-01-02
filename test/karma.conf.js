@@ -6,7 +6,7 @@ module.exports = function(config) {
       { pattern: '../gml.js', included: true },
       { pattern: 'vendor/gl-matrix.js', included: true },
     ],
-    browsers: [ 'Firefox' ],
+    browsers: [ 'PhantomJS' ],
     singleRun: true
   });
 };

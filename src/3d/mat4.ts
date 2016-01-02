@@ -8,10 +8,42 @@ module gml {
     constructor( r00: number, r01: number, r02: number, tx: number, r10: number, r11: number, r12: number, ty: number, r20: number, r21: number, r22: number, tz: number, m30: number, m31: number, m32: number, m33: number );
 
     constructor( ...args: any[] ) {
+      super( 4, 4 );
       if ( args.length === 1 ) {
-        super( 4, 4, args[0] );
+        let arr = args[0];
+        this.v[ 0] = arr[ 0];
+        this.v[ 1] = arr[ 1];
+        this.v[ 2] = arr[ 2];
+        this.v[ 3] = arr[ 3];
+        this.v[ 4] = arr[ 4];
+        this.v[ 5] = arr[ 5];
+        this.v[ 6] = arr[ 6];
+        this.v[ 7] = arr[ 7];
+        this.v[ 8] = arr[ 8];
+        this.v[ 9] = arr[ 9];
+        this.v[10] = arr[10];
+        this.v[11] = arr[11];
+        this.v[12] = arr[12];
+        this.v[13] = arr[13];
+        this.v[14] = arr[14];
+        this.v[15] = arr[15];
       } else {
-        super( 4, 4, args );
+        this.v[ 0] = args[ 0];
+        this.v[ 1] = args[ 1];
+        this.v[ 2] = args[ 2];
+        this.v[ 3] = args[ 3];
+        this.v[ 4] = args[ 4];
+        this.v[ 5] = args[ 5];
+        this.v[ 6] = args[ 6];
+        this.v[ 7] = args[ 7];
+        this.v[ 8] = args[ 8];
+        this.v[ 9] = args[ 9];
+        this.v[10] = args[10];
+        this.v[11] = args[11];
+        this.v[12] = args[12];
+        this.v[13] = args[13];
+        this.v[14] = args[14];
+        this.v[15] = args[15];
       }
     }
 

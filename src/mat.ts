@@ -37,17 +37,23 @@ module gml {
     constructor( rows: number, cols: number, ...args: any[] ) {
       this.rows = rows;
       this.cols = cols;
-      if ( args.length == 1 ) {
-        if ( args[0] instanceof Float32Array ) {
-          this.v = args[0];
-        } else if ( args[0] instanceof Array ) {
-          this.v = new Float32Array( args[0] );
+      let size = rows * cols;
+      this.v = new Float32Array( size );
+      if ( args.length == 0 ) {
+        return;
+      } else if ( args.length == 1 ) {
+        let arr = args[0];
+        if ( arr instanceof Float32Array ) {
+          this.v = arr;
+        } else if ( arr instanceof Array ) {
+          for ( let i = 0; i < size; i++ ) {
+            this.v[i] = arr[i];
+          }
         }
       } else {
-        this.v = new Float32Array( args );
-      }
-      if ( this.v.length != this.rows * this.cols ) {
-        console.warn( "input values " + args + " is not " + this.rows * this.cols + " elements long!" );
+        for ( let i = 0; i < size; i++ ) {
+          this.v[i] = args[i];
+        }
       }
     }
 

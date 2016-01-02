@@ -8,10 +8,28 @@ module gml {
     constructor( r00: number, r01: number, tx: number, r10: number, r11: number, ty: number, m20: number, m21: number, m22: number );
 
     constructor( ...args: any[] ) {
+      super( 3, 3 );
       if ( args.length === 1 ) {
-        super( 3, 3, args[0] );
+        let arr = args[0];
+        this.v[0] = arr[0];
+        this.v[1] = arr[1];
+        this.v[2] = arr[2];
+        this.v[3] = arr[3];
+        this.v[4] = arr[4];
+        this.v[5] = arr[5];
+        this.v[6] = arr[6];
+        this.v[7] = arr[7];
+        this.v[8] = arr[8];
       } else {
-        super( 3, 3, args );
+        this.v[0] = args[0];
+        this.v[1] = args[1];
+        this.v[2] = args[2];
+        this.v[3] = args[3];
+        this.v[4] = args[4];
+        this.v[5] = args[5];
+        this.v[6] = args[6];
+        this.v[7] = args[7];
+        this.v[8] = args[8];
       }
     }
 

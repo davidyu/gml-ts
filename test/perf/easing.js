@@ -18,9 +18,12 @@ suite.constructors.cubicInOut
     gml.Easing.CubicInOut( input[0] );
   } )
   .addFunction( '(penner) CubicInOut', function( input ) {
-    penner.easeInOutCubic( input[0] );
+    penner.easeInOutCubic( input[0], 0, 1, 1 );
   } )
-  .addInput( 'random t', [ Math.random() ] )
+  .addInput( 'random t 1', [ Math.random() ] )
+  .addInput( 'random t 2', [ Math.random() ] )
+  .addInput( 'random t 3', [ Math.random() ] )
+  .addInput( 'random t 4', [ Math.random() ] )
   .on('complete', function() {
     console.log('Fastest is ' + this.filter('fastest').pluck('name'));
     console.log(this.table.toString());
@@ -32,9 +35,12 @@ suite.constructors.quadraticInOut
     gml.Easing.QuadInOut( input[0] );
   } )
   .addFunction( '(penner) easeInOutQuad', function( input ) {
-    penner.easeInOutQuad( input[0] );
+    penner.easeInOutQuad( input[0], 0, 1, 1 );
   } )
-  .addInput( 'random t', [ Math.random() ] )
+  .addInput( 'random t 1', [ Math.random() ] )
+  .addInput( 'random t 2', [ Math.random() ] )
+  .addInput( 'random t 3', [ Math.random() ] )
+  .addInput( 'random t 4', [ Math.random() ] )
   .on('complete', function() {
     console.log('Fastest is ' + this.filter('fastest').pluck('name'));
     console.log(this.table.toString());
@@ -46,9 +52,12 @@ suite.constructors.trigInOut
     gml.Easing.TrigInOut( input[0] );
   } )
   .addFunction( '(penner) easeInOutSine', function( input ) {
-    penner.easeInOutSine( input[0] );
+    penner.easeInOutSine( input[0], 0, 1, 1 );
   } )
-  .addInput( 'random t', [ Math.random() ] )
+  .addInput( 'random t 1', [ Math.random() ] )
+  .addInput( 'random t 2', [ Math.random() ] )
+  .addInput( 'random t 3', [ Math.random() ] )
+  .addInput( 'random t 4', [ Math.random() ] )
   .on('complete', function() {
     console.log('Fastest is ' + this.filter('fastest').pluck('name'));
     console.log(this.table.toString());
@@ -60,9 +69,12 @@ suite.constructors.expInOut
     gml.Easing.ExpInOut( input[0] );
   } )
   .addFunction( '(penner) easeInOutExpo', function( input ) {
-    penner.easeInOutExpo( input[0] );
+    penner.easeInOutExpo( input[0], 0, 1, 1 );
   } )
-  .addInput( 'random t', [ Math.random() ] )
+  .addInput( 'random t 1', [ Math.random() ] )
+  .addInput( 'random t 2', [ Math.random() ] )
+  .addInput( 'random t 3', [ Math.random() ] )
+  .addInput( 'random t 4', [ Math.random() ] )
   .on('complete', function() {
     console.log('Fastest is ' + this.filter('fastest').pluck('name'));
     console.log(this.table.toString());
@@ -74,9 +86,12 @@ suite.constructors.backInOut
     gml.Easing.BackInOut( input[0] );
   } )
   .addFunction( '(penner) easeInOutBack', function( input ) {
-    penner.easeInOutBack( input[0] );
+    penner.easeInOutBack( input[0], 0, 1, 1 );
   } )
-  .addInput( 'random t', [ Math.random() ] )
+  .addInput( 'random t 1', [ Math.random() ] )
+  .addInput( 'random t 2', [ Math.random() ] )
+  .addInput( 'random t 3', [ Math.random() ] )
+  .addInput( 'random t 4', [ Math.random() ] )
   .on('complete', function() {
     console.log('Fastest is ' + this.filter('fastest').pluck('name'));
     console.log(this.table.toString());

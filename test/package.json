@@ -12,6 +12,7 @@
         "karma-phantomjs-launcher": "latest",
         "colors": "1.x",
         "benchtable": "latest",
-        "gl-matrix": "latest"
+        "gl-matrix": "latest",
+        "easing-js": "latest"
     }
 }

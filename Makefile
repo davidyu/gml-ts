@@ -39,3 +39,4 @@ test: lib
 	@pushd $(DIST_TEST) > /dev/null && ./node_modules/.bin/karma start && popd > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && node perf/vec.js && popd > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && node perf/mat.js && popd > /dev/null
+	@pushd $(DIST_TEST) > /dev/null && node perf/easing.js && popd > /dev/null

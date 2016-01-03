@@ -29,10 +29,10 @@ suite.constructors.cubicInOut
 
 suite.constructors.quadraticInOut
   .addFunction( 'QuadraticInOut', function( input ) {
-    gml.Easing.QuadraticInOut( input[0] );
+    gml.Easing.QuadInOut( input[0] );
   } )
-  .addFunction( '(penner) QuadraticInOut', function( input ) {
-    penner.easeInOutQuadratic( input[0] );
+  .addFunction( '(penner) easeInOutQuad', function( input ) {
+    penner.easeInOutQuad( input[0] );
   } )
   .addInput( 'random t', [ Math.random() ] )
   .on('complete', function() {

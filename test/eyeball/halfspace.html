@@ -15,14 +15,54 @@
             canvas = document.getElementById( "viewport" );
             context = canvas.getContext( '2d' );
 
-            line = { point : new gml2d.Vec2( 0, 0 )
-                   , normal: new gml2d.Vec2( 1, 1 ) };
+            line = { point : new gml2d.Vec2( canvas.width / 2, canvas.height / 2 )
+                   , normal: new gml2d.Vec2( 0, 1 ) };
+
+            // draw line
+        }
+
+        function drawLine( line ) {
+            var intersects = [];
+            if ( line.normal.x != 0 ) {
+                // check intersection of line and y_min (0) of our canvas
+                var x1 = line.point.dot( line.normal ) / line.normal.x;
+                if ( x1 >= 0 && x1 <= canvas.width ) {
+                    intersects.push( new gml2d.Vec2( x1, 0 ) );
+                }
+                // check intersection of line and y_max (h) of our canvas
+                var x2 = ( line.point.x * line.normal.x - ( canvas.height - line.point.y ) * line.normal.y ) / line.normal.x;
+                if ( x2 >= 0 && x2 <= canvas.width ) {
+                    intersects.push( new gml2d.Vec2( x2, canvas.height ) );
+                }
+            }
+
+            if ( line.normal.y != 0 ) {
+                // check intersection of line and x_min (0) of our canvas
+                var y1 = line.point.dot( line.normal ) / line.normal.y;
+                if ( y1 >= 0 && y1 <= canvas.height ) {
+                    intersects.push( new gml2d.Vec2( 0, y1 ) );
+                }
+                // check intersection of line and x_max (w) of our canvas
+                var y2 = ( line.point.y * line.normal.y  - ( canvas.width - line.point.x ) * line.normal.x ) / line.normal.y;
+                if ( y2 >= 0 && y2 <= canvas.height ) {
+                    intersects.push( new gml2d.Vec2( canvas.width, y2 ) );
+                }
+            }
+
+            console.log( intersects );
+
+            if ( intersects.length >= 2 ) {
+                context.beginPath();
+                context.moveTo( intersects[0].x, intersects[0].y );
+                context.lineTo( intersects[1].x, intersects[1].y );
+                context.stroke();
+            }
         }
     </script>
     <div role="main" id="maincolumn">
       <center>
         <div id="screen">
-          <canvas id="viewport" height="50px" width="500px">
+          <canvas id="viewport" height="500px" width="500px">
           </canvas>
         </div>
         <br class="vspace" />

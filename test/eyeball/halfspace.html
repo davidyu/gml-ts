@@ -49,6 +49,8 @@
                 }
             }
 
+            // consider edge cases: when two points in intersects refer to the same point
+            // or when one of the point is on the vertex of the AABB; we may want to choose a third, different point to draw
             console.log( intersects );
 
             if ( intersects.length >= 2 ) {

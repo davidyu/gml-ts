@@ -10,11 +10,6 @@
       var context;
       var easing = gml.Easing.CubicInOut;
 
-      var juice = {
-        dx: 0.0,
-        maxdx: 120.0
-      }
-
       var tween = {
         duration: 1.0, // seconds
         acc: 0.0,      // accumulated seconds
@@ -55,8 +50,6 @@
           tween.acc = tween.duration;
         }
 
-        var scalex = Math.min( Math.max( 1, Math.abs( juice.dx ) / juice.maxdx ), 1.2 );
-
         var cx = tween.startx + easing( tween.acc / tween.duration ) * ( tween.endx - tween.startx );
         var cy = 10;
 
@@ -70,7 +63,6 @@
 
       function play() {
         tween.acc = 0.0;
-        juice.dx = 0.0;
       }
     </script>
     <div role="main" id="maincolumn">

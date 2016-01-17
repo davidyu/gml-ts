@@ -16,7 +16,7 @@
             context = canvas.getContext( '2d' );
 
             line = { point : new gml2d.Vec2( canvas.width / 2, canvas.height / 2 )
-                   , normal: new gml2d.Vec2( 0, 1 ) };
+                   , normal: new gml2d.Vec2( -1, 0 ) };
 
             var POINTS_TO_PLOT = 1000;
             for ( var i = 0; i < POINTS_TO_PLOT; i++ ) {
@@ -92,6 +92,13 @@
                 context.stroke();
             }
         }
+
+        function updateLineSlope( newslope ) {
+            line.normal.x = Math.cos( newslope * Math.PI / 180 );
+            line.normal.y = Math.sin( newslope * Math.PI / 180 );
+            context.clearRect( 0, 0, canvas.width, canvas.height );
+            visualizeHalfspace( points, line );
+        }
     </script>
     <div role="main" id="maincolumn">
       <center>
@@ -100,6 +107,10 @@
           </canvas>
         </div>
         <br class="vspace" />
+          <label>Adjust line slope</label>
+          <br/>
+          <input id="line-slope" type="range" min="0" max="359" oninput="updateLineSlope( this.value )">
+          </input>
         </center>
       </div>
     </body>

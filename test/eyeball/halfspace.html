@@ -5,6 +5,19 @@
     </head>
     <body onload="init()">
     <script type="text/javascript">
+        var canvas;
+        var context;
+
+        var points = [];
+        var line;
+
+        function init() {
+            canvas = document.getElementById( "viewport" );
+            context = canvas.getContext( '2d' );
+
+            line = { point : new gml2d.Vec2( 0, 0 )
+                   , normal: new gml2d.Vec2( 1, 1 ) };
+        }
     </script>
     <div role="main" id="maincolumn">
       <center>

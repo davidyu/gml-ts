@@ -18,7 +18,39 @@
             line = { point : new gml2d.Vec2( canvas.width / 2, canvas.height / 2 )
                    , normal: new gml2d.Vec2( 0, 1 ) };
 
-            // draw line
+            var POINTS_TO_PLOT = 1000;
+            for ( var i = 0; i < POINTS_TO_PLOT; i++ ) {
+                points.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
+            }
+
+            visualizeHalfspace( points, line );
+        }
+
+        function visualizeHalfspace( points, line ) {
+            drawLine( line );
+
+            points.forEach( function( p ) {
+                switch ( gml2d.CategorizeHalfspace( p, line ) ) {
+                    case Halfspace.POSITIVE:
+                        context.beginPath();
+                        context.arc( p.x, p.y, 2, 0, 2 * Math.PI, false );
+                        context.fillStyle = 'green';
+                        context.fill();
+                        break;
+                    case Halfspace.NEGATIVE:
+                        context.beginPath();
+                        context.arc( p.x, p.y, 2, 0, 2 * Math.PI, false );
+                        context.fillStyle = 'red';
+                        context.fill();
+                        break;
+                    case Halfspace.COINCIDENT:
+                        context.beginPath();
+                        context.arc( p.x, p.y, 2, 0, 2 * Math.PI, false );
+                        context.fillStyle = 'white';
+                        context.fill();
+                        break;
+                }
+            } );
         }
 
         function drawLine( line ) {

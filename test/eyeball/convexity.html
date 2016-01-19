@@ -14,20 +14,36 @@
             context = canvas.getContext( '2d' );
 
             var MAX_POLY_VERTS = 20;
-            var points = [];
-            for ( var i = 0; i < Math.random() * ( MAX_POLY_VERTS - 3 ) + 3; i++ ) {
-                points.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
-            }
 
-            poly = {
-                points: points
-            }
+            poly = { points: [] };
+
+            genPoly( Math.random() * ( MAX_POLY_VERTS - 3 ) + 3, false );
 
             visualizePoly( poly );
         }
 
+        function genPoly( sides, regular ) {
+            var points = [];
+
+            if ( regular ) {
+                var r = 100;
+                var cx = canvas.width / 2;
+                var cy = canvas.height / 2;
+                for ( var i = 0; i < sides; i++ ) {
+                    points.push( new gml2d.Vec2( Math.cos( ( i / sides ) * 2 * Math.PI ) * r + cx
+                                               , Math.sin( ( i / sides ) * 2 * Math.PI ) * r + cy ) );
+                }
+            } else {
+                for ( var i = 0; i < sides; i++ ) {
+                    points.push( new gml2d.Vec2( Math.random() * canvas.width
+                                               , Math.random() * canvas.height ) );
+                }
+            }
+
+            poly.points = points
+        }
+
         function visualizePoly( poly ) {
-            
             context.beginPath();
             context.moveTo( poly.points[0].x, poly.points[0].y );
             context.lineWidth = 1;

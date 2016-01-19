@@ -14,7 +14,7 @@
             canvas = document.getElementById( "viewport" );
             context = canvas.getContext( '2d' );
 
-            var POINTS_TO_PLOT = 30;
+            var POINTS_TO_PLOT = 50;
             points = [];
             for ( var i = 0; i < POINTS_TO_PLOT; i++ ) {
                 points.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
@@ -22,10 +22,20 @@
 
             computeHull( points )
             visualizePoly( poly );
+            drawPoints( points );
         }
 
         function computeHull( points ) {
             poly = gml2d.ConvexHull( points );
+        }
+
+        function drawPoints( points ) {
+            points.forEach( function( p ) {
+                context.beginPath();
+                context.arc( p.x, p.y, 2, 0, 2 * Math.PI, false );
+                context.fillStyle = 'black';
+                context.fill();
+            } );
         }
 
         function visualizePoly( poly ) {

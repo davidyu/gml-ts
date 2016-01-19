@@ -26,8 +26,6 @@ module gml2d {
       return a.x - b.x;
     } );
 
-    // console.log( points.map( p => { return p.x } ) );
-
     // create upper chain
     let upper = [ points[0], points[1] ];
 
@@ -35,9 +33,10 @@ module gml2d {
       let p = points[i];
       let e = p.subtract( upper[ upper.length - 1 ] );
       let last_edge = upper[ upper.length - 1 ].subtract( upper[ upper.length - 2 ] );
-      while ( upper.length >= 2 && last_edge.cross( e ) > 0 ) {
+      while ( last_edge.cross( e ) > 0 ) {
         // e is to the left of last_edge; error
         upper.pop();
+        if ( upper.length < 2 ) break;
         e = p.subtract( upper[ upper.length - 1 ] );
         last_edge = upper[ upper.length - 1 ].subtract( upper[ upper.length - 2 ] );
       }
@@ -45,15 +44,16 @@ module gml2d {
     }
 
     // create lower chain
-    let lower = [ points[0], points[1] ];
+    let lower = [ points[points.length - 1], points[points.length - 2] ];
 
     for ( let i = points.length - 3; i >= 0; i-- ) {
       let p = points[i];
       let e = p.subtract( lower[ lower.length - 1 ] );
       let last_edge = lower[ lower.length - 1 ].subtract( lower[ lower.length - 2 ] );
-      while ( lower.length >= 2 && last_edge.cross( e ) > 0 ) {
+      while ( last_edge.cross( e ) > 0 ) {
         // e is to the left of last_edge; error
         lower.pop();
+        if ( lower.length < 2 ) break;
         e = p.subtract( lower[ lower.length - 1 ] );
         last_edge = lower[ lower.length - 1 ].subtract( lower[ lower.length - 2 ] );
       }
@@ -64,8 +64,6 @@ module gml2d {
     upper.pop();
     lower.pop();
     var pts = upper.concat( lower );
-
-    // console.log( pts );
 
     return { points: pts };
   }

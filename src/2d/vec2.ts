@@ -81,5 +81,9 @@ module gml2d {
     public static get zero(): Vec2 {
       return new Vec2( 0, 0 );
     }
+
+    public static squareDistance( lhs: Vec2, rhs: Vec2 ): number {
+      return ( lhs.x - rhs.x ) * ( lhs.x - rhs.x ) + ( lhs.y - rhs.y ) * ( lhs.y - rhs.y ); 
+    }
   }
 }

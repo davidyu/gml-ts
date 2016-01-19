@@ -20,7 +20,7 @@ module gml2d {
   }
 
   export function ConvexHull( points: Vec2[] ): Polygon {
-    if ( points.length <= 2 ) return [];
+    if ( points.length <= 2 ) return { points: [] };
 
     points.sort( ( a: Vec2, b: Vec2 ) => {
       return a.x - b.x;
@@ -31,15 +31,15 @@ module gml2d {
     // create upper chain
     let upper = [ points[0], points[1] ];
 
-    for ( int i = 2; i < points.length; i++ ) {
+    for ( let i = 2; i < points.length; i++ ) {
       let p = points[i];
-      let e = p.sub( upper[ upper.length - 1 ] );
-      let last_edge = upper[ upper.length - 1 ].sub( upper[ upper.length - 2 ] );
-      while ( upper >= 2 && last_edge.cross( e ) < 0 ) {
+      let e = p.subtract( upper[ upper.length - 1 ] );
+      let last_edge = upper[ upper.length - 1 ].subtract( upper[ upper.length - 2 ] );
+      while ( upper.length >= 2 && last_edge.cross( e ) > 0 ) {
         // e is to the left of last_edge; error
         upper.pop();
-        e = p.sub( upper[ upper.length - 1 ] );
-        last_edge = upper[ upper.length - 1 ].sub( upper[ upper.length - 2 ] );
+        e = p.subtract( upper[ upper.length - 1 ] );
+        last_edge = upper[ upper.length - 1 ].subtract( upper[ upper.length - 2 ] );
       }
       upper.push( p );
     }
@@ -47,21 +47,26 @@ module gml2d {
     // create lower chain
     let lower = [ points[0], points[1] ];
 
-    for ( int i = points.length - 3; i >= 0; i-- ) {
+    for ( let i = points.length - 3; i >= 0; i-- ) {
       let p = points[i];
-      let e = p.sub( lower[ lower.length - 1 ] );
-      let last_edge = lower[ lower.length - 1 ].sub( lower[ lower.length - 2 ] );
-      while ( lower >= 2 && last_edge.cross( e ) > 0 ) {
+      let e = p.subtract( lower[ lower.length - 1 ] );
+      let last_edge = lower[ lower.length - 1 ].subtract( lower[ lower.length - 2 ] );
+      while ( lower.length >= 2 && last_edge.cross( e ) > 0 ) {
         // e is to the left of last_edge; error
         lower.pop();
-        e = p.sub( lower[ lower.length - 1 ] );
-        last_edge = lower[ lower.length - 1 ].sub( lower[ lower.length - 2 ] );
+        e = p.subtract( lower[ lower.length - 1 ] );
+        last_edge = lower[ lower.length - 1 ].subtract( lower[ lower.length - 2 ] );
       }
       lower.push( p );
     }
 
-    // console.log( upper.concat( lower ) );
+    // remove duplicate points
+    upper.pop();
+    lower.pop();
+    var pts = upper.concat( lower );
 
-    return { points: upper.concat( lower ) };
+    // console.log( pts );
+
+    return { points: pts };
   }
 }

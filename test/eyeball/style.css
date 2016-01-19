@@ -1,0 +1,40 @@
+body
+{
+    font: 300 12px/1.2 "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+canvas#viewport
+{
+    border: 1px solid #ccc;
+}
+
+div#maincolumn
+{
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+div#screen
+{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+input[type=range][orient=vertical]
+{
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 8px;
+    height: 500px;
+    padding: 0 5px;
+}
+
+input#line-offsx
+{
+    width: 500px;
+    height: 8px;
+    padding: 5 0px;
+    margin-right: 12px;
+}

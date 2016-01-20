@@ -4,7 +4,7 @@
       <title>Polygon Convexity Inspector</title>
       <link rel="stylesheet" href="style.css"/>
     </head>
-    <body onload="init()">
+    <body onload="init()" onmouseup="dragend(event)" onmousemove="dragging(event)">
     <script type="text/javascript">
         var canvas;
         var context;
@@ -74,11 +74,68 @@
             context.clearRect( 0, 0, canvas.width, canvas.height );
             visualizePoly( poly );
         }
+
+        var dragtarget;
+
+        var DRAG_HIT_DIST_THRESHOLD = 50;
+
+        var _mousepos = new gml2d.Vec2( 0, 0 );
+        function dragstart( e ) {
+            var offset = getOffset( canvas );
+
+            _mousepos.x = e.clientX - offset.x;
+            _mousepos.y = e.clientY - offset.y;
+
+            for ( var i = 0; i < poly.points.length; i++ ) {
+                var p = poly.points[i];
+                var d = gml2d.Vec2.squareDistance( _mousepos, p );
+                if ( d < DRAG_HIT_DIST_THRESHOLD ) {
+                    dragtarget = p;
+                    break;
+                }
+            }
+        }
+
+        function dragging( e ) {
+            if ( dragtarget == null ) return;
+
+            e.preventDefault();
+
+            var offset = getOffset( canvas );
+
+            _mousepos.x = e.clientX - offset.x;
+            _mousepos.y = e.clientY - offset.y;
+
+            if ( dragtarget != null ) {
+                dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
+                dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
+                context.clearRect( 0, 0, canvas.width, canvas.height );
+                visualizePoly( poly );
+            }
+        }
+
+        function dragend( e ) {
+            dragtarget = null;
+        }
+
+        function getOffset( elem ) {
+            var left = 0;
+            var top = 0;
+            while( true ){
+              left += elem.offsetLeft;
+              top += elem.offsetTop;
+              if( elem.offsetParent === null ) {
+                  break;
+              }
+              elem = elem.offsetParent;
+            }
+            return { x:left, y:top };
+        }
     </script>
     <div role="main" id="maincolumn">
       <div id="screen">
         <center>
-          <canvas id="viewport" height="500" width="500">
+          <canvas id="viewport" height="500" width="500" onmousedown="dragstart(event)" onmouseup="dragend(event)">
           </canvas>
           <br/>
           <br/>

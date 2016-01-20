@@ -121,5 +121,39 @@ module gml2d {
       out.y = -lhs.y;
       return out;
     }
+
+    private static pool: Vec2[] = [
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+      new Vec2( 0, 0 ),
+    ];
+
+    public static getFromPool( i: number ): Vec2 {
+      return Vec2.pool[i];
+    }
+
+    public static resizePool( newsize: number ): void {
+      let oldsize = Vec2.pool.length;
+      if ( newsize > oldsize ) {
+        for ( let i = oldsize; i < newsize; i++ ) {
+          Vec2.pool.push( new Vec2( 0, 0 ) );
+        }
+      } else if ( newsize < oldsize ) {
+        Vec2.pool.slice( newsize - 1, oldsize - newsize );
+      }
+    }
   }
 }

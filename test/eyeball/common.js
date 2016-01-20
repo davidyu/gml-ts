@@ -1,3 +1,6 @@
+var LIGHT_GREEN = '#7f7';
+var LIGHT_RED   = '#f77';
+
 function getOffset( elem ) {
     var left = 0;
     var top = 0;

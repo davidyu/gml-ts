@@ -36,7 +36,6 @@
                         context.beginPath();
                         context.arc( p.x, p.y, 1, 0, 2 * Math.PI, false );
                         context.fillStyle = 'green';
-                        context.fill();
                         break;
                     case Halfspace.NEGATIVE:
                         context.beginPath();
@@ -160,7 +159,7 @@
     <div role="main" id="maincolumn">
         <div id="screen">
           <center>
-          <canvas id="viewport" height="500px" width="500px" onmousedown="dragstart(event)" onmousemove="dragging(event)" onmouseup="dragend(event)">
+          <canvas id="viewport" height="500px" width="500px" onmousedown="dragstart(event)" onmouseup="dragend(event)">
           </canvas>
 
           <br class="vspace" />

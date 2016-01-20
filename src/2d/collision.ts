@@ -7,9 +7,13 @@ enum Halfspace {
 module gml2d {
   let EPSILON = 1e-6;
 
+  // optimization: assume we will call CategorizeHalfspace very often; we do not want to construct a new vector every call.
+  // instead, use a static temporary vector.
+  let _temp_v2 = new Vec2( 0, 0 );
+
   export function CategorizeHalfspace( point: Vec2, line: Line ): Halfspace {
-    let p_to_l = point.subtract( line.point );
-    let dp = p_to_l.dot( line.normal );
+    Vec2.subtract( point, line.point, _temp_v2 );
+    let dp = _temp_v2.dot( line.normal );
     if ( Math.abs( dp ) < EPSILON ) {
       return Halfspace.COINCIDENT;
     } else if ( dp > 0 ) {

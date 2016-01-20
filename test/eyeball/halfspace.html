@@ -27,30 +27,41 @@
             visualizeHalfspace( points, line );
         }
 
+        function drawPoint( p ) {
+            context.beginPath();
+            context.arc( p.x, p.y, 1, 0, 6.28, false );
+            context.fill();
+        }
+
         function visualizeHalfspace( points, line ) {
             drawLine( line );
+
+            var positives = [];
+            var negatives = [];
+            var coincidents = [];
 
             points.forEach( function( p ) {
                 switch ( gml2d.CategorizeHalfspace( p, line ) ) {
                     case Halfspace.POSITIVE:
-                        context.beginPath();
-                        context.arc( p.x, p.y, 1, 0, 2 * Math.PI, false );
-                        context.fillStyle = 'green';
+                        positives.push( p );
                         break;
                     case Halfspace.NEGATIVE:
-                        context.beginPath();
-                        context.arc( p.x, p.y, 1, 0, 2 * Math.PI, false );
-                        context.fillStyle = 'red';
-                        context.fill();
+                        negatives.push( p );
                         break;
                     case Halfspace.COINCIDENT:
-                        context.beginPath();
-                        context.arc( p.x, p.y, 1, 0, 2 * Math.PI, false );
-                        context.fillStyle = 'white';
-                        context.fill();
+                        coincidents.push( p );
                         break;
                 }
             } );
+
+            context.fillStyle = 'green';
+            positives.forEach( drawPoint );
+
+            context.fillStyle = 'red';
+            negatives.forEach( drawPoint );
+
+            context.fillStyle = 'white';
+            coincidents.forEach( drawPoint );
         }
 
         function drawLine( line ) {

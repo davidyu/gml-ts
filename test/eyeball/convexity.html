@@ -3,6 +3,7 @@
       <script src="./gml2d.js" type="text/javascript"></script>
       <title>Polygon Convexity Inspector</title>
       <link rel="stylesheet" href="style.css"/>
+      <script type="text/javascript" src="common.js"></script>
     </head>
     <body onload="init()" onmouseup="dragend(event)" onmousemove="dragging(event)">
     <script type="text/javascript">
@@ -116,20 +117,6 @@
 
         function dragend( e ) {
             dragtarget = null;
-        }
-
-        function getOffset( elem ) {
-            var left = 0;
-            var top = 0;
-            while( true ){
-              left += elem.offsetLeft;
-              top += elem.offsetTop;
-              if( elem.offsetParent === null ) {
-                  break;
-              }
-              elem = elem.offsetParent;
-            }
-            return { x:left, y:top };
         }
     </script>
     <div role="main" id="maincolumn">

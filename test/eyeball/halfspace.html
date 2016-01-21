@@ -38,7 +38,8 @@
             var p;
             for ( var i = 0; i < points.length; i++ ) {
                 p = points[i];
-                switch ( gml2d.CategorizeHalfspace( p, line ) ) {
+                var res = gml2d.CategorizeHalfspace( p, line )
+                switch ( res ) {
                     case Halfspace.POSITIVE:
                         positives.push( p );
                         break;
@@ -109,7 +110,6 @@
 
             // consider edge cases: when two points in intersects refer to the same point
             // or when one of the point is on the vertex of the AABB; we may want to choose a third, different point to draw
-            console.log( intersects );
 
             if ( intersects.length >= 2 ) {
                 context.beginPath();

@@ -59,7 +59,7 @@ module gml2d {
     }
 
     public dot( rhs: Vec2 ): number {
-      return this.x * rhs.x + this.y * rhs.y;
+      return this.v[0] * rhs.v[0] + this.v[1] * rhs.v[1];
     }
 
     public get normalized(): Vec2 {

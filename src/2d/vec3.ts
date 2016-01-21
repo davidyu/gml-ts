@@ -103,5 +103,39 @@ module gml2d {
     public static get zero(): Vec3 {
       return new Vec3( 0, 0, 0 );
     }
+
+    private static pool: Vec3[] = [
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+      new Vec3( 0, 0, 0 ),
+    ];
+
+    public static getFromPool( i: number ): Vec3 {
+      return Vec3.pool[i];
+    }
+
+    public static resizePool( newsize: number ): void {
+      let oldsize = Vec3.pool.length;
+      if ( newsize > oldsize ) {
+        for ( let i = oldsize; i < newsize; i++ ) {
+          Vec3.pool.push( new Vec3( 0, 0, 0 ) );
+        }
+      } else if ( newsize < oldsize ) {
+        Vec3.pool.slice( newsize - 1, oldsize - newsize );
+      }
+    }
   }
 }

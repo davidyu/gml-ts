@@ -33,7 +33,11 @@ module gml2d {
     }
   }
 
-  export function ConvexHull( points: Vec2[] ): Polygon {
+  /**
+   * @returns a fitted convex hull from the supplied point cloud. Runs Andrew's algorithm which
+   * has a runtime of O(nlog(n)). Also sorts the supplied point cloud.
+   */
+  export function ComputeConvexHull( points: Vec2[] ): Polygon {
     if ( points.length <= 2 ) return { points: [] };
 
     let e = _tmp_v2_a;
@@ -87,7 +91,10 @@ module gml2d {
     return { points: pts };
   }
 
-  export function AABB( points: Vec2[] ): AABB {
+  /**
+   * @returns a fitted axis-aligned bounding box to the supplied point cloud.
+   */
+  export function ComputeAABB( points: Vec2[] ): AABB {
     let tl = _tmp_v2_a;
     let br = _tmp_v2_a;
 

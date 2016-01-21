@@ -1,4 +1,8 @@
 module gml2d {
+  // preallocated work vectors
+  let _tmp_v2_a = new Vec2( 0, 0 );
+  let _tmp_v2_b = new Vec2( 0, 0 );
+
   export interface Line {
     point: Vec2;  // a point on the line
     normal: Vec2;
@@ -16,8 +20,8 @@ module gml2d {
     // implements method described by Peter Schorn in Graphics Gems IV.
     // works for all polygons, including complex, self-intersecting polygons like the pentagram.
 
-    let target = new Vec2( 0, 0 );
-    let forward = new Vec2( 0, 0 );
+    let target = _tmp_v2_a;
+    let forward = _tmp_v2_b;
 
     Vec2.subtract( p.points[0], p.points[p.points.length - 2], target );
     Vec2.subtract( p.points[0], p.points[p.points.length - 1], forward );

@@ -14,6 +14,11 @@ module gml2d {
   let _tmp_v2_a = new Vec2( 0, 0 );
   let _tmp_v2_b = new Vec2( 0, 0 );
 
+  export interface AABB {
+    min: Vec2;
+    max: Vec2;
+  }
+
   export function CategorizeHalfspace( point: Vec2, line: Line ): Halfspace {
     let l_to_p = _tmp_v2_a;
 
@@ -45,14 +50,14 @@ module gml2d {
       let p = points[i];
 
       Vec2.subtract( p, upper[ upper.length - 1 ], e );
-      Vec2.subtract( upper[ upper.length - 1 ],  upper[ upper.length - 2 ], last_edge );
+      Vec2.subtract( upper[ upper.length - 1 ], upper[ upper.length - 2 ], last_edge );
 
       while ( last_edge.cross( e ) > 0 ) {
         // e is to the left of last_edge; error
         upper.pop();
         if ( upper.length < 2 ) break;
         Vec2.subtract( p, upper[ upper.length - 1 ], e );
-        Vec2.subtract( upper[ upper.length - 1 ],  upper[ upper.length - 2 ], last_edge );
+        Vec2.subtract( upper[ upper.length - 1 ], upper[ upper.length - 2 ], last_edge );
       }
       upper.push( p );
     }
@@ -63,13 +68,13 @@ module gml2d {
     for ( let i = points.length - 3; i >= 0; i-- ) {
       let p = points[i];
       Vec2.subtract( p, lower[ lower.length - 1 ], e );
-      Vec2.subtract( lower[ lower.length - 1 ],  lower[ lower.length - 2 ], last_edge );
+      Vec2.subtract( lower[ lower.length - 1 ], lower[ lower.length - 2 ], last_edge );
       while ( last_edge.cross( e ) > 0 ) {
         // e is to the left of last_edge; error
         lower.pop();
         if ( lower.length < 2 ) break;
         Vec2.subtract( p, lower[ lower.length - 1 ], e );
-        Vec2.subtract( lower[ lower.length - 1 ],  lower[ lower.length - 2 ], last_edge );
+        Vec2.subtract( lower[ lower.length - 1 ], lower[ lower.length - 2 ], last_edge );
       }
       lower.push( p );
     }
@@ -80,5 +85,24 @@ module gml2d {
     var pts = upper.concat( lower );
 
     return { points: pts };
+  }
+
+  export function AABB( points: Vec2[] ): AABB {
+    let tl = _tmp_v2_a;
+    let br = _tmp_v2_a;
+
+    for ( let i = 0; i < points.length; i++ ) {
+      let p = points[i];
+
+      let x = p.x;
+      let y = p.y;
+
+      if ( x < tl.x ) tl.x = x;
+      if ( x > br.x ) br.x = x;
+      if ( y < tl.y ) tl.y = y;
+      if ( y > br.y ) br.y = y;
+    }
+
+    return { min: tl, max: br };
   }
 }

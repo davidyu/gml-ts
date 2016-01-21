@@ -122,6 +122,11 @@ module gml2d {
       return out;
     }
 
+    public static copy( from: Vec2, to: Vec2 ) {
+      to.v[0] = from.v[0];
+      to.v[1] = from.v[0];
+    }
+
     private static pool: Vec2[] = [
       new Vec2( 0, 0 ),
       new Vec2( 0, 0 ),

@@ -93,32 +93,32 @@ module gml2d {
     // static arithmetic operators that take a constructed output parameter
     // because object construction and GC is expensive in JavaScript.
     public static add( lhs: Vec2, rhs: Vec2, out: Vec2 ): Vec2 {
-      out.x = lhs.x + rhs.x;
-      out.y = lhs.y + rhs.y;
+      out.v[0] = lhs.v[0] + rhs.v[0];
+      out.v[1] = lhs.v[1] + rhs.v[1];
       return out;
     }
 
     public static subtract( lhs: Vec2, rhs: Vec2, out: Vec2 ): Vec2 {
-      out.x = lhs.x - rhs.x;
-      out.y = lhs.y - rhs.y;
+      out.v[0] = lhs.v[0] - rhs.v[0];
+      out.v[1] = lhs.v[1] - rhs.v[1];
       return out;
     }
 
     public static multiply( lhs: Vec2, s: number, out: Vec2 ): Vec2 {
-      out.x = lhs.x * s;
-      out.y = lhs.y * s;
+      out.v[0] = lhs.v[0] * s;
+      out.v[1] = lhs.v[1] * s;
       return out;
     }
 
     public static divide( lhs: Vec2, d: number, out: Vec2 ): Vec2 {
-      out.x = lhs.x / d;
-      out.y = lhs.y / d;
+      out.v[0] = lhs.v[0] / d;
+      out.v[1] = lhs.v[1] / d;
       return out;
     }
 
     public static negate( lhs: Vec2, out: Vec2 ): Vec2 {
-      out.x = -lhs.x;
-      out.y = -lhs.y;
+      out.v[0] = -lhs.v[0];
+      out.v[1] = -lhs.v[1];
       return out;
     }
 

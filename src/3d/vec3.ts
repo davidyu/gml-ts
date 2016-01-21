@@ -115,6 +115,41 @@ module gml {
       return new Vec3( Math.random(), Math.random(), Math.random() ).normalized.multiply( radius );
     }
 
+    public static add( lhs: Vec3, rhs: Vec3, out: Vec3 ): Vec3 {
+      out.x = lhs.x + rhs.x;
+      out.y = lhs.y + rhs.y;
+      out.z = lhs.z + rhs.z;
+      return out;
+    }
+
+    public static subtract( lhs: Vec3, rhs: Vec3, out: Vec3 ): Vec3 {
+      out.x = lhs.x - rhs.x;
+      out.y = lhs.y - rhs.y;
+      out.z = lhs.z - rhs.z;
+      return out;
+    }
+
+    public static multiply( lhs: Vec3, s: number, out: Vec3 ): Vec3 {
+      out.x = lhs.x * s;
+      out.y = lhs.y * s;
+      out.z = lhs.z * s;
+      return out;
+    }
+
+    public static divide( lhs: Vec3, d: number, out: Vec3 ): Vec3 {
+      out.x = lhs.x / d;
+      out.y = lhs.y / d;
+      out.z = lhs.z / d;
+      return out;
+    }
+
+    public static negate( lhs: Vec3, out: Vec3 ): Vec3 {
+      out.x = -lhs.x;
+      out.y = -lhs.y;
+      out.z = -lhs.z;
+      return out;
+    }
+
     public static get zero(): Vec3 {
       return new Vec3( 0, 0, 0 );
     }

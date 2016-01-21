@@ -159,6 +159,46 @@ module gml {
       return random;
     }
 
+    public static add( lhs: Vec4, rhs: Vec4, out: Vec4 ): Vec4 {
+      out.x = lhs.x + rhs.x;
+      out.y = lhs.y + rhs.y;
+      out.z = lhs.z + rhs.z;
+      out.w = lhs.w + rhs.w;
+      return out;
+    }
+
+    public static subtract( lhs: Vec4, rhs: Vec4, out: Vec4 ): Vec4 {
+      out.x = lhs.x - rhs.x;
+      out.y = lhs.y - rhs.y;
+      out.z = lhs.z - rhs.z;
+      out.w = lhs.w - rhs.w;
+      return out;
+    }
+
+    public static multiply( lhs: Vec4, s: number, out: Vec4 ): Vec4 {
+      out.x = lhs.x * s;
+      out.y = lhs.y * s;
+      out.z = lhs.z * s;
+      out.w = lhs.w * s;
+      return out;
+    }
+
+    public static divide( lhs: Vec4, d: number, out: Vec4 ): Vec4 {
+      out.x = lhs.x / d;
+      out.y = lhs.y / d;
+      out.z = lhs.z / d;
+      out.w = lhs.w / d;
+      return out;
+    }
+
+    public static negate( lhs: Vec4, out: Vec4 ): Vec4 {
+      out.x = -lhs.x;
+      out.y = -lhs.y;
+      out.z = -lhs.z;
+      out.w = -lhs.w;
+      return out;
+    }
+
     public static get zero(): Vec4 {
       return new Vec4( 0, 0, 0, 0 );
     }

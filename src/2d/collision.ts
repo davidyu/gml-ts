@@ -95,8 +95,8 @@ module gml2d {
    * @returns a fitted axis-aligned bounding box to the supplied point cloud.
    */
   export function ComputeAABB( points: Vec2[] ): AABB {
-    let tl = _tmp_v2_a;
-    let br = _tmp_v2_a;
+    let tl = new Vec2( Number.MAX_VALUE, Number.MAX_VALUE );
+    let br = new Vec2( -Number.MAX_VALUE, -Number.MAX_VALUE );
 
     for ( let i = 0; i < points.length; i++ ) {
       let p = points[i];

@@ -1,9 +1,3 @@
-enum Halfspace {
-  POSITIVE,
-  NEGATIVE,
-  COINCIDENT, // point is coincident with line, and does not line on either halfspaces
-}
-
 module gml2d {
   let EPSILON = 1e-6;
 
@@ -13,6 +7,12 @@ module gml2d {
 
   let _tmp_v2_a = new Vec2( 0, 0 );
   let _tmp_v2_b = new Vec2( 0, 0 );
+
+  export enum Halfspace {
+    POSITIVE,
+    NEGATIVE,
+    COINCIDENT, // point is coincident with line, and does not line on either halfspaces
+  }
 
   export interface AABB {
     min: Vec2;

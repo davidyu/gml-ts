@@ -40,13 +40,13 @@
                 p = points[i];
                 var res = gml2d.CategorizeHalfspace( p, line )
                 switch ( res ) {
-                    case Halfspace.POSITIVE:
+                    case gml2d.Halfspace.POSITIVE:
                         positives.push( p );
                         break;
-                    case Halfspace.NEGATIVE:
+                    case gml2d.Halfspace.NEGATIVE:
                         negatives.push( p );
                         break;
-                    case Halfspace.COINCIDENT:
+                    case gml2d.Halfspace.COINCIDENT:
                         coincidents.push( p );
                         break;
                 }

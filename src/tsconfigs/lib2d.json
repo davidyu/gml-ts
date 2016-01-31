@@ -6,6 +6,7 @@
     "removeComments": true
   },
   "files": [
+    "utils.ts",
     "easing.ts",
     "angle.ts",
     "vec.ts",

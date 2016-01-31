@@ -23,7 +23,7 @@
                 points.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
             }
 
-            volumeFunc = gml2d.ComputeConvexHull;
+            volumeFunc = gml2d.Collision.ComputeConvexHull;
 
             computeHull( points )
             visualizePoly( poly );
@@ -48,7 +48,7 @@
                 context.beginPath();
                 context.moveTo( poly.points[0].x, poly.points[0].y );
                 context.lineWidth = 1;
-                context.fillStyle = gml2d.convex( poly ) ? LIGHT_GREEN : LIGHT_RED;
+                context.fillStyle = gml2d.Polygon.IsConvex( poly ) ? LIGHT_GREEN : LIGHT_RED;
 
                 for ( var i = 0; i < poly.points.length; i++ ) {
                     var p = poly.points[ (i+1) % poly.points.length ];
@@ -126,8 +126,8 @@
         <br/>
         <br/>
         <select name="Volumes" oninput="updateEnclosingVolume( this.value )">
-          <option value="gml2d.ComputeConvexHull">Convex Hull</option>
-          <option value="gml2d.ComputeAABB">AABB</option>
+          <option value="gml2d.Collision.ComputeConvexHull">Convex Hull</option>
+          <option value="gml2d.Collision.ComputeAABB">AABB</option>
         </select>
         </center>
       </div>

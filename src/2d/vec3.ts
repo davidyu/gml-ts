@@ -67,7 +67,7 @@ module gml2d {
     }
 
     /**
-     * Computes the '2D' cross product as if this were a 2D vector (Vec2)
+     * Computes the '2D' cross product as if this were a 2D vector (Vec2). The z-component is ignored.
      */
     public cross( rhs: Vec3 ): number {
       return this.x * rhs.y - this.y * rhs.x;

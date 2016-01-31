@@ -1,6 +1,14 @@
 module gml2d {
-  // preallocated work vectors
+  /***
+   * A temporary global static Vec2 that used by methods in this module
+   * @hidden
+   */
   let _tmp_v2_a = new Vec2( 0, 0 );
+
+  /***
+   * A temporary global static Vec2 that used by methods in this module
+   * @hidden
+   */
   let _tmp_v2_b = new Vec2( 0, 0 );
 
   export interface Line {
@@ -12,14 +20,22 @@ module gml2d {
     points: Vec2[];
   }
 
+  /**
+   * @returns 0 if the number is sufficiently close to 0; -1 if the number is less than 0;
+   *          1 if the number is greater than 0.
+   */
   export function sign( n: number ): number {
     return Math.abs( n ) < 0.0001 ? 0 : n > 0 ? 1 :-1;
   }
 
+  /**
+   * Implements a robust polygon convexity test described by Peter Schorn in Graphics Gems IV.
+   * It correctly assesses the convexity for all polygons, including complex, self-intersecting
+   * polygons like the pentagram.
+   *
+   * @returns whether or not the input polygon is a convex polygon.
+   */
   export function convex( p: Polygon ): boolean {
-    // implements method described by Peter Schorn in Graphics Gems IV.
-    // works for all polygons, including complex, self-intersecting polygons like the pentagram.
-
     let target = _tmp_v2_a;
     let forward = _tmp_v2_b;
 

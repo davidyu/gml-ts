@@ -1,11 +1,24 @@
 module gml2d {
-  let EPSILON = 1e-6;
+  /***
+   * Any floating-point value smaller than EPSILON is considered to be zero.
+   * @hidden
+   */
+  const EPSILON = 1e-6;
 
   // optimization: assume we will call methods in the collision module very often.
   // instead of allocating new vectors in each function call, preallocate some temporary
   // vectors.
 
+  /***
+   * A temporary global static Vec2 that used by methods in this module
+   * @hidden
+   */
   let _tmp_v2_a = new Vec2( 0, 0 );
+
+  /***
+   * A temporary global static Vec2 that used by methods in this module
+   * @hidden
+   */
   let _tmp_v2_b = new Vec2( 0, 0 );
 
   export enum Halfspace {
@@ -34,8 +47,10 @@ module gml2d {
   }
 
   /**
-   * @returns a fitted convex hull from the supplied point cloud. Runs Andrew's algorithm which
-   * has a runtime of O(nlog(n)). Also sorts the supplied point cloud.
+   * Finds a fitted convex hull around the provided point cloud using Andrew's algorithm.
+   * Note that it will sort the input point cloud array.
+   *
+   * @returns A fitted convex hull from the supplied point cloud.
    */
   export function ComputeConvexHull( points: Vec2[] ): Polygon {
     if ( points.length <= 2 ) return { points: [] };
@@ -92,7 +107,7 @@ module gml2d {
   }
 
   /**
-   * @returns a fitted axis-aligned bounding box to the supplied point cloud.
+   * @returns A fitted axis-aligned bounding box to the supplied point cloud.
    */
   export function ComputeAABB( points: Vec2[] ): AABB {
     let tl = new Vec2( Number.MAX_VALUE, Number.MAX_VALUE );

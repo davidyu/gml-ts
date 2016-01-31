@@ -9,7 +9,7 @@
         "karma-cli":"0.1.x",
         "jasmine-core":"2.x",
         "karma-jasmine":"0.3.x",
-        "phantomjs": "latest",
+        "phantomjs-prebuilt": "latest",
         "karma-phantomjs-launcher": "latest",
         "colors": "1.x",
         "benchtable": "0.0.6",

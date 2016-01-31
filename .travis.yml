@@ -4,7 +4,3 @@ node_js:
 before_script:
   - npm install typescript
   - export PATH=$(pwd)/node_modules/.bin:$PATH
-  - mkdir travis-phantomjs
-  - wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2
-  - tar -xvf $(pwd)/travis-phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $(pwd)/travis-phantomjs
-  - export PATH=$(pwd)/travis-phantomjs:$PATH

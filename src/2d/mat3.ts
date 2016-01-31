@@ -96,6 +96,9 @@ module gml2d {
     }
 
     // internal accessor
+    /***
+     * @hidden
+     */
     private get rot_rad(): number {
       var a = this.get( 0, 0 ); // cos term
       var b = this.get( 0, 1 ); // sin term

@@ -127,6 +127,9 @@ module gml2d {
       to.v[1] = from.v[0];
     }
 
+    /***
+     * @hidden
+     */
     private static pool: Vec2[] = [
       new Vec2( 0, 0 ),
       new Vec2( 0, 0 ),

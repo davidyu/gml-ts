@@ -104,6 +104,9 @@ module gml2d {
       return new Vec3( 0, 0, 0 );
     }
 
+    /***
+     * @hidden
+     */
     private static pool: Vec3[] = [
       new Vec3( 0, 0, 0 ),
       new Vec3( 0, 0, 0 ),

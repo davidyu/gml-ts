@@ -3,6 +3,7 @@
     "sourceMap": true,
     "out": "../dist/gml2d.js",
     "target": "ES5",
+    "declaration": true,
     "removeComments": true
   },
   "files": [

@@ -127,6 +127,10 @@ module gml2d {
       to.v[1] = from.v[0];
     }
 
+    public static clone( from: Vec2 ): Vec2 {
+      return new Vec2( from.v );
+    }
+
     /***
      * @hidden
      */

@@ -33,6 +33,9 @@ module gml2d {
   }
 
   export class Collision {
+    /**
+     * Given a point, classifies on which side of a line it lies.
+     */
     static CategorizeHalfspace( point: Vec2, line: Line ): Halfspace {
       let l_to_p = _tmp_v2_a;
 
@@ -49,25 +52,31 @@ module gml2d {
 
     /**
      * Finds a fitted convex hull around the provided point cloud using Andrew's algorithm.
-     * Note that it will sort the input point cloud array.
+     * Note that it will sort the input point cloud array by default. If you don't want this behavior
+     * you must supply false to the inplace parameter
      *
      * @returns A fitted convex hull from the supplied point cloud.
      */
-    static ComputeConvexHull( points: Vec2[] ): Polygon {
+    static ComputeConvexHull( points: Vec2[], inplace: boolean = true ): Polygon {
       if ( points.length <= 2 ) return { points: [] };
+
+      let pts: Vec2[] = null;
+
+      if ( inplace ) pts = points;
+      else           pts = points.map( gml2d.Vec2.clone );
 
       let e = _tmp_v2_a;
       let last_edge = _tmp_v2_b;
 
-      points.sort( ( a: Vec2, b: Vec2 ) => {
+      pts.sort( ( a: Vec2, b: Vec2 ) => {
         return a.x - b.x;
       } );
 
       // create upper chain
-      let upper = [ points[0], points[1] ];
+      let upper = [ pts[0], pts[1] ];
 
-      for ( let i = 2; i < points.length; i++ ) {
-        let p = points[i];
+      for ( let i = 2; i < pts.length; i++ ) {
+        let p = pts[i];
 
         Vec2.subtract( p, upper[ upper.length - 1 ], e );
         Vec2.subtract( upper[ upper.length - 1 ], upper[ upper.length - 2 ], last_edge );
@@ -83,10 +92,10 @@ module gml2d {
       }
 
       // create lower chain
-      let lower = [ points[points.length - 1], points[points.length - 2] ];
+      let lower = [ pts[pts.length - 1], pts[pts.length - 2] ];
 
-      for ( let i = points.length - 3; i >= 0; i-- ) {
-        let p = points[i];
+      for ( let i = pts.length - 3; i >= 0; i-- ) {
+        let p = pts[i];
         Vec2.subtract( p, lower[ lower.length - 1 ], e );
         Vec2.subtract( lower[ lower.length - 1 ], lower[ lower.length - 2 ], last_edge );
         while ( last_edge.cross( e ) > 0 ) {
@@ -99,12 +108,11 @@ module gml2d {
         lower.push( p );
       }
 
-      // remove duplicate points
+      // remove duplicate pts
       upper.pop();
       lower.pop();
-      var pts = upper.concat( lower );
 
-      return { points: pts };
+      return { points: upper.concat( lower ) };
     }
 
     /**

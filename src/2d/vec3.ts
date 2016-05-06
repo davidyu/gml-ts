@@ -104,6 +104,10 @@ module gml2d {
       return new Vec3( 0, 0, 0 );
     }
 
+    public static clone( from: Vec3 ): Vec3 {
+      return new Vec3( from.v );
+    }
+
     /***
      * @hidden
      */

@@ -162,5 +162,9 @@ module gml {
       }
       return str.slice( 0, -1 );
     }
+
+    public static clone( v: Vector ): Vector {
+      return new Vector( v.size, v.v );
+    }
   }
 }

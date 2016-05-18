@@ -1,8 +1,7 @@
-# requires nvm, nodejs 6.0.0, npm and typescript to be installed
-# expects nvm to be installed in ~
-
 before_script:
+  - "[ -d ~/.nvm ] || git clone git://github.com/creationix/nvm.git ~/.nvm"
   - source ~/.nvm/nvm.sh
+  - nvm install v6.0.0
   - nvm use 6.0.0
 
 job_name:

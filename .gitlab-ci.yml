@@ -1,6 +1,8 @@
-language: node_js
-node_js:
-  - stable
+# requires nodejs and npm to be installed
+
 before_script:
   - npm install typescript
   - export PATH=$(pwd)/node_modules/.bin:$PATH
+job_name:
+  script:
+    - Make test

@@ -1,7 +1,8 @@
-# requires nodejs, npm and typescript to be installed
+# requires nvm, nodejs 6.0.0, npm and typescript to be installed
 
 before_script:
-  - alias node=nodejs
+  - nvm use 6.0.0
+
 job_name:
   script:
     - make test

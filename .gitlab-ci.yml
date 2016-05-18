@@ -1,8 +1,7 @@
-# requires nodejs and npm to be installed
+# requires nodejs, npm and typescript to be installed
 
 before_script:
-  - npm install typescript
-  - export PATH=$(pwd)/node_modules/.bin:$PATH
+  - alias node=nodejs
 job_name:
   script:
     - make test

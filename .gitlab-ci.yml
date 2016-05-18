@@ -1,6 +1,8 @@
 # requires nvm, nodejs 6.0.0, npm and typescript to be installed
+# expects nvm to be installed in ~
 
 before_script:
+  - source ~/.nvm/nvm.sh
   - nvm use 6.0.0
 
 job_name:

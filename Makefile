@@ -39,6 +39,7 @@ test: lib lib2d
 	@cp -f dist/gml.js dist/gml2d.js $(DIST_TEST)/perf/ > /dev/null
 	@cp -f dist/gml.js dist/gml2d.js $(DIST_TEST)/eyeball/ > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && ./node_modules/.bin/karma start && popd > /dev/null
+	@echo "running perf tests..."
 	@pushd $(DIST_TEST) > /dev/null && node perf/vec.js && popd > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && node perf/mat.js && popd > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && node perf/easing.js && popd > /dev/null

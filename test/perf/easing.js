@@ -2,6 +2,7 @@ var Benchtable = require('benchtable');
 
 var penner = require('easing-js');
 var gml = require('./gml');
+var opts = require( './benchmark_opts' );
 
 var suite = {};
 
@@ -14,12 +15,8 @@ suite.constructors = {
 };
 
 suite.constructors.cubicInOut
-  .addFunction( 'CubicInOut', function( input ) {
-    gml.Easing.CubicInOut( input[0] );
-  } )
-  .addFunction( '(penner) CubicInOut', function( input ) {
-    penner.easeInOutCubic( input[0], 0, 1, 1 );
-  } )
+  .addFunction( 'CubicInOut', input => { gml.Easing.CubicInOut( input[0] ); }, opts )
+  .addFunction( '(penner) CubicInOut', input => { penner.easeInOutCubic( input[0], 0, 1, 1 ); }, opts )
   .addInput( 'random t 1', [ Math.random() ] )
   .addInput( 'random t 2', [ Math.random() ] )
   .addInput( 'random t 3', [ Math.random() ] )
@@ -31,12 +28,8 @@ suite.constructors.cubicInOut
   .run();
 
 suite.constructors.quadraticInOut
-  .addFunction( 'QuadraticInOut', function( input ) {
-    gml.Easing.QuadInOut( input[0] );
-  } )
-  .addFunction( '(penner) easeInOutQuad', function( input ) {
-    penner.easeInOutQuad( input[0], 0, 1, 1 );
-  } )
+  .addFunction( 'QuadraticInOut', input => { gml.Easing.QuadInOut( input[0] ); }, opts )
+  .addFunction( '(penner) easeInOutQuad', input => { penner.easeInOutQuad( input[0], 0, 1, 1 ); }, opts )
   .addInput( 'random t 1', [ Math.random() ] )
   .addInput( 'random t 2', [ Math.random() ] )
   .addInput( 'random t 3', [ Math.random() ] )
@@ -48,12 +41,8 @@ suite.constructors.quadraticInOut
   .run();
 
 suite.constructors.trigInOut
-  .addFunction( 'TrigInOut', function( input ) {
-    gml.Easing.TrigInOut( input[0] );
-  } )
-  .addFunction( '(penner) easeInOutSine', function( input ) {
-    penner.easeInOutSine( input[0], 0, 1, 1 );
-  } )
+  .addFunction( 'TrigInOut', input => { gml.Easing.TrigInOut( input[0] ); }, opts )
+  .addFunction( '(penner) easeInOutSine', input => { penner.easeInOutSine( input[0], 0, 1, 1 ); }, opts )
   .addInput( 'random t 1', [ Math.random() ] )
   .addInput( 'random t 2', [ Math.random() ] )
   .addInput( 'random t 3', [ Math.random() ] )
@@ -65,12 +54,8 @@ suite.constructors.trigInOut
   .run();
 
 suite.constructors.expInOut
-  .addFunction( 'ExpInOut', function( input ) {
-    gml.Easing.ExpInOut( input[0] );
-  } )
-  .addFunction( '(penner) easeInOutExpo', function( input ) {
-    penner.easeInOutExpo( input[0], 0, 1, 1 );
-  } )
+  .addFunction( 'ExpInOut', input => { gml.Easing.ExpInOut( input[0] ); }, opts )
+  .addFunction( '(penner) easeInOutExpo', input => { penner.easeInOutExpo( input[0], 0, 1, 1 ); }, opts )
   .addInput( 'random t 1', [ Math.random() ] )
   .addInput( 'random t 2', [ Math.random() ] )
   .addInput( 'random t 3', [ Math.random() ] )
@@ -82,12 +67,8 @@ suite.constructors.expInOut
   .run();
 
 suite.constructors.backInOut
-  .addFunction( 'BackInOut', function( input ) {
-    gml.Easing.BackInOut( input[0] );
-  } )
-  .addFunction( '(penner) easeInOutBack', function( input ) {
-    penner.easeInOutBack( input[0], 0, 1, 1 );
-  } )
+  .addFunction( 'BackInOut', input => { gml.Easing.BackInOut( input[0] ); }, opts )
+  .addFunction( '(penner) easeInOutBack', input => { penner.easeInOutBack( input[0], 0, 1, 1 ); }, opts )
   .addInput( 'random t 1', [ Math.random() ] )
   .addInput( 'random t 2', [ Math.random() ] )
   .addInput( 'random t 3', [ Math.random() ] )

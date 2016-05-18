@@ -5,4 +5,4 @@ before_script:
   - export PATH=$(pwd)/node_modules/.bin:$PATH
 job_name:
   script:
-    - Make test
+    - make test

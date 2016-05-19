@@ -41,6 +41,7 @@ test: lib lib2d
 
 perf: lib lib2d
 	@echo "running perf tests..."
+	@cp -rf $(TEST)/perf/* $(DIST_TEST)/perf/ > /dev/null
 	@cp -f dist/gml.js dist/gml2d.js $(DIST_TEST)/perf/ > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && node perf/vec.js && popd > /dev/null
 	@pushd $(DIST_TEST) > /dev/null && node perf/mat.js && popd > /dev/null

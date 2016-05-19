@@ -291,6 +291,11 @@ module gml {
                      , this.m30 * rhs.x + this.m31 * rhs.y + this.m32 * rhs.z + this.m33 * rhs.w );
     }
 
+    /**
+     * @returns the inverse of this 4x4 matrix.
+     *
+     * Hand expanded for speed. Returns the identity matrix if this matrix is singular.
+     */
     public invert(): Mat4 {
       let m00 = this.v[ 0];
       let m01 = this.v[ 1];
@@ -313,25 +318,25 @@ module gml {
       if ( det == 0 ) return Mat4.identity(); // fail
 
       let f = 1 / det;
-      return new Mat4( f * -m13 * m22 * m31 + f * m12 * m23 * m31 + f * m13 * m21 * m32 - f * m11 * m23 * m32 - f * m12 * m21 * m33 + f * m11 * m22 * m33
-                     , f *  m03 * m22 * m31 - f * m02 * m23 * m31 - f * m03 * m21 * m32 + f * m01 * m23 * m32 + f * m02 * m21 * m33 - f * m01 * m22 * m33
-                     , f * -m03 * m12 * m31 + f * m02 * m13 * m31 + f * m03 * m11 * m32 - f * m01 * m13 * m32 - f * m02 * m11 * m33 + f * m01 * m12 * m33
-                     , f *  m03 * m12 * m21 - f * m02 * m13 * m21 - f * m03 * m11 * m22 + f * m01 * m13 * m22 + f * m02 * m11 * m23 - f * m01 * m12 * m23
+      return new Mat4( f * ( -m13 * m22 * m31 + m12 * m23 * m31 + m13 * m21 * m32 - m11 * m23 * m32 - m12 * m21 * m33 + m11 * m22 * m33 )
+                     , f * (  m03 * m22 * m31 - m02 * m23 * m31 - m03 * m21 * m32 + m01 * m23 * m32 + m02 * m21 * m33 - m01 * m22 * m33 )
+                     , f * ( -m03 * m12 * m31 + m02 * m13 * m31 + m03 * m11 * m32 - m01 * m13 * m32 - m02 * m11 * m33 + m01 * m12 * m33 )
+                     , f * (  m03 * m12 * m21 - m02 * m13 * m21 - m03 * m11 * m22 + m01 * m13 * m22 + m02 * m11 * m23 - m01 * m12 * m23 )
 
-                     , f *  m13 * m22 * m30 - f * m12 * m23 * m30 - f * m13 * m20 * m32 + f * m10 * m23 * m32 + f * m12 * m20 * m33 - f * m10 * m22 * m33
-                     , f * -m03 * m22 * m30 + f * m02 * m23 * m30 + f * m03 * m20 * m32 - f * m00 * m23 * m32 - f * m02 * m20 * m33 + f * m00 * m22 * m33
-                     , f *  m03 * m12 * m30 - f * m02 * m13 * m30 - f * m03 * m10 * m32 + f * m00 * m13 * m32 + f * m02 * m10 * m33 - f * m00 * m12 * m33
-                     , f * -m03 * m12 * m20 + f * m02 * m13 * m20 + f * m03 * m10 * m22 - f * m00 * m13 * m22 - f * m02 * m10 * m23 + f * m00 * m12 * m23
+                     , f * (  m13 * m22 * m30 - m12 * m23 * m30 - m13 * m20 * m32 + m10 * m23 * m32 + m12 * m20 * m33 - m10 * m22 * m33 )
+                     , f * ( -m03 * m22 * m30 + m02 * m23 * m30 + m03 * m20 * m32 - m00 * m23 * m32 - m02 * m20 * m33 + m00 * m22 * m33 )
+                     , f * (  m03 * m12 * m30 - m02 * m13 * m30 - m03 * m10 * m32 + m00 * m13 * m32 + m02 * m10 * m33 - m00 * m12 * m33 )
+                     , f * ( -m03 * m12 * m20 + m02 * m13 * m20 + m03 * m10 * m22 - m00 * m13 * m22 - m02 * m10 * m23 + m00 * m12 * m23 )
 
-                     , f * -m13 * m21 * m30 + f * m11 * m23 * m30 + f * m13 * m20 * m31 - f * m10 * m23 * m31 - f * m11 * m20 * m33 + f * m10 * m21 * m33
-                     , f *  m03 * m21 * m30 - f * m01 * m23 * m30 - f * m03 * m20 * m31 + f * m00 * m23 * m31 + f * m01 * m20 * m33 - f * m00 * m21 * m33
-                     , f * -m03 * m11 * m30 + f * m01 * m13 * m30 + f * m03 * m10 * m31 - f * m00 * m13 * m31 - f * m01 * m10 * m33 + f * m00 * m11 * m33
-                     , f *  m03 * m11 * m20 - f * m01 * m13 * m20 - f * m03 * m10 * m21 + f * m00 * m13 * m21 + f * m01 * m10 * m23 - f * m00 * m11 * m23
+                     , f * ( -m13 * m21 * m30 + m11 * m23 * m30 + m13 * m20 * m31 - m10 * m23 * m31 - m11 * m20 * m33 + m10 * m21 * m33 )
+                     , f * (  m03 * m21 * m30 - m01 * m23 * m30 - m03 * m20 * m31 + m00 * m23 * m31 + m01 * m20 * m33 - m00 * m21 * m33 )
+                     , f * ( -m03 * m11 * m30 + m01 * m13 * m30 + m03 * m10 * m31 - m00 * m13 * m31 - m01 * m10 * m33 + m00 * m11 * m33 )
+                     , f * (  m03 * m11 * m20 - m01 * m13 * m20 - m03 * m10 * m21 + m00 * m13 * m21 + m01 * m10 * m23 - m00 * m11 * m23 )
 
-                     , f *  m12 * m21 * m30 - f * m11 * m22 * m30 - f * m12 * m20 * m31 + f * m10 * m22 * m31 + f * m11 * m20 * m32 - f * m10 * m21 * m32
-                     , f * -m02 * m21 * m30 + f * m01 * m22 * m30 + f * m02 * m20 * m31 - f * m00 * m22 * m31 - f * m01 * m20 * m32 + f * m00 * m21 * m32
-                     , f *  m02 * m11 * m30 - f * m01 * m12 * m30 - f * m02 * m10 * m31 + f * m00 * m12 * m31 + f * m01 * m10 * m32 - f * m00 * m11 * m32
-                     , f * -m02 * m11 * m20 + f * m01 * m12 * m20 + f * m02 * m10 * m21 - f * m00 * m12 * m21 - f * m01 * m10 * m22 + f * m00 * m11 * m22 );
+                     , f * (  m12 * m21 * m30 - m11 * m22 * m30 - m12 * m20 * m31 + m10 * m22 * m31 + m11 * m20 * m32 - m10 * m21 * m32 )
+                     , f * ( -m02 * m21 * m30 + m01 * m22 * m30 + m02 * m20 * m31 - m00 * m22 * m31 - m01 * m20 * m32 + m00 * m21 * m32 )
+                     , f * (  m02 * m11 * m30 - m01 * m12 * m30 - m02 * m10 * m31 + m00 * m12 * m31 + m01 * m10 * m32 - m00 * m11 * m32 )
+                     , f * ( -m02 * m11 * m20 + m01 * m12 * m20 + m02 * m10 * m21 - m00 * m12 * m21 - m01 * m10 * m22 + m00 * m11 * m22 ) );
     }
 
     /**

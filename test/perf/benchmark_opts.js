@@ -1,1 +1,1 @@
-module.exports = { "maxTime": 1.2, "queued": true }; // optimize for speed over accuracy so local CI machine can keep up
+module.exports = { "maxTime": 2.0, "queued": true }; // careful balance between running time and statistical significance

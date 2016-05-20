@@ -314,10 +314,23 @@ module gml {
       let m32 = this.v[14];
       let m33 = this.v[15];
 
-      let det = this.determinant;
-      if ( det == 0 ) return Mat4.identity(); // fail
+      let a00 = m03 * m11 - m01 * m13;
+      let a01 = m20 * m32 - m22 * m30;
+      let a02 = m00 * m13 - m03 * m10;
+      let a03 = m21 * m32 - m22 * m31;
+      let a04 = m02 * m10 - m00 * m12;
+      let a05 = m21 * m33 - m23 * m31;
+      let a06 = m00 * m11 - m01 * m10;
+      let a07 = m22 * m33 - m23 * m32;
+      let a08 = m02 * m11 - m01 * m12;
+      let a09 = m23 * m30 - m20 * m33;
+      let a10 = m03 * m12 - m02 * m13;
+      let a11 = m21 * m30 - m20 * m31;
 
+      let det = a00 * a01 + a02 * a03 + a04 * a05 + a06 * a07 + a08 * a09 + a10 * a11;
+      if ( det == 0 ) return Mat4.identity(); // fail
       let f = 1 / det;
+
       return new Mat4( f * ( -m13 * m22 * m31 + m12 * m23 * m31 + m13 * m21 * m32 - m11 * m23 * m32 - m12 * m21 * m33 + m11 * m22 * m33 )
                      , f * (  m03 * m22 * m31 - m02 * m23 * m31 - m03 * m21 * m32 + m01 * m23 * m32 + m02 * m21 * m33 - m01 * m22 * m33 )
                      , f * ( -m03 * m12 * m31 + m02 * m13 * m31 + m03 * m11 * m32 - m01 * m13 * m32 - m02 * m11 * m33 + m01 * m12 * m33 )
@@ -363,12 +376,55 @@ module gml {
       let m32 = this.v[14];
       let m33 = this.v[15];
 
-      return m03 * m12 * m21 * m30 - m02 * m13 * m21 * m30 - m03 * m11 * m22 * m30 + m01 * m13 * m22 * m30 +
-             m02 * m11 * m23 * m30 - m01 * m12 * m23 * m30 - m03 * m12 * m20 * m31 + m02 * m13 * m20 * m31 +
-             m03 * m10 * m22 * m31 - m00 * m13 * m22 * m31 - m02 * m10 * m23 * m31 + m00 * m12 * m23 * m31 +
-             m03 * m11 * m20 * m32 - m01 * m13 * m20 * m32 - m03 * m10 * m21 * m32 + m00 * m13 * m21 * m32 +
-             m01 * m10 * m23 * m32 - m00 * m11 * m23 * m32 - m02 * m11 * m20 * m33 + m01 * m12 * m20 * m33 +
-             m02 * m10 * m21 * m33 - m00 * m12 * m21 * m33 - m01 * m10 * m22 * m33 + m00 * m11 * m22 * m33;
+      /* to derive: 
+       * expand the Leibniz formula (or Sarrus's rule) to arrive at the following closed form:
+       *
+       *     m03 * m12 * m21 * m30 - m02 * m13 * m21 * m30 - m03 * m11 * m22 * m30 + m01 * m13 * m22 * m30 +
+       *     m02 * m11 * m23 * m30 - m01 * m12 * m23 * m30 - m03 * m12 * m20 * m31 + m02 * m13 * m20 * m31 +
+       *     m03 * m10 * m22 * m31 - m00 * m13 * m22 * m31 - m02 * m10 * m23 * m31 + m00 * m12 * m23 * m31 +
+       *     m03 * m11 * m20 * m32 - m01 * m13 * m20 * m32 - m03 * m10 * m21 * m32 + m00 * m13 * m21 * m32 +
+       *     m01 * m10 * m23 * m32 - m00 * m11 * m23 * m32 - m02 * m11 * m20 * m33 + m01 * m12 * m20 * m33 +
+       *     m02 * m10 * m21 * m33 - m00 * m12 * m21 * m33 - m01 * m10 * m22 * m33 + m00 * m11 * m22 * m33;
+       *
+       * then factor out common pairs:
+       *
+       *      m03 * m11 * ( m20 * m32 - m22 * m30 )
+       *      m01 * m13 * ( m22 * m30 - m20 * m32 )
+       *      m00 * m13 * ( m21 * m32 - m22 * m31 )
+       *      m03 * m10 * ( m22 * m31 - m21 * m32 )
+       *      m02 * m10 * ( m21 * m33 - m23 * m31 )
+       *      m00 * m12 * ( m23 * m31 - m21 * m33 )
+       *      m00 * m11 * ( m22 * m33 - m23 * m32 )
+       *      m02 * m11 * ( m23 * m30 - m20 * m33 )
+       *      m01 * m12 * ( m20 * m33 - m23 * m30 )
+       *      m03 * m12 * ( m21 * m30 - m20 * m31 )
+       *      m02 * m13 * ( m20 * m31 - m21 * m30 )
+       *      m01 * m10 * ( m23 * m32 - m22 * m33 )
+       *
+       * one more time, and voila:
+       *
+       *     ( m03 * m11 - m01 * m13 ) * ( m20 * m32 - m22 * m30 )
+       *     ( m00 * m13 - m03 * m10 ) * ( m21 * m32 - m22 * m31 )
+       *     ( m02 * m10 - m00 * m12 ) * ( m21 * m33 - m23 * m31 )
+       *     ( m00 * m11 - m01 * m10 ) * ( m22 * m33 - m23 * m32 )
+       *     ( m02 * m11 - m01 * m12 ) * ( m23 * m30 - m20 * m33 )
+       *     ( m03 * m12 - m02 * m13 ) * ( m21 * m30 - m20 * m31 )
+       */
+
+      let a00 = m03 * m11 - m01 * m13;
+      let a01 = m20 * m32 - m22 * m30;
+      let a02 = m00 * m13 - m03 * m10;
+      let a03 = m21 * m32 - m22 * m31;
+      let a04 = m02 * m10 - m00 * m12;
+      let a05 = m21 * m33 - m23 * m31;
+      let a06 = m00 * m11 - m01 * m10;
+      let a07 = m22 * m33 - m23 * m32;
+      let a08 = m02 * m11 - m01 * m12;
+      let a09 = m23 * m30 - m20 * m33;
+      let a10 = m03 * m12 - m02 * m13;
+      let a11 = m21 * m30 - m20 * m31;
+
+      return a00 * a01 + a02 * a03 + a04 * a05 + a06 * a07 + a08 * a09 + a10 * a11;
     }
 
     public transpose(): Mat4 {

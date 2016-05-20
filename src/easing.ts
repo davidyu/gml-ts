@@ -101,14 +101,13 @@ module gml {
 
     public static ExpInOut( t: number, base: number = 10 ) {
       if ( t == 0 ) return 0;
-      else if ( t == 1 ) return 1;
-      else {
-        if ( t < 0.5 ) {
-          return 0.5 * Math.pow( 2, base * ( 2 * t - 1 ) );
-        } else {
-          let _t = ( ( t - 0.5 ) * 2 );
-          return ( 1 - Math.pow( 2, -base * _t ) ) / 2 + 0.5;
-        }
+      if ( t >= 1 ) return 1;
+      if ( t < 0.5 ) {
+        let _base = base * ( 2 * t - 1 ) - 1;
+        return Math.pow( 2, _base );
+      } else {
+        let _base = -base * ( 2 * t - 1 ) - 1;
+        return 1 - Math.pow( 2, _base );
       }
     }
 

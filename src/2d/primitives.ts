@@ -16,6 +16,11 @@ module gml2d {
     normal: Vec2;
   }
 
+  enum Winding {
+    CW,
+    CCW,
+  }
+
   export class Polygon {
     points: Vec2[];
 
@@ -71,6 +76,23 @@ module gml2d {
 
         return changex <= 2 && changey <= 2;
       }
+    }
+
+    /**
+     * Checks whether the polygon is CCW or CW by looking at the "area" of the polygon.
+     * Nice geometric explanation here: http://blog.element84.com/polygon-winding.html
+     *
+     * @returns the winding of the polygon (CCW or CW)
+     */
+    static GetWinding( p: Polygon ): Winding {
+      let area: number = 0;
+      for ( let i = 0; i < p.points.length; i++ ) {
+        let curr = p.points[i];
+        let next = p.points[ ( i + 1 ) % p.points.length ];
+        area += ( next.x - curr.x ) * ( next.y + curr.y )
+      }
+
+      return area > 0 ? Winding.CC : Winding.CCW;
     }
   }
 }

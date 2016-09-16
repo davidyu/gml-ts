@@ -21,6 +21,7 @@ module gml2d {
     CCW,
   }
 
+  // TODO: provide some sort of iterator sugar for iterating over edges of this polygon
   export class Polygon {
     points: Vec2[];
 
@@ -93,6 +94,10 @@ module gml2d {
       }
 
       return area > 0 ? Winding.CC : Winding.CCW;
+    }
+
+    static clone( p_in: Polygon ): Polygon {
+      return { points: p_in.points.map( Vec2.clone ) }
     }
   }
 }

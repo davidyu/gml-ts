@@ -136,5 +136,41 @@ module gml2d {
 
       return { min: tl, max: br };
     }
+
+    /**
+     * Clips a polygon with another polygon using the Sutherland-Hodgman algorithm.
+     *
+     * @returns A polygon that is the result of the subject polygon clipped
+     * by the clipper polygon
+     */
+    static clip( subject: Polygon, clipper: Polygon ): Polygon {
+      let inside = Halfspace.COINCIDENT; // invalid, should be either positive or negative
+      switch ( Polygon.GetWinding( clipper ) ) {
+        case Winding.CW:
+          inside = Halfspace.POSITIVE;
+          break;
+        case Winding.CCW:
+          inside = Halfspace.NEGATIVE;
+          break;
+      }
+
+      let out_pts = subject.points;
+
+      // for each edge in the clipper poly
+      for ( let i = 0; i < clipper.points.length; i++ ) {
+        let start = clipper.points[i];
+        let end   = clipper.points[ ( i + 1 ) % clipper.points.length ];
+
+        let input = out_pts.map( Vec2.clone );
+        out_pts = [];
+
+        let S = input[ input.length - 1 ];
+        for ( let j = 0; j < input.length; j++ ) {
+          let E = input[j];
+        }
+      }
+
+      return { points: out_pts };
+    }
   }
 }

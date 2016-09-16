@@ -223,6 +223,7 @@ module gml2d {
           Vec2.subtract( end, start, _tmp_local_v2_a );
           edge.normal.x = -_tmp_local_v2_a.y;
           edge.normal.y =  _tmp_local_v2_a.x;
+          edge.normal.normalize();
 
           if ( CategorizeHalfspace( e, edge ) == inside ) {
             if ( CategorizeHalfspace( s, edge ) != inside ) {

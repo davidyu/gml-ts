@@ -21,6 +21,12 @@ module gml2d {
    */
   let _tmp_v2_b = new Vec2( 0, 0 );
 
+  /***
+   * A temporary global static Vec2 that used by methods in this module
+   * @hidden
+   */
+  let _tmp_v2_c = new Vec2( 0, 0 );
+
   export enum Halfspace {
     POSITIVE,
     NEGATIVE,
@@ -54,6 +60,8 @@ module gml2d {
      * Finds a fitted convex hull around the provided point cloud using Andrew's algorithm.
      * Note that it will sort the input point cloud array by default. If you don't want this behavior
      * you must supply false to the inplace parameter
+     *
+     * Uses _tmp_v2_a and _tmp_v2_b
      *
      * @returns A fitted convex hull from the supplied point cloud.
      */
@@ -138,12 +146,48 @@ module gml2d {
     }
 
     /**
+     * Uses _tmp_v2_a and _tmp_v2_b
+     *
+     * @returns Whether the line segment intersects with the line.
+     */
+    static LineSegmentLineIntersection( seg_start: Vec2, seg_start: Vec2, line: Line, result: Vec2 ): boolean {
+      // let p1, p2 be l_start, l_end
+      // let o, n be the point and normal of the line l
+      // let o_1 be the intersection point of the line defined by p1 and p2 and line l:
+      //
+      // we have    o_1                  = p1 + t(p2-p1)
+      // and       (o_1-o) dot n         = 0
+      // therefore (p1 + t(p2-p1)) dot n = 0
+      //
+      // after some simple arithmetic, we arrive at:
+      //
+      // t = n dot (o-p1) / n dot (p1-p2)
+      //
+      // if t is positive, then the intersection exists
+
+      let ray = _tmp_v2_a;
+      let seg_start_to_line = _tmp_v2_b;
+
+      Vec2.subtract( seg_end, seg_start, ray );
+      Vec2.subtract( line.point, seg_start, seg_start_to_line );
+
+      let t = line.normal.dot( seg_start_to_line ) / line.normal.dot( ray );
+
+      if ( t > 0 ) {
+        Vec2.multiply( ray, t, result )
+        return true;
+      }
+
+      return false;
+    }
+
+    /**
      * Clips a polygon with another polygon using the Sutherland-Hodgman algorithm.
      *
      * @returns A polygon that is the result of the subject polygon clipped
      * by the clipper polygon
      */
-    static clip( subject: Polygon, clipper: Polygon ): Polygon {
+    static Clip( subject: Polygon, clipper: Polygon ): Polygon {
       let inside = Halfspace.COINCIDENT; // invalid, should be either positive or negative
       switch ( Polygon.GetWinding( clipper ) ) {
         case Winding.CW:
@@ -154,19 +198,44 @@ module gml2d {
           break;
       }
 
+      // assume this function is not called every frame, so allocating vectors in me is fine.
+      // generally, clipping is done by an user-triggered action, after the user has confirmed
+      // that the subject and clip polygon are correctly constructed and aligned.
       let out_pts = subject.points;
+      let edge = { point: Vec2.zero, normal: Vec2.zero };
+      let _tmp_local_v2_a: Vec2 = Vec2.zero;
+      let _tmp_local_v2_b: Vec2 = Vec2.zero;
 
       // for each edge in the clipper poly
       for ( let i = 0; i < clipper.points.length; i++ ) {
         let start = clipper.points[i];
         let end   = clipper.points[ ( i + 1 ) % clipper.points.length ];
 
-        let input = out_pts.map( Vec2.clone );
+        let in_pts = out_pts.map( Vec2.clone ); // input = output
         out_pts = [];
 
-        let S = input[ input.length - 1 ];
-        for ( let j = 0; j < input.length; j++ ) {
-          let E = input[j];
+        let s = in_pts[ in_pts.length - 1 ];
+        for ( let j = 0; j < in_pts.length; j++ ) {
+          let e = in_pts[j];
+          edge.point.x = start.x;
+          edge.point.y = start.y;
+          
+          Vec2.subtract( end, start, _tmp_local_v2_a );
+          edge.normal.x = -_tmp_local_v2_a.y;
+          edge.normal.y =  _tmp_local_v2_a.x;
+
+          if ( CategorizeHalfspace( e, edge ) == inside ) {
+            if ( CategorizeHalfspace( s, edge ) != inside ) {
+              if ( LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
+                out_pts.push( _tmp_local_v2_b );
+              }
+            }
+            out_pts.push( e );
+          } else if ( CategorizeHalfspace( s, edge ) == inside ) {
+              if ( LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
+                out_pts.push( _tmp_local_v2_b );
+              }
+          }
         }
       }
 

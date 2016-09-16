@@ -237,6 +237,8 @@ module gml2d {
                 out_pts.push( _tmp_local_v2_b );
               }
           }
+
+          s = e; // advance vertex pointer (look at the next edge in subject polygon)
         }
       }
 

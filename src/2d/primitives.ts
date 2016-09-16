@@ -16,7 +16,7 @@ module gml2d {
     normal: Vec2;
   }
 
-  enum Winding {
+  export enum Winding {
     CW,
     CCW,
   }
@@ -93,7 +93,7 @@ module gml2d {
         area += ( next.x - curr.x ) * ( next.y + curr.y )
       }
 
-      return area > 0 ? Winding.CC : Winding.CCW;
+      return area > 0 ? Winding.CW : Winding.CCW;
     }
 
     static clone( p_in: Polygon ): Polygon {

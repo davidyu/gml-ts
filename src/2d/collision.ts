@@ -150,7 +150,7 @@ module gml2d {
      *
      * @returns Whether the line segment intersects with the line.
      */
-    static LineSegmentLineIntersection( seg_start: Vec2, seg_start: Vec2, line: Line, result: Vec2 ): boolean {
+    static LineSegmentLineIntersection( seg_start: Vec2, seg_end: Vec2, line: Line, result: Vec2 ): boolean {
       // let p1, p2 be l_start, l_end
       // let o, n be the point and normal of the line l
       // let o_1 be the intersection point of the line defined by p1 and p2 and line l:
@@ -225,15 +225,15 @@ module gml2d {
           edge.normal.y =  _tmp_local_v2_a.x;
           edge.normal.normalize();
 
-          if ( CategorizeHalfspace( e, edge ) == inside ) {
-            if ( CategorizeHalfspace( s, edge ) != inside ) {
-              if ( LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
+          if ( Collision.CategorizeHalfspace( e, edge ) == inside ) {
+            if ( Collision.CategorizeHalfspace( s, edge ) != inside ) {
+              if ( Collision.LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
                 out_pts.push( _tmp_local_v2_b );
               }
             }
             out_pts.push( e );
-          } else if ( CategorizeHalfspace( s, edge ) == inside ) {
-              if ( LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
+          } else if ( Collision.CategorizeHalfspace( s, edge ) == inside ) {
+              if ( Collision.LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
                 out_pts.push( _tmp_local_v2_b );
               }
           }

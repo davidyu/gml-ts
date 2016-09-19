@@ -13,6 +13,8 @@ module gml {
     }
 
     public static QuadOut( t: number ) {
+      // note that this works out to be the same as
+      // 1-(x-1)(x-1)
 			return -t * ( t - 2 );
     }
 
@@ -81,7 +83,7 @@ module gml {
 
     public static QuarticOut( t: number ) {
       let _t = t - 1;
-      return -_t*_t*_t*_t + 1;
+      return 1 - _t*_t*_t*_t;
     }
 
     public static QuarticInOut( t: number ) {

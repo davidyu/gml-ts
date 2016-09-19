@@ -75,6 +75,42 @@ module gml {
       }
     }
 
+    public static QuarticIn( t: number ) {
+      return t*t*t*t;
+    }
+
+    public static QuarticOut( t: number ) {
+      let _t = t - 1;
+      return -_t*_t*_t*_t + 1;
+    }
+
+    public static QuarticInOut( t: number ) {
+      if ( t < 0.5 ) {
+        return 8*t*t*t*t;
+      } else {
+        let _t = ( ( t - 0.5 ) * 2 ) - 1;
+        return ( -_t*_t*_t*_t + 1 ) / 2 + 0.5;
+      }
+    }
+
+    public static QuintIn( t: number ) {
+      return t*t*t*t*t;
+    }
+
+    public static QuintOut( t: number ) {
+      let _t = t - 1;
+      return _t*_t*_t*_t*_t + 1;
+    }
+
+    public static QuintInOut( t: number ) {
+      if ( t < 0.5 ) {
+        return 16*t*t*t*t*t;
+      } else {
+        let _t = ( ( t - 0.5 ) * 2 ) - 1;
+        return ( _t*_t*_t*_t*_t + 1 ) / 2 + 0.5;
+      }
+    }
+
     public static TrigIn( t: number ) {
       return 1 - Math.cos( t * ( Math.PI / 2 ) );
     }

@@ -88,8 +88,24 @@ module gml {
 
     public static QuarticInOut( t: number ) {
       if ( t < 0.5 ) {
+        /* we want verbatim behavior as QuarticIn, except we're passing in t
+         * with a range of 0 to 0.5, and we want the output to also range from
+         * 0 to 0.5.
+         *
+         * we double the input parameter s.t. it is 0 to 1, then pass it into
+         * the QuarticIn function (t*t*t*t), then half the result to get an output
+         * from 0 to 0.5. IE: 0.5*2t*2t*2t*2t. Resolves to 8*t*t*t*t
+         */
         return 8*t*t*t*t;
       } else {
+        /* we want verbatim behavior as QuarticOut, except we're passing in t
+         * with a range of 0.5 to 1, and we want the output to also range from
+         * 0.5 to 1.
+         *
+         * we transform the input parameter s.t. it is 0 to 1, then pass it into
+         * the QuarticOut function (t-1)^3 + 1, then transform the result s.t. it is
+         * from 0.5 to 1.
+         */
         let _t = ( ( t - 0.5 ) * 2 ) - 1;
         return ( -_t*_t*_t*_t + 1 ) / 2 + 0.5;
       }
@@ -106,8 +122,24 @@ module gml {
 
     public static QuintInOut( t: number ) {
       if ( t < 0.5 ) {
+        /* we want verbatim behavior as QuintIn, except we're passing in t
+         * with a range of 0 to 0.5, and we want the output to also range from
+         * 0 to 0.5.
+         *
+         * we double the input parameter s.t. it is 0 to 1, then pass it into
+         * the QuintIn function (t*t*t*t*t), then half the result to get an output
+         * from 0 to 0.5. IE: 0.5*2t*2t*2t*2t*2t. Resolves to 16*t*t*t*t*t
+         */
         return 16*t*t*t*t*t;
       } else {
+        /* we want verbatim behavior as QuintOut, except we're passing in t
+         * with a range of 0.5 to 1, and we want the output to also range from
+         * 0.5 to 1.
+         *
+         * we transform the input parameter s.t. it is 0 to 1, then pass it into
+         * the QuarticOut function (t-1)^5 + 1, then transform the result s.t. it is
+         * from 0.5 to 1.
+         */
         let _t = ( ( t - 0.5 ) * 2 ) - 1;
         return ( _t*_t*_t*_t*_t + 1 ) / 2 + 0.5;
       }

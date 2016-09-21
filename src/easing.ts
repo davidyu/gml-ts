@@ -233,6 +233,30 @@ module gml {
         return 0.5 * Math.pow( 2, -10 * _t ) * Math.sin( ( _t - s ) * 2 * Math.PI / p ) + 1;
       }
     }
+
+    public static BounceIn( t: number ) {
+      return 1 - Easing.BounceOut( 1 - t );
+    }
+
+    public static BounceOut( t: number ) {
+      if ( t < ( 1 / 2.75 ) ) {
+        return 7.5625 * t * t;
+      } else if (t < ( 2 / 2.75 ) ) {
+        let _t = t - 1.5 / 2.75;
+        return 7.5625 * _t * _t + 0.75;
+      } else if ( t < ( 2.5/2.75 ) ) {
+        let _t = t - 2.25 / 2.75;
+        return 7.5625 * _t * _t + .9375;
+      } else {
+        let _t = t - 2.625 / 2.75;
+        return 7.5625 * _t * _t + .984375;
+      }
+    }
+
+    public static BounceInOut( t: number ) {
+      if ( t < 0.5 ) return 0.5 * Easing.BounceIn ( 2 * t );
+      else           return 0.5 + 0.5 * Easing.BounceOut( 2 * t - 1 );
+    }
   }
 }
 

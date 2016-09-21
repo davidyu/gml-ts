@@ -199,6 +199,37 @@ module gml {
         return ( _t * _t * ( ( s + 1 ) * _t + s ) + 1 ) / 2 + 0.5;
       }
     }
+
+    public static ElasticIn( t: number ) {
+      if ( t == 0 ) return 0;
+      if ( t == 1 ) return 1;
+      let p = 0.3;
+      let s = p / 4;
+      let _t = t - 1;
+      return -Math.pow( 2, 10 * _t ) * Math.sin( ( _t - s ) * 2 * Math.PI / p ); 
+    }
+
+    public static ElasticOut( t: number ) {
+      if ( t == 0 ) return 0;
+      if ( t == 1 ) return 1;
+      let p = 0.3;
+      let s = p / 4;
+      return Math.pow( 2, -10 * t ) * Math.sin( ( t - s ) * 2 * Math.PI / p ) + 1;
+    }
+
+    public static ElasticInOut( t: number ) {
+      if ( t == 0 ) return 0;
+      if ( t == 1 ) return 1;
+      let p = 0.45;
+      let s = p / 4;
+      if ( t < 0.5 ) {
+        let _t = 2 * t;
+        return -0.5 * Math.pow( 2, 10 * ( _t - 1 ) ) * Math.sin( ( ( _t - 1 ) - s ) * 2 * Math.PI / p ); 
+      } else {
+        let _t = 2 * t - 1;
+        return 0.5 * Math.pow( 2, -10 * _t ) * Math.sin( ( _t - s ) * 2 * Math.PI / p ) + 1;
+      }
+    }
   }
 }
 

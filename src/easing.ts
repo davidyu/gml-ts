@@ -201,6 +201,8 @@ module gml {
     }
 
     public static ElasticIn( t: number ) {
+      // elastic easing is essentially a transformation of the dampened sine wave
+      // the elastic-ease-in curve looks like the reverse of a dampened sine wave
       if ( t == 0 ) return 0;
       if ( t == 1 ) return 1;
       let p = 0.3;
@@ -210,6 +212,7 @@ module gml {
     }
 
     public static ElasticOut( t: number ) {
+      // the elastic-ease-in curve looks like the standard version of a dampened sine wave
       if ( t == 0 ) return 0;
       if ( t == 1 ) return 1;
       let p = 0.3;

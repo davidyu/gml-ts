@@ -9,19 +9,35 @@
     <script type="text/javascript">
         var canvas;
         var context;
-        var poly;
-        var controls = {
-            sides: 3,
-            regular: false,
-        };
+
+        var subjectPoly;
+        var clipPoly;
+
+        var clippedPoly;
+
+        function drawAllPolys() {
+            context.clearRect( 0, 0, canvas.width, canvas.height );
+
+            visualizePoly( subjectPoly , false , false );
+            visualizePoly( clipPoly    , false , true  );
+            visualizePoly( clippedPoly , true  , false );
+        }
 
         function init() {
             canvas = document.getElementById( "viewport" );
             context = canvas.getContext( '2d' );
 
-            poly = { points: [] };
-            genPoly( 3, false );
-            visualizePoly( poly );
+            subjectPoly = genPoly( 5, true );
+            clipPoly    = genPoly( 3, true );
+            clippedPoly = gml2d.Collision.Clip( subjectPoly, clipPoly );
+
+            console.log( clippedPoly );
+
+            drawAllPolys();
+        }
+
+        function clip() {
+            clippedPoly = gml2d.Collision.Clip( subjectPoly, clipPoly );
         }
 
         function genPoly( sides, regular ) {
@@ -42,38 +58,38 @@
                 }
             }
 
-            poly.points = points
+            return { points: points }
         }
 
-        function visualizePoly( poly ) {
+        function visualizePoly( poly, fill, dashed ) {
             context.beginPath();
             context.moveTo( poly.points[0].x, poly.points[0].y );
             context.lineWidth = 1;
             context.fillStyle = gml2d.Polygon.IsConvex( poly ) ? LIGHT_GREEN : LIGHT_RED;
+
+            if ( dashed ) context.setLineDash( [ 2, 3 ] ); 
+            else          context.setLineDash( [ 0 ] );
 
             for ( var i = 0; i < poly.points.length; i++ ) {
                 var p = poly.points[ (i+1) % poly.points.length ];
                 context.lineTo( p.x, p.y );
             }
 
-            context.fill();
+            if ( fill ) context.fill();
+
             context.stroke();
         }
 
-        function updateControlSides( sides ) {
-            controls.sides = sides;
-            newPoly();
+        function updateSubjectPolygon( sides ) {
+            subjectPoly = genPoly( sides, true );
+
+            drawAllPolys();
         }
 
-        function updateControlRegular( regular ) {
-            controls.regular = regular;
-            newPoly();
-        }
+        function updateClipperPolygon( sides ) {
+            clipPoly = genPoly( sides, true );
 
-        function newPoly() {
-            genPoly( controls.sides, controls.regular );
-            context.clearRect( 0, 0, canvas.width, canvas.height );
-            visualizePoly( poly );
+            drawAllPolys();
         }
 
         var dragtarget;
@@ -87,8 +103,17 @@
             _mousepos.x = e.clientX - offset.x;
             _mousepos.y = e.clientY - offset.y;
 
-            for ( var i = 0; i < poly.points.length; i++ ) {
-                var p = poly.points[i];
+            for ( var i = 0; i < subjectPoly.points.length; i++ ) {
+                var p = subjectPoly.points[i];
+                var d = gml2d.Vec2.squareDistance( _mousepos, p );
+                if ( d < DRAG_HIT_DIST_THRESHOLD ) {
+                    dragtarget = p;
+                    return;
+                }
+            }
+
+            for ( var i = 0; i < clipPoly.points.length; i++ ) {
+                var p = clipPoly.points[i];
                 var d = gml2d.Vec2.squareDistance( _mousepos, p );
                 if ( d < DRAG_HIT_DIST_THRESHOLD ) {
                     dragtarget = p;
@@ -110,8 +135,8 @@
             if ( dragtarget != null ) {
                 dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
                 dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
-                context.clearRect( 0, 0, canvas.width, canvas.height );
-                visualizePoly( poly );
+
+                drawAllPolys();
             }
         }
 
@@ -126,7 +151,7 @@
           </canvas>
           <br/>
           <br/>
-          <select name="Subject Polygon" oninput="updateControlSides( this.value )">
+          <select name="Subject Polygon" oninput="updateSubjectPolygon( this.value )">
           <option value="3">Triangle</option>
           <option value="4">Quadrilateral</option>
           <option value="5">Pentagon</option>
@@ -147,7 +172,7 @@
           <option value="20">Icosagon (20)</option>
           </select>
 
-          <select name="Clip Polygon" oninput="updateControlSides( this.value )">
+          <select name="Clip Polygon" oninput="updateClipperPolygon( this.value )">
           <option value="3">Triangle</option>
           <option value="4">Quadrilateral</option>
           <option value="5">Pentagon</option>
@@ -168,12 +193,7 @@
           <option value="20">Icosagon (20)</option>
           </select>
           &nbsp;
-          <label for="chbx">
-              <input type="checkbox" id="chbx" onchange="updateControlRegular( this.checked )">
-              Regular
-          </label>
-          &nbsp;
-          <input type="button" value="New polygon!" onclick="newPoly()">
+          <input type="button" value="Clip!" onclick="clip()">
         </center>
       </div>
     </div>

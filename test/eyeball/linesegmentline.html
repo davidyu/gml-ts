@@ -1,0 +1,190 @@
+<html>
+    <head>
+      <script src="./gml2d.js" type="text/javascript"></script>
+      <title>Line Segment-Line Intersection Test</title>
+      <link rel="stylesheet" href="style.css"/>
+      <script type="text/javascript" src="common.js"></script>
+    </head>
+    <body onload="init()" onmouseup="dragend(event)" onmousemove="dragging(event)">
+    <script type="text/javascript">
+        var canvas;
+        var context;
+
+        var points = [];
+        var line;
+
+        function init() {
+            canvas = document.getElementById( "viewport" );
+            context = canvas.getContext( '2d' );
+
+            line = { point : new gml2d.Vec2( canvas.width / 2, canvas.height / 2 )
+                   , normal: new gml2d.Vec2( -1, 0 ) };
+
+            var POINTS_TO_PLOT = 1000;
+            for ( var i = 0; i < POINTS_TO_PLOT; i++ ) {
+                points.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
+            }
+
+            visualizeHalfspace( points, line );
+        }
+
+        function visualizeHalfspace( points, line ) {
+            drawLine( line );
+
+            var positives = [];
+            var negatives = [];
+            var coincidents = [];
+
+            var p;
+            for ( var i = 0; i < points.length; i++ ) {
+                p = points[i];
+                var res = gml2d.Collision.CategorizeHalfspace( p, line )
+                switch ( res ) {
+                    case gml2d.Halfspace.POSITIVE:
+                        positives.push( p );
+                        break;
+                    case gml2d.Halfspace.NEGATIVE:
+                        negatives.push( p );
+                        break;
+                    case gml2d.Halfspace.COINCIDENT:
+                        coincidents.push( p );
+                        break;
+                }
+            }
+
+            context.fillStyle = 'green';
+            context.beginPath();
+            for ( var i = 0; i < positives.length; i++ ) {
+                p = positives[i];
+                context.moveTo( p.x, p.y );
+                context.arc( p.x, p.y, 1, 0, 6.28, false );
+            }
+            context.fill();
+
+            context.fillStyle = 'red';
+            context.beginPath();
+            for ( var i = 0; i < negatives.length; i++ ) {
+                p = negatives[i];
+                context.moveTo( p.x, p.y );
+                context.arc( p.x, p.y, 1, 0, 6.28, false );
+            }
+            context.fill();
+
+            context.fillStyle = 'white';
+            context.beginPath();
+            for ( var i = 0; i < coincidents.length; i++ ) {
+                p = coincidents[i];
+                context.moveTo( p.x, p.y );
+                context.arc( p.x, p.y, 1, 0, 6.28, false );
+            }
+            context.fill();
+        }
+
+        function drawLine( line ) {
+            var intersects = [];
+            if ( line.normal.x != 0 ) {
+                // check intersection of line and y_min (0) of our canvas
+                var x1 = line.point.dot( line.normal ) / line.normal.x;
+                if ( x1 >= 0 && x1 <= canvas.width ) {
+                    intersects.push( new gml2d.Vec2( x1, 0 ) );
+                }
+                // check intersection of line and y_max (h) of our canvas
+                var x2 = ( line.point.x * line.normal.x - ( canvas.height - line.point.y ) * line.normal.y ) / line.normal.x;
+                if ( x2 >= 0 && x2 <= canvas.width ) {
+                    intersects.push( new gml2d.Vec2( x2, canvas.height ) );
+                }
+            }
+
+            if ( line.normal.y != 0 ) {
+                // check intersection of line and x_min (0) of our canvas
+                var y1 = line.point.dot( line.normal ) / line.normal.y;
+                if ( y1 >= 0 && y1 <= canvas.height ) {
+                    intersects.push( new gml2d.Vec2( 0, y1 ) );
+                }
+                // check intersection of line and x_max (w) of our canvas
+                var y2 = ( line.point.y * line.normal.y  - ( canvas.width - line.point.x ) * line.normal.x ) / line.normal.y;
+                if ( y2 >= 0 && y2 <= canvas.height ) {
+                    intersects.push( new gml2d.Vec2( canvas.width, y2 ) );
+                }
+            }
+
+            // consider edge cases: when two points in intersects refer to the same point
+            // or when one of the point is on the vertex of the AABB; we may want to choose a third, different point to draw
+
+            if ( intersects.length >= 2 ) {
+                context.beginPath();
+                context.moveTo( intersects[0].x, intersects[0].y );
+                context.lineTo( intersects[1].x, intersects[1].y );
+                context.lineWidth = 1;
+                context.stroke();
+            }
+
+            context.beginPath();
+            context.arc( line.point.x, line.point.y, 2, 0, 2 * Math.PI, false );
+            context.fillStyle = 'black';
+            context.fill();
+        }
+
+        function updateLineSlope( newslope ) {
+            line.normal.x = Math.cos( newslope * Math.PI / 180 );
+            line.normal.y = Math.sin( newslope * Math.PI / 180 );
+            context.clearRect( 0, 0, canvas.width, canvas.height );
+            visualizeHalfspace( points, line );
+        }
+
+        var dragtarget;
+        var LINE_OFFSET = 1;
+        var DRAG_HIT_DIST_THRESHOLD = 50;
+
+        function dragstart( e ) {
+            var offset = getOffset( canvas );
+            var pos = new gml2d.Vec2( e.clientX - offset.x, e.clientY - offset.y );
+
+            var d = gml2d.Vec2.squareDistance( pos, line.point )
+            console.log( d );
+            if ( d < DRAG_HIT_DIST_THRESHOLD ) {
+                dragtarget = LINE_OFFSET;
+            }
+        }
+
+        function dragging( e ) {
+            if ( dragtarget == null ) return;
+
+            e.preventDefault();
+
+            var offset = getOffset( canvas );
+            var pos = new gml2d.Vec2( e.clientX - offset.x, e.clientY - offset.y );
+
+            if ( dragtarget == LINE_OFFSET ) {
+                pos.x = Math.min( Math.max( 0, pos.x ), canvas.width );
+                pos.y = Math.min( Math.max( 0, pos.y ), canvas.height );
+                line.point = pos;
+                context.clearRect( 0, 0, canvas.width, canvas.height );
+                visualizeHalfspace( points, line );
+            }
+        }
+
+        function dragend( e ) {
+            dragtarget = null;
+        }
+    </script>
+    <div role="main" id="maincolumn">
+        <div id="screen">
+          <center>
+          <canvas id="viewport" height="500px" width="500px" onmousedown="dragstart(event)" onmouseup="dragend(event)">
+          </canvas>
+
+          <br class="vspace" />
+          <br class="vspace" />
+          <br class="vspace" />
+          <br class="vspace" />
+
+          <label>Slope</label>
+          <br/>
+          <input id="line-slope" type="range" min="0" max="359" oninput="updateLineSlope( this.value )">
+          </input>
+          </center>
+        </div>
+      </div>
+    </body>
+</html>

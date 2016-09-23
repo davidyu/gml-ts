@@ -175,6 +175,7 @@ module gml2d {
 
       if ( t > 0 ) {
         Vec2.multiply( ray, t, result )
+        Vec2.add( seg_start, result, result );
         return true;
       }
 

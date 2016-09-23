@@ -228,13 +228,13 @@ module gml2d {
           if ( Collision.CategorizeHalfspace( e, edge ) == inside ) {
             if ( Collision.CategorizeHalfspace( s, edge ) != inside ) {
               if ( Collision.LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
-                out_pts.push( _tmp_local_v2_b );
+                out_pts.push( Vec2.clone( _tmp_local_v2_b ) );
               }
             }
             out_pts.push( e );
           } else if ( Collision.CategorizeHalfspace( s, edge ) == inside ) {
               if ( Collision.LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
-                out_pts.push( _tmp_local_v2_b );
+                out_pts.push( Vec2.clone( _tmp_local_v2_b ) );
               }
           }
 

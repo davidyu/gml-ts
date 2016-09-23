@@ -163,7 +163,7 @@ module gml2d {
       //
       // t = n dot (o-p1) / n dot (p1-p2)
       //
-      // if t is positive, then the intersection exists
+      // if 0 <= t <=1, then the intersection exists
 
       let ray = _tmp_v2_a;
       let seg_start_to_line = _tmp_v2_b;
@@ -173,7 +173,7 @@ module gml2d {
 
       let t = line.normal.dot( seg_start_to_line ) / line.normal.dot( ray );
 
-      if ( t > 0 ) {
+      if ( t > 0 && t <= 1 ) {
         Vec2.multiply( ray, t, result )
         Vec2.add( seg_start, result, result );
         return true;

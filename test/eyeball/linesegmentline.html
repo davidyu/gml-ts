@@ -10,7 +10,7 @@
         var canvas;
         var context;
 
-        var points = [];
+        var lineSegment = [];
         var line;
 
         function init() {
@@ -20,64 +20,37 @@
             line = { point : new gml2d.Vec2( canvas.width / 2, canvas.height / 2 )
                    , normal: new gml2d.Vec2( -1, 0 ) };
 
-            var POINTS_TO_PLOT = 1000;
-            for ( var i = 0; i < POINTS_TO_PLOT; i++ ) {
-                points.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
-            }
+            lineSegment.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
+            lineSegment.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
 
-            visualizeHalfspace( points, line );
+            visualizeIntersection( line, lineSegment );
         }
 
-        function visualizeHalfspace( points, line ) {
+        function visualizeIntersection( line, lineSegment ) {
+            context.clearRect( 0, 0, canvas.width, canvas.height );
+
             drawLine( line );
+            drawLineSegment( lineSegment[0], lineSegment[1] );
 
-            var positives = [];
-            var negatives = [];
-            var coincidents = [];
+            var intersection = new gml2d.Vec2();
 
-            var p;
-            for ( var i = 0; i < points.length; i++ ) {
-                p = points[i];
-                var res = gml2d.Collision.CategorizeHalfspace( p, line )
-                switch ( res ) {
-                    case gml2d.Halfspace.POSITIVE:
-                        positives.push( p );
-                        break;
-                    case gml2d.Halfspace.NEGATIVE:
-                        negatives.push( p );
-                        break;
-                    case gml2d.Halfspace.COINCIDENT:
-                        coincidents.push( p );
-                        break;
-                }
-            }
-
-            context.fillStyle = 'green';
-            context.beginPath();
-            for ( var i = 0; i < positives.length; i++ ) {
-                p = positives[i];
+            if ( gml2d.Collision.LineSegmentLineIntersection( lineSegment[0], lineSegment[1], line, intersection ) ) {
+                console.log( "intersection found at " + intersection );
+                context.fillStyle = 'red';
+                context.beginPath();
+                p = intersection;
                 context.moveTo( p.x, p.y );
                 context.arc( p.x, p.y, 1, 0, 6.28, false );
+                context.fill();
             }
-            context.fill();
+        }
 
-            context.fillStyle = 'red';
+        function drawLineSegment( start, end ) {
             context.beginPath();
-            for ( var i = 0; i < negatives.length; i++ ) {
-                p = negatives[i];
-                context.moveTo( p.x, p.y );
-                context.arc( p.x, p.y, 1, 0, 6.28, false );
-            }
-            context.fill();
-
-            context.fillStyle = 'white';
-            context.beginPath();
-            for ( var i = 0; i < coincidents.length; i++ ) {
-                p = coincidents[i];
-                context.moveTo( p.x, p.y );
-                context.arc( p.x, p.y, 1, 0, 6.28, false );
-            }
-            context.fill();
+            context.moveTo( start.x, start.y );
+            context.lineTo( end.x, end.y );
+            context.lineWidth = 1;
+            context.stroke();
         }
 
         function drawLine( line ) {
@@ -128,22 +101,32 @@
         function updateLineSlope( newslope ) {
             line.normal.x = Math.cos( newslope * Math.PI / 180 );
             line.normal.y = Math.sin( newslope * Math.PI / 180 );
-            context.clearRect( 0, 0, canvas.width, canvas.height );
-            visualizeHalfspace( points, line );
+            visualizeIntersection( line, lineSegment );
         }
 
         var dragtarget;
         var LINE_OFFSET = 1;
         var DRAG_HIT_DIST_THRESHOLD = 50;
 
+        var _mousepos = new gml2d.Vec2( 0, 0 );
         function dragstart( e ) {
             var offset = getOffset( canvas );
-            var pos = new gml2d.Vec2( e.clientX - offset.x, e.clientY - offset.y );
 
-            var d = gml2d.Vec2.squareDistance( pos, line.point )
-            console.log( d );
+            _mousepos.x = e.clientX - offset.x;
+            _mousepos.y = e.clientY - offset.y;
+
+            var d = gml2d.Vec2.squareDistance( _mousepos, line.point )
             if ( d < DRAG_HIT_DIST_THRESHOLD ) {
                 dragtarget = LINE_OFFSET;
+            } else {
+                for ( var i = 0; i < lineSegment.length; i++ ) {
+                    var p = lineSegment[i];
+                    var d = gml2d.Vec2.squareDistance( _mousepos, p );
+                    if ( d < DRAG_HIT_DIST_THRESHOLD ) {
+                        dragtarget = p;
+                        return;
+                    }
+                }
             }
         }
 
@@ -153,15 +136,19 @@
             e.preventDefault();
 
             var offset = getOffset( canvas );
-            var pos = new gml2d.Vec2( e.clientX - offset.x, e.clientY - offset.y );
+
+            _mousepos.x = e.clientX - offset.x;
+            _mousepos.y = e.clientY - offset.y;
 
             if ( dragtarget == LINE_OFFSET ) {
-                pos.x = Math.min( Math.max( 0, pos.x ), canvas.width );
-                pos.y = Math.min( Math.max( 0, pos.y ), canvas.height );
-                line.point = pos;
-                context.clearRect( 0, 0, canvas.width, canvas.height );
-                visualizeHalfspace( points, line );
+                line.point.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
+                line.point.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
+            } else {
+                dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
+                dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
             }
+
+            visualizeIntersection( line, lineSegment );
         }
 
         function dragend( e ) {

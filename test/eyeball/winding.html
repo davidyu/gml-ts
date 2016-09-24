@@ -1,0 +1,157 @@
+<html>
+    <head>
+      <script src="./gml2d.js" type="text/javascript"></script>
+      <title>Polygon Winding Inspector</title>
+      <link rel="stylesheet" href="style.css"/>
+      <script type="text/javascript" src="common.js"></script>
+    </head>
+    <body onload="init()" onmouseup="dragend(event)" onmousemove="dragging(event)">
+    <script type="text/javascript">
+        var canvas;
+        var context;
+
+        var config = {
+            sides: 3,
+        };
+
+        var poly;
+
+        function drawAllPolys() {
+            context.clearRect( 0, 0, canvas.width, canvas.height );
+
+            visualizePoly( poly, false );
+        }
+
+        function init() {
+            canvas = document.getElementById( "viewport" );
+            context = canvas.getContext( '2d' );
+
+            poly = genPoly( config.sides, config.CCW );
+
+            console.log( poly );
+
+            drawAllPolys();
+        }
+
+        function genPoly( sides, regular ) {
+            var points = [];
+
+            if ( regular ) {
+                var r = 100;
+                var cx = canvas.width / 2;
+                var cy = canvas.height / 2;
+                for ( var i = 0; i < sides; i++ ) {
+                    points.push( new gml2d.Vec2( Math.cos( ( i / sides ) * 2 * Math.PI ) * r + cx
+                                               , Math.sin( ( i / sides ) * 2 * Math.PI ) * r + cy ) );
+                }
+            } else {
+                for ( var i = 0; i < sides; i++ ) {
+                    points.push( new gml2d.Vec2( Math.random() * canvas.width
+                                               , Math.random() * canvas.height ) );
+                }
+            }
+
+            return { points: points }
+        }
+
+        function visualizePoly( poly, dashed ) {
+            context.beginPath();
+            context.moveTo( poly.points[0].x, poly.points[0].y );
+            context.lineWidth = 1;
+            context.fillStyle = gml2d.Polygon.GetWinding( poly ) == gml2d.Winding.CW ? LIGHT_GREEN : LIGHT_RED;
+
+            if ( dashed ) context.setLineDash( [ 2, 3 ] ); 
+            else          context.setLineDash( [ 0 ] );
+
+            context.font = "20px sans-serif";
+            for ( var i = 0; i < poly.points.length; i++ ) {
+                var p = poly.points[ (i+1) % poly.points.length ];
+                context.lineTo( p.x, p.y );
+                context.fillText( i, p.x, p.y );
+            }
+
+            context.fill();
+            context.stroke();
+        }
+
+        function updatePolygonSides( sides ) {
+            config.sides = sides;
+            poly = genPoly( config.sides, config.CCW );
+            drawAllPolys();
+        }
+
+        var dragtarget;
+
+        var DRAG_HIT_DIST_THRESHOLD = 50;
+
+        var _mousepos = new gml2d.Vec2( 0, 0 );
+        function dragstart( e ) {
+            var offset = getOffset( canvas );
+
+            _mousepos.x = e.clientX - offset.x;
+            _mousepos.y = e.clientY - offset.y;
+
+            for ( var i = 0; i < poly.points.length; i++ ) {
+                var p = poly.points[i];
+                var d = gml2d.Vec2.squareDistance( _mousepos, p );
+                if ( d < DRAG_HIT_DIST_THRESHOLD ) {
+                    dragtarget = p;
+                    return;
+                }
+            }
+        }
+
+        function dragging( e ) {
+            if ( dragtarget == null ) return;
+
+            e.preventDefault();
+
+            var offset = getOffset( canvas );
+
+            _mousepos.x = e.clientX - offset.x;
+            _mousepos.y = e.clientY - offset.y;
+
+            if ( dragtarget != null ) {
+                dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
+                dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
+
+                drawAllPolys();
+            }
+        }
+
+        function dragend( e ) {
+            dragtarget = null;
+        }
+    </script>
+    <div role="main" id="maincolumn">
+      <div id="screen">
+        <center>
+          <canvas id="viewport" height="500" width="500" onmousedown="dragstart(event)" onmouseup="dragend(event)">
+          </canvas>
+          <br/>
+          <br/>
+          <select name="Sides" oninput="updatePolygonSides( this.value )">
+          <option value="3">Triangle</option>
+          <option value="4">Quadrilateral</option>
+          <option value="5">Pentagon</option>
+          <option value="6">Hexagon</option>
+          <option value="7">Heptagon</option>
+          <option value="8">Octagon</option>
+          <option value="9">Nonagon</option>
+          <option value="10">Decagon</option>
+          <option value="11">Hendecagon (11)</option>
+          <option value="12">Dodecagon (12)</option>
+          <option value="13">Tridecagon (13)</option>
+          <option value="14">Tetradecagon (14)</option>
+          <option value="15">Pentadecagon (15)</option>
+          <option value="16">Hexadecagon (16)</option>
+          <option value="17">Heptadecagon (17)</option>
+          <option value="18">Octadecagon (18)</option>
+          <option value="19">Enneadecagon (19)</option>
+          <option value="20">Icosagon (20)</option>
+          </select>
+        </center>
+      </div>
+    </div>
+    </body>
+</html>

@@ -58,7 +58,9 @@
             context.beginPath();
             context.moveTo( poly.points[0].x, poly.points[0].y );
             context.lineWidth = 1;
-            context.fillStyle = gml2d.Polygon.GetWinding( poly ) == gml2d.Winding.CW ? LIGHT_GREEN : LIGHT_RED;
+
+            // actually flipped because Y is flipped
+            context.fillStyle = gml2d.Polygon.GetWinding( poly ) == gml2d.Winding.CCW ? LIGHT_GREEN : LIGHT_RED;
 
             if ( dashed ) context.setLineDash( [ 2, 3 ] ); 
             else          context.setLineDash( [ 0 ] );
@@ -67,7 +69,7 @@
             for ( var i = 0; i < poly.points.length; i++ ) {
                 var p = poly.points[ (i+1) % poly.points.length ];
                 context.lineTo( p.x, p.y );
-                context.fillText( i, p.x, p.y );
+                context.fillText( (i+1) % poly.points.length, p.x, p.y );
             }
 
             context.fill();

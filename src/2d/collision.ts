@@ -192,10 +192,10 @@ module gml2d {
       let inside = Halfspace.COINCIDENT; // invalid, should be either positive or negative
       switch ( Polygon.GetWinding( clipper ) ) {
         case Winding.CW:
-          inside = Halfspace.POSITIVE;
+          inside = Halfspace.NEGATIVE;
           break;
         case Winding.CCW:
-          inside = Halfspace.NEGATIVE;
+          inside = Halfspace.POSITIVE;
           break;
       }
 
@@ -215,25 +215,29 @@ module gml2d {
         let in_pts = out_pts.map( Vec2.clone ); // input = output
         out_pts = [];
 
+        edge.point.x = start.x;
+        edge.point.y = start.y;
+        
+        Vec2.subtract( end, start, _tmp_local_v2_a );
+        edge.normal.x = -_tmp_local_v2_a.y;
+        edge.normal.y =  _tmp_local_v2_a.x;
+        edge.normal.normalize();
+
         let s = in_pts[ in_pts.length - 1 ];
         for ( let j = 0; j < in_pts.length; j++ ) {
           let e = in_pts[j];
-          edge.point.x = start.x;
-          edge.point.y = start.y;
-          
-          Vec2.subtract( end, start, _tmp_local_v2_a );
-          edge.normal.x = -_tmp_local_v2_a.y;
-          edge.normal.y =  _tmp_local_v2_a.x;
-          edge.normal.normalize();
 
-          if ( Collision.CategorizeHalfspace( e, edge ) == inside ) {
-            if ( Collision.CategorizeHalfspace( s, edge ) != inside ) {
+          let e_cat = Collision.CategorizeHalfspace( e, edge );
+          let s_cat = Collision.CategorizeHalfspace( s, edge );
+
+          if ( e_cat == inside ) {
+            if ( s_cat != inside ) {
               if ( Collision.LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
                 out_pts.push( Vec2.clone( _tmp_local_v2_b ) );
               }
             }
-            out_pts.push( e );
-          } else if ( Collision.CategorizeHalfspace( s, edge ) == inside ) {
+            out_pts.push( Vec2.clone( e ) );
+          } else if ( s_cat == inside ) {
               if ( Collision.LineSegmentLineIntersection( s, e, edge, _tmp_local_v2_b ) ) {
                 out_pts.push( Vec2.clone( _tmp_local_v2_b ) );
               }

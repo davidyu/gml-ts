@@ -31,13 +31,12 @@
             clipPoly    = genPoly( 3, true );
             clippedPoly = gml2d.Collision.Clip( subjectPoly, clipPoly );
 
-            console.log( clippedPoly );
-
             drawAllPolys();
         }
 
         function clip() {
             clippedPoly = gml2d.Collision.Clip( subjectPoly, clipPoly );
+            drawAllPolys();
         }
 
         function genPoly( sides, regular ) {
@@ -65,7 +64,7 @@
             context.beginPath();
             context.moveTo( poly.points[0].x, poly.points[0].y );
             context.lineWidth = 1;
-            context.fillStyle = gml2d.Polygon.IsConvex( poly ) ? LIGHT_GREEN : LIGHT_RED;
+            context.fillStyle = LIGHT_GREEN;
 
             if ( dashed ) context.setLineDash( [ 2, 3 ] ); 
             else          context.setLineDash( [ 0 ] );
@@ -82,12 +81,14 @@
 
         function updateSubjectPolygon( sides ) {
             subjectPoly = genPoly( sides, true );
+            clippedPoly = gml2d.Collision.Clip( subjectPoly, clipPoly );
 
             drawAllPolys();
         }
 
         function updateClipperPolygon( sides ) {
             clipPoly = genPoly( sides, true );
+            clippedPoly = gml2d.Collision.Clip( subjectPoly, clipPoly );
 
             drawAllPolys();
         }
@@ -136,6 +137,7 @@
                 dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
                 dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
 
+                clippedPoly = gml2d.Collision.Clip( subjectPoly, clipPoly );
                 drawAllPolys();
             }
         }
@@ -151,49 +153,53 @@
           </canvas>
           <br/>
           <br/>
-          <select name="Subject Polygon" oninput="updateSubjectPolygon( this.value )">
-          <option value="3">Triangle</option>
-          <option value="4">Quadrilateral</option>
-          <option value="5">Pentagon</option>
-          <option value="6">Hexagon</option>
-          <option value="7">Heptagon</option>
-          <option value="8">Octagon</option>
-          <option value="9">Nonagon</option>
-          <option value="10">Decagon</option>
-          <option value="11">Hendecagon (11)</option>
-          <option value="12">Dodecagon (12)</option>
-          <option value="13">Tridecagon (13)</option>
-          <option value="14">Tetradecagon (14)</option>
-          <option value="15">Pentadecagon (15)</option>
-          <option value="16">Hexadecagon (16)</option>
-          <option value="17">Heptadecagon (17)</option>
-          <option value="18">Octadecagon (18)</option>
-          <option value="19">Enneadecagon (19)</option>
-          <option value="20">Icosagon (20)</option>
-          </select>
-
-          <select name="Clip Polygon" oninput="updateClipperPolygon( this.value )">
-          <option value="3">Triangle</option>
-          <option value="4">Quadrilateral</option>
-          <option value="5">Pentagon</option>
-          <option value="6">Hexagon</option>
-          <option value="7">Heptagon</option>
-          <option value="8">Octagon</option>
-          <option value="9">Nonagon</option>
-          <option value="10">Decagon</option>
-          <option value="11">Hendecagon (11)</option>
-          <option value="12">Dodecagon (12)</option>
-          <option value="13">Tridecagon (13)</option>
-          <option value="14">Tetradecagon (14)</option>
-          <option value="15">Pentadecagon (15)</option>
-          <option value="16">Hexadecagon (16)</option>
-          <option value="17">Heptadecagon (17)</option>
-          <option value="18">Octadecagon (18)</option>
-          <option value="19">Enneadecagon (19)</option>
-          <option value="20">Icosagon (20)</option>
-          </select>
+          <label for="subjpoly">
+              Subject
+              <select name="Subject Polygon" oninput="updateSubjectPolygon( this.value )">
+              <option value="3">Triangle</option>
+              <option value="4">Quadrilateral</option>
+              <option value="5" selected>Pentagon</option>
+              <option value="6">Hexagon</option>
+              <option value="7">Heptagon</option>
+              <option value="8">Octagon</option>
+              <option value="9">Nonagon</option>
+              <option value="10">Decagon</option>
+              <option value="11">Hendecagon (11)</option>
+              <option value="12">Dodecagon (12)</option>
+              <option value="13">Tridecagon (13)</option>
+              <option value="14">Tetradecagon (14)</option>
+              <option value="15">Pentadecagon (15)</option>
+              <option value="16">Hexadecagon (16)</option>
+              <option value="17">Heptadecagon (17)</option>
+              <option value="18">Octadecagon (18)</option>
+              <option value="19">Enneadecagon (19)</option>
+              <option value="20">Icosagon (20)</option>
+              </select>
+          </label>
           &nbsp;
-          <input type="button" value="Clip!" onclick="clip()">
+          <label for="clippoly">
+              Clipper
+              <select name="Clip Polygon" id="clippoly" oninput="updateClipperPolygon( this.value )">
+              <option value="3">Triangle</option>
+              <option value="4">Quadrilateral</option>
+              <option value="5">Pentagon</option>
+              <option value="6">Hexagon</option>
+              <option value="7">Heptagon</option>
+              <option value="8">Octagon</option>
+              <option value="9">Nonagon</option>
+              <option value="10">Decagon</option>
+              <option value="11">Hendecagon (11)</option>
+              <option value="12">Dodecagon (12)</option>
+              <option value="13">Tridecagon (13)</option>
+              <option value="14">Tetradecagon (14)</option>
+              <option value="15">Pentadecagon (15)</option>
+              <option value="16">Hexadecagon (16)</option>
+              <option value="17">Heptadecagon (17)</option>
+              <option value="18">Octadecagon (18)</option>
+              <option value="19">Enneadecagon (19)</option>
+              <option value="20">Icosagon (20)</option>
+              </select>
+          </label>
         </center>
       </div>
     </div>

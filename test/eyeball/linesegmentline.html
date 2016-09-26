@@ -3,31 +3,28 @@
       <script src="./gml2d.js" type="text/javascript"></script>
       <title>Line Segment-Line Intersection Test</title>
       <link rel="stylesheet" href="style.css"/>
+      <script type="text/javascript" src="eyecore.js"></script>
       <script type="text/javascript" src="common.js"></script>
     </head>
     <body onload="init()" onmouseup="dragend(event)" onmousemove="dragging(event)">
     <script type="text/javascript">
-        var canvas;
-        var context;
-
         var lineSegment = [];
         var line;
 
         function init() {
-            canvas = document.getElementById( "viewport" );
-            context = canvas.getContext( '2d' );
+            initCanvas();
 
-            line = { point : new gml2d.Vec2( canvas.width / 2, canvas.height / 2 )
+            line = { point : new gml2d.Vec2( canvas_width / 2, canvas_height / 2 )
                    , normal: new gml2d.Vec2( -1, 0 ) };
 
-            lineSegment.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
-            lineSegment.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
+            lineSegment.push( new gml2d.Vec2( Math.random() * canvas_width, Math.random() * canvas_height ) );
+            lineSegment.push( new gml2d.Vec2( Math.random() * canvas_width, Math.random() * canvas_height ) );
 
             visualizeIntersection( line, lineSegment );
         }
 
         function visualizeIntersection( line, lineSegment ) {
-            context.clearRect( 0, 0, canvas.width, canvas.height );
+            context.clearRect( 0, 0, canvas_width, canvas_height );
 
             drawLine( line );
             drawLineSegment( lineSegment[0], lineSegment[1] );
@@ -58,26 +55,26 @@
             if ( line.normal.x != 0 ) {
                 // check intersection of line and y_min (0) of our canvas
                 var x1 = line.point.dot( line.normal ) / line.normal.x;
-                if ( x1 >= 0 && x1 <= canvas.width ) {
+                if ( x1 >= 0 && x1 <= canvas_width ) {
                     intersects.push( new gml2d.Vec2( x1, 0 ) );
                 }
                 // check intersection of line and y_max (h) of our canvas
-                var x2 = ( line.point.x * line.normal.x - ( canvas.height - line.point.y ) * line.normal.y ) / line.normal.x;
-                if ( x2 >= 0 && x2 <= canvas.width ) {
-                    intersects.push( new gml2d.Vec2( x2, canvas.height ) );
+                var x2 = ( line.point.x * line.normal.x - ( canvas_height - line.point.y ) * line.normal.y ) / line.normal.x;
+                if ( x2 >= 0 && x2 <= canvas_width ) {
+                    intersects.push( new gml2d.Vec2( x2, canvas_height ) );
                 }
             }
 
             if ( line.normal.y != 0 ) {
                 // check intersection of line and x_min (0) of our canvas
                 var y1 = line.point.dot( line.normal ) / line.normal.y;
-                if ( y1 >= 0 && y1 <= canvas.height ) {
+                if ( y1 >= 0 && y1 <= canvas_height ) {
                     intersects.push( new gml2d.Vec2( 0, y1 ) );
                 }
                 // check intersection of line and x_max (w) of our canvas
-                var y2 = ( line.point.y * line.normal.y  - ( canvas.width - line.point.x ) * line.normal.x ) / line.normal.y;
-                if ( y2 >= 0 && y2 <= canvas.height ) {
-                    intersects.push( new gml2d.Vec2( canvas.width, y2 ) );
+                var y2 = ( line.point.y * line.normal.y  - ( canvas_width - line.point.x ) * line.normal.x ) / line.normal.y;
+                if ( y2 >= 0 && y2 <= canvas_height ) {
+                    intersects.push( new gml2d.Vec2( canvas_width, y2 ) );
                 }
             }
 
@@ -141,11 +138,11 @@
             _mousepos.y = e.clientY - offset.y;
 
             if ( dragtarget == LINE_OFFSET ) {
-                line.point.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
-                line.point.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
+                line.point.x = Math.min( Math.max( 0, _mousepos.x ), canvas_width );
+                line.point.y = Math.min( Math.max( 0, _mousepos.y ), canvas_height );
             } else {
-                dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
-                dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
+                dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas_width );
+                dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas_height );
             }
 
             visualizeIntersection( line, lineSegment );

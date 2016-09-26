@@ -3,24 +3,22 @@
       <script src="./gml2d.js" type="text/javascript"></script>
       <title>Convex Hull Inspector</title>
       <link rel="stylesheet" href="style.css"/>
+      <script type="text/javascript" src="eyecore.js"></script>
       <script type="text/javascript" src="common.js"></script>
     </head>
     <body onload="init()" onmouseup="dragend(event)" onmousemove="dragging(event)">
     <script type="text/javascript">
-        var canvas;
-        var context;
         var points;
         var poly;
         var volumeFunc;
 
         function init() {
-            canvas = document.getElementById( "viewport" );
-            context = canvas.getContext( '2d' );
+            initCanvas();
 
             var POINTS_TO_PLOT = 50;
             points = [];
             for ( var i = 0; i < POINTS_TO_PLOT; i++ ) {
-                points.push( new gml2d.Vec2( Math.random() * canvas.width, Math.random() * canvas.height ) );
+                points.push( new gml2d.Vec2( Math.random() * canvas_width, Math.random() * canvas_height ) );
             }
 
             volumeFunc = gml2d.Collision.ComputeConvexHull;
@@ -96,9 +94,9 @@
             _mousepos.y = e.clientY - offset.y;
 
             if ( dragtarget != null ) {
-                dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
-                dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
-                context.clearRect( 0, 0, canvas.width, canvas.height );
+                dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas_width );
+                dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas_height );
+                context.clearRect( 0, 0, canvas_width, canvas_height );
                 computeHull( points )
                 visualizePoly( poly );
                 drawPoints( points );
@@ -112,7 +110,7 @@
         function updateEnclosingVolume( func ) {
             volumeFunc = eval( func );
 
-            context.clearRect( 0, 0, canvas.width, canvas.height );
+            context.clearRect( 0, 0, canvas_width, canvas_height );
             computeHull( points )
             visualizePoly( poly );
             drawPoints( points );

@@ -2,12 +2,11 @@
     <head>
       <script src="./gml.js" type="text/javascript"></script>
       <title>Easing Inspector</title>
+      <script type="text/javascript" src="eyecore.js"></script>
     </head>
     <body onload="init()">
     <script type="text/javascript">
       var fps = 60;
-      var canvas;
-      var context;
       var easing = gml.Easing.CubicInOut;
 
       var tween = {
@@ -18,8 +17,7 @@
       }
 
       function init() {
-        canvas = document.getElementById( "viewport" );
-        context = canvas.getContext( '2d' );
+        initCanvas();
 
         setInterval( update, 1000 / fps );
 
@@ -53,7 +51,7 @@
         var cx = tween.startx + easing( tween.acc / tween.duration ) * ( tween.endx - tween.startx );
         var cy = 10;
 
-        context.clearRect( 0, 0, canvas.width, canvas.height );
+        context.clearRect( 0, 0, canvas_width, canvas_height );
 
         context.beginPath();
         context.arc( cx, cy, 5, 0, 2 * Math.PI, false );

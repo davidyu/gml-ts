@@ -8,6 +8,7 @@
     <body onload="init()" onmouseup="dragend(event)" onmousemove="dragging(event)">
     <script type="text/javascript">
         var canvas;
+        var dw, dh;
         var context;
 
         var subjectPoly;
@@ -15,8 +16,17 @@
 
         var clippedPoly;
 
+        function backingScale(context) {
+            if ( 'devicePixelRatio' in window ) {
+                if ( window.devicePixelRatio > 1 ) {
+                    return window.devicePixelRatio;
+                }
+            }
+            return 1;
+        }
+
         function drawAllPolys() {
-            context.clearRect( 0, 0, canvas.width, canvas.height );
+            context.clearRect( 0, 0, dw, dh );
 
             visualizePoly( subjectPoly , false , false );
             visualizePoly( clipPoly    , false , true  );
@@ -26,6 +36,18 @@
         function init() {
             canvas = document.getElementById( "viewport" );
             context = canvas.getContext( '2d' );
+            var scaleFactor = backingScale( context ); 
+
+            if ( scaleFactor > 1 ) {
+                dw = canvas.width;
+                dh = canvas.height;
+                canvas.width *= scaleFactor;
+                canvas.height *= scaleFactor;
+                canvas.style.width = dw + "px";
+                canvas.style.height = dh + "px";
+                context = canvas.getContext( '2d' );
+                context.scale( scaleFactor, scaleFactor );
+            }
 
             subjectPoly = genPoly( 5, true );
             clipPoly    = genPoly( 3, true );
@@ -44,16 +66,16 @@
 
             if ( regular ) {
                 var r = 100;
-                var cx = canvas.width / 2;
-                var cy = canvas.height / 2;
+                var cx = dw / 2;
+                var cy = dh / 2;
                 for ( var i = 0; i < sides; i++ ) {
                     points.push( new gml2d.Vec2( Math.cos( ( i / sides ) * 2 * Math.PI ) * r + cx
                                                , Math.sin( ( i / sides ) * 2 * Math.PI ) * r + cy ) );
                 }
             } else {
                 for ( var i = 0; i < sides; i++ ) {
-                    points.push( new gml2d.Vec2( Math.random() * canvas.width
-                                               , Math.random() * canvas.height ) );
+                    points.push( new gml2d.Vec2( Math.random() * dw
+                                               , Math.random() * dh ) );
                 }
             }
 
@@ -134,8 +156,8 @@
             _mousepos.y = e.clientY - offset.y;
 
             if ( dragtarget != null ) {
-                dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), canvas.width );
-                dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), canvas.height );
+                dragtarget.x = Math.min( Math.max( 0, _mousepos.x ), dw );
+                dragtarget.y = Math.min( Math.max( 0, _mousepos.y ), dh );
 
                 clippedPoly = gml2d.Collision.Clip( subjectPoly, clipPoly );
                 drawAllPolys();

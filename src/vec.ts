@@ -137,9 +137,9 @@ module gml {
      */
     public normalize(): void {
       const l = this.len;
-      this.v = this.v.map( v => {
-        return v / l;
-      } );
+      for ( let i = 0; i < this.size; i++ ) {
+        this.v[i] /= l;
+      }
     }
 
     public get normalized(): Vector {

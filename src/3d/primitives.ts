@@ -8,11 +8,15 @@ module gml {
       this.direction = d;
     }
 
-    at( t: number ): Vec3 {
+    static At( r: Ray, t: number ): Vec3 {
       var out: Vec3;
-      Vec3.scale( direction, t, out );
-      Vec3.add( point, out, out );
+      Vec3.scale( r.direction, t, out );
+      Vec3.add( r.point, out, out );
       return out; 
     }
+  }
+
+  export class Polygon {
+    points: Vec3[];
   }
 }

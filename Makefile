@@ -21,7 +21,8 @@ folders:
 
 eyeball: lib lib2d
 	@cp -rf $(TEST)/* $(DIST_TEST)/ > /dev/null
-	@cp -f dist/gml.js dist/gml2d.js $(DIST_TEST)/eyeball/ > /dev/null
+	@cp -f dist/gml.js $(DIST_TEST)/eyeball/3d > /dev/null
+	@cp -f dist/gml2d.js $(DIST_TEST)/eyeball/2d > /dev/null
 
 test-copy-only: lib
 	@echo "setting up tests..."

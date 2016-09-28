@@ -1,8 +1,14 @@
 // globals
+
+// canvas info
 var canvas;
 var canvas_width;
 var canvas_height;
 var context;
+
+// color constants
+var LIGHT_GREEN = '#7f7';
+var LIGHT_RED   = '#f77';
 
 function backingScale(context) {
   if ( 'devicePixelRatio' in window ) {

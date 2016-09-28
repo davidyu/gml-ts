@@ -5,9 +5,10 @@
       <script src="../eyecore.js" type="text/javascript"></script>
       <link rel="stylesheet" href="../style.css"/>
     </head>
-    <body onload="init()" onmouseup="dragend(event)" onmousemove="dragging(event)">
+    <body onload="init()" onmouseup="dragend(event)" onmousemove="dragupdate(event)">
     <script type="text/javascript">
         var poly;
+        var dragging = false;
 
         function init() {
             initCanvas();
@@ -17,12 +18,17 @@
         }
 
         function dragstart( e ) {
+            dragging = true;
         }
 
         function dragend( e ) {
+            dragging = false;
         }
 
-        function dragging( e ) {
+        function dragupdate( e ) {
+            if ( dragging ) {
+                context.clearRect( 0, 0, canvas_width, canvas_height );
+            }
         }
 
         function drawPoly( poly ) {
@@ -57,6 +63,7 @@
 
         function updatePoly( sides ) {
             poly = genPoly( sides );
+            context.clearRect( 0, 0, canvas_width, canvas_height );
             drawPoly( poly );
         }
     </script>

@@ -648,6 +648,13 @@ module gml {
                      , l30 * r03 + l31 * r13 + l32 * r23 + l33 * r33
                      );
     }
+
+    public static transform( lhs: Mat4, rhs: Vec4, out: Vec4 ) {
+      out.x = lhs.r00 * rhs.x + lhs.r01 * rhs.y + lhs.r02 * rhs.z + lhs.tx * rhs.w;
+      out.y = lhs.r10 * rhs.x + lhs.r11 * rhs.y + lhs.r12 * rhs.z + lhs.ty * rhs.w;
+      out.z = lhs.r20 * rhs.x + lhs.r21 * rhs.y + lhs.r22 * rhs.z + lhs.tz * rhs.w;
+      out.w = lhs.m30 * rhs.x + lhs.m31 * rhs.y + lhs.m32 * rhs.z + lhs.m33 * rhs.w;
+    }
   }
 
   export function makePerspective( fov: Angle, aspectRatio: number, near: number, far: number ): Mat4 {

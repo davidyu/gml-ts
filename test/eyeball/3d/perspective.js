@@ -16,8 +16,8 @@ function setCamera( pos, aim, up, right ) {
 function mapToScreen( in_vertex, screenw, screenh, out_vertex ) {
   if ( out_vertex != null ) {
     gml.Mat4.transform( cached_vp, in_vertex, out_vertex );
-    out_vertex.x *= screenw;
-    out_vertex.y *= screenh;
+    out_vertex.x = ( out_vertex.x + 1 ) * screenw / 2;
+    out_vertex.y = ( out_vertex.y + 1 ) * screenh / 2;
     return;
   }
 

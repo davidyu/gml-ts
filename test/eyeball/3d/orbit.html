@@ -40,15 +40,17 @@
 
         function drawPoly( poly ) {
             context.beginPath();
-            context.moveTo( poly.points[0].x, poly.points[0].y );
+
+            var mappedP = new gml.Vec4( 0, 0, 0, 0 );
+            mapToScreen( poly.points[0], canvas_width, canvas_height, mappedP );
+
+            context.lineTo( mappedP.x, mappedP.y );
             context.lineWidth = 1;
             context.fillStyle = LIGHT_GREEN;
 
-            var mappedP = new gml.Vec4( 0, 0, 0, 0 );
-
             for ( var i = 0; i < poly.points.length; i++ ) {
                 mapToScreen( poly.points[ (i+1) % poly.points.length ], canvas_width, canvas_height, mappedP );
-                console.log( mappedP );
+                console.log( mappedP.toString() );
                 context.lineTo( mappedP.x, mappedP.y );
             }
 

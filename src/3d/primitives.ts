@@ -17,6 +17,6 @@ module gml {
   }
 
   export class Polygon {
-    points: Vec3[];
+    points: Vec4[];
   }
 }

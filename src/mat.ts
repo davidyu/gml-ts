@@ -253,7 +253,9 @@ module gml {
     public multiply( s: number ): Matrix;
     public multiply( arg: any ): Matrix {
       if ( arg instanceof Matrix ) {
-        return Matrix.matmul( this, arg );
+        let out = new Matrix( this.rows, arg.cols, new Float32Array( this.rows * arg.cols ) );
+        Matrix.matmul( this, arg, out );
+        return out;
       } else {
         return this.scalarmul( arg );
       }
@@ -267,24 +269,21 @@ module gml {
       return new Matrix( this.rows, this.cols, vs );
     }
 
-    public static matmul( lhs: Matrix, rhs: Matrix ): Matrix {
+    public static matmul( lhs: Matrix, rhs: Matrix, out: Matrix ) {
       if ( lhs.rows != rhs.cols ) {
         console.warn( "lhs and rhs incompatible for matrix multiplication!" );
         return null;
       }
 
-      var out = [];
       for ( let i = 0; i < lhs.rows; i++ ) {
         for ( let j = 0; j < rhs.cols; j++ ) {
           let sum = 0;
           for ( let k = 0; k < lhs.cols; k++ ) {
             sum += lhs.get( i, k ) * rhs.get( k, j );
           }
-          out[ i * lhs.cols + j ] = sum;
+          out.v[ i * lhs.cols + j ] = sum;
         }
       }
-
-      return new Matrix( lhs.rows, rhs.cols, out );
     }
 
     public static identity( size: number ): Matrix {

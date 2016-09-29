@@ -221,7 +221,9 @@ module gml {
     public multiply( s: number ): Mat4;
     public multiply( arg: any ): Mat4 {
       if ( arg instanceof Mat4 ) {
-        return Mat4.matmul( this, arg );
+        let out = Mat4.identity();
+        Mat4.matmul( this, arg, out );
+        return out;
       } else {
         return this.scalarmul( arg );
       }
@@ -596,7 +598,7 @@ module gml {
                      , c1.w, c2.w, c3.w, c4.w );
     }
 
-    public static matmul( lhs: Mat4, rhs: Mat4 ): Mat4 {
+    public static matmul( lhs: Mat4, rhs: Mat4, out: Mat4 ) {
       let l00 = lhs.v[ 0];
       let l01 = lhs.v[ 1];
       let l02 = lhs.v[ 2];
@@ -630,23 +632,22 @@ module gml {
       let r32 = rhs.v[14];
       let r33 = rhs.v[15];
 
-      return new Mat4( l00 * r00 + l01 * r10 + l02 * r20 + l03 * r30
-                     , l00 * r01 + l01 * r11 + l02 * r21 + l03 * r31
-                     , l00 * r02 + l01 * r12 + l02 * r22 + l03 * r32
-                     , l00 * r03 + l01 * r13 + l02 * r23 + l03 * r33
-                     , l10 * r00 + l11 * r10 + l12 * r20 + l13 * r30
-                     , l10 * r01 + l11 * r11 + l12 * r21 + l13 * r31
-                     , l10 * r02 + l11 * r12 + l12 * r22 + l13 * r32
-                     , l10 * r03 + l11 * r13 + l12 * r23 + l13 * r33
-                     , l20 * r00 + l21 * r10 + l22 * r20 + l23 * r30
-                     , l20 * r01 + l21 * r11 + l22 * r21 + l23 * r31
-                     , l20 * r02 + l21 * r12 + l22 * r22 + l23 * r32
-                     , l20 * r03 + l21 * r13 + l22 * r23 + l23 * r33
-                     , l30 * r00 + l31 * r10 + l32 * r20 + l33 * r30
-                     , l30 * r01 + l31 * r11 + l32 * r21 + l33 * r31
-                     , l30 * r02 + l31 * r12 + l32 * r22 + l33 * r32
-                     , l30 * r03 + l31 * r13 + l32 * r23 + l33 * r33
-                     );
+      out.r00 = l00 * r00 + l01 * r10 + l02 * r20 + l03 * r30;
+      out.r01 = l00 * r01 + l01 * r11 + l02 * r21 + l03 * r31;
+      out.r02 = l00 * r02 + l01 * r12 + l02 * r22 + l03 * r32;
+      out.tx   = l00 * r03 + l01 * r13 + l02 * r23 + l03 * r33;
+      out.r10 = l10 * r00 + l11 * r10 + l12 * r20 + l13 * r30;
+      out.r11 = l10 * r01 + l11 * r11 + l12 * r21 + l13 * r31;
+      out.r12 = l10 * r02 + l11 * r12 + l12 * r22 + l13 * r32;
+      out.ty  = l10 * r03 + l11 * r13 + l12 * r23 + l13 * r33;
+      out.r20 = l20 * r00 + l21 * r10 + l22 * r20 + l23 * r30;
+      out.r21 = l20 * r01 + l21 * r11 + l22 * r21 + l23 * r31;
+      out.r22 = l20 * r02 + l21 * r12 + l22 * r22 + l23 * r32;
+      out.tz  = l20 * r03 + l21 * r13 + l22 * r23 + l23 * r33;
+      out.m30 = l30 * r00 + l31 * r10 + l32 * r20 + l33 * r30;
+      out.m31 = l30 * r01 + l31 * r11 + l32 * r21 + l33 * r31;
+      out.m32 = l30 * r02 + l31 * r12 + l32 * r22 + l33 * r32;
+      out.m33 = l30 * r03 + l31 * r13 + l32 * r23 + l33 * r33;
     }
 
     public static transform( lhs: Mat4, rhs: Vec4, out: Vec4 ) {

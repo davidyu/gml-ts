@@ -3,6 +3,7 @@
       <script src="./gml.js" type="text/javascript"></script>
       <title>Polygon Convexity Inspector</title>
       <script src="../eyecore.js" type="text/javascript"></script>
+      <script src="./perspective.js" type="text/javascript"></script>
       <link rel="stylesheet" href="../style.css"/>
     </head>
     <body onload="init()" onmouseup="dragend(event)" onmousemove="dragupdate(event)">
@@ -12,6 +13,12 @@
 
         function init() {
             initCanvas();
+
+            setPerspective( gml.fromDegrees( 103 ), ( 16 / 9 ), -1, 100 );
+            setCamera( /* pos */   new gml.Vec4( 0, 0, -10, 1 )
+                     , /* aim */   new gml.Vec4( 0, 0, 1, 0 )
+                     , /* up */    new gml.Vec4( 0, 1, 0, 0 )
+                     , /* right */ new gml.Vec4( 1, 0, 0, 0 ) );
 
             poly = genPoly( 3 );
             drawPoly( poly );
@@ -37,9 +44,12 @@
             context.lineWidth = 1;
             context.fillStyle = LIGHT_GREEN;
 
+            var mappedP = new gml.Vec4( 0, 0, 0, 0 );
+
             for ( var i = 0; i < poly.points.length; i++ ) {
-                var p = poly.points[ (i+1) % poly.points.length ];
-                context.lineTo( p.x, p.y );
+                mapToScreen( poly.points[ (i+1) % poly.points.length ], canvas_width, canvas_height, mappedP );
+                console.log( mappedP );
+                context.lineTo( mappedP.x, mappedP.y );
             }
 
             context.fill();
@@ -49,13 +59,14 @@
         function genPoly( sides ) {
             var points = [];
 
-            var r = 100;
-            var cx = canvas_width / 2;
-            var cy = canvas_height / 2;
+            var r = 1;
+            var cx = 0;
+            var cy = 0;
             for ( var i = 0; i < sides; i++ ) {
-                points.push( new gml.Vec3( Math.cos( ( i / sides ) * 2 * Math.PI ) * r + cx
+                points.push( new gml.Vec4( Math.cos( ( i / sides ) * 2 * Math.PI ) * r + cx
                                          , Math.sin( ( i / sides ) * 2 * Math.PI ) * r + cy
-                                         , 0 ) );
+                                         , 0
+                                         , 1 ) );
             }
 
             return { points: points };

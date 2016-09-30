@@ -11,18 +11,18 @@ var pitch = gml.fromDegrees( 0 );
 
 function setPerspective( fov, aspectRatio, near, far ) {
   cached_p = gml.makePerspective( fov, aspectRatio, near, far );
-  gml.Mat4.matmul( cached_v, cached_p, cached_vp );
+  gml.Mat4.matmul( cached_p, cached_v, cached_vp );
 }
 
 function setCamera( pos, aim, up, right ) {
   cached_v = gml.makeLookAt( pos, aim, up, right );
-  gml.Mat4.matmul( cached_v, cached_p, cached_vp );
+  gml.Mat4.matmul( cached_p, cached_v, cached_vp );
 }
 
 const PAN_PIXEL_TO_RADIAN = 1/30;
 function rotateCamera( dx, dy ) {
   this.yaw = this.yaw.add( gml.fromRadians( -dx * PAN_PIXEL_TO_RADIAN ).negate() ).reduceToOneTurn();
-  this.pitch = this.pitch.add( gml.fromRadians( -dx * PAN_PIXEL_TO_RADIAN ) ).reduceToOneTurn();
+  this.pitch = this.pitch.add( gml.fromRadians( -dy * PAN_PIXEL_TO_RADIAN ) ).reduceToOneTurn();
 
   let baseAim = new gml.Vec4( 0, 0, -1, 0 );
 

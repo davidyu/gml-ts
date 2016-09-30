@@ -9,6 +9,7 @@ var context;
 // color constants
 var LIGHT_GREEN = '#7f7';
 var LIGHT_RED   = '#f77';
+var LIGHT_GREY  = '#ccc';
 var BLUE        = '#0000ff';
 var RED         = '#ff0000';
 var GREEN       = '#00ff00';

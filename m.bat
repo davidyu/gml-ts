@@ -7,14 +7,12 @@
 @if not exist %DIST%\lib mkdir %DIST%\lib
 @if not exist %DIST_TEST% mkdir %DIST_TEST%
 
-@echo building gml library...
-@pushd %SRC%
-@copy /y tsconfigs\lib.json tsconfig.json > NUL
-@call tsc
-@popd
+@if not "%1" == "" (
+    @set TARGET=%1
+) else (
+    @set TARGET=lib
+)
 
-@echo building gml2d library...
-@pushd %SRC%
-@copy /y tsconfigs\lib2d.json tsconfig.json > NUL
-@call tsc
-@popd
+@if "%TARGET%"=="lib"  call build\lib_sub.bat
+@if "%TARGET%"=="perf" call build\lib_sub.bat && call build\perf_sub.bat
+@if "%TARGET%"=="test" call build\lib_sub.bat && call build\test_sub.bat

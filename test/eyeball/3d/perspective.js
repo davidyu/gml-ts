@@ -41,9 +41,6 @@ function rotateCamera( dx, dy ) {
 function mapToScreen( in_vertex, screenw, screenh, out_vertex ) {
   if ( out_vertex != null ) {
     gml.Mat4.transform( cached_vp, in_vertex, out_vertex );
-    // perspective divide
-    out_vertex.x /= out_vertex.w;
-    out_vertex.y /= out_vertex.w;
     // normalize from (-1, 1) to canvas space
     out_vertex.x = ( out_vertex.x + 1 ) * screenw / 2;
     out_vertex.y = ( out_vertex.y + 1 ) * screenh / 2;

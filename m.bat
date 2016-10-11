@@ -16,3 +16,4 @@
 @if "%TARGET%"=="lib"  call build\lib_sub.bat
 @if "%TARGET%"=="perf" call build\lib_sub.bat && call build\perf_sub.bat
 @if "%TARGET%"=="test" call build\lib_sub.bat && call build\test_sub.bat
+@if "%TARGET%"=="eyeball" call build\lib_sub.bat && call build\eyeball_sub.bat

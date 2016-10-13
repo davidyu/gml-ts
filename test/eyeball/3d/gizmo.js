@@ -1,8 +1,8 @@
-var gizmoZ = new gml.Vec4( 0, 0, 1, 0 );
-var gizmoY = new gml.Vec4( 0, 1, 0, 0 );
-var gizmoX = new gml.Vec4( 1, 0, 0, 0 );
-
 var gizmo_size = 0.10;
+
+var gizmoZ = new gml.Vec4( 0, 0, gizmo_size, 1 );
+var gizmoY = new gml.Vec4( 0, gizmo_size, 0, 1 );
+var gizmoX = new gml.Vec4( gizmo_size, 0, 0, 1 );
 
 function drawGizmo() {
   var mappedP = new gml.Vec4( 0, 0, 0, 0 );
@@ -15,7 +15,7 @@ function drawGizmo() {
   context.beginPath();
   context.moveTo( mappedP.x, mappedP.y );
 
-  mapToScreen( gizmoZ.multiply( gizmo_size ), canvas_width, canvas_height, mappedP );
+  mapToScreen( gizmoZ, canvas_width, canvas_height, mappedP );
 
   context.lineTo( mappedP.x, mappedP.y );
   context.strokeStyle = BLUE;
@@ -26,7 +26,7 @@ function drawGizmo() {
   context.beginPath();
   context.moveTo( mappedP.x, mappedP.y );
 
-  mapToScreen( gizmoX.multiply( gizmo_size ), canvas_width, canvas_height, mappedP );
+  mapToScreen( gizmoX, canvas_width, canvas_height, mappedP );
 
   context.lineTo( mappedP.x, mappedP.y );
   context.strokeStyle = RED;
@@ -37,7 +37,7 @@ function drawGizmo() {
   context.beginPath();
   context.moveTo( mappedP.x, mappedP.y );
 
-  mapToScreen( gizmoY.multiply( gizmo_size ), canvas_width, canvas_height, mappedP );
+  mapToScreen( gizmoY, canvas_width, canvas_height, mappedP );
 
   context.lineTo( mappedP.x, mappedP.y );
   context.strokeStyle = GREEN;

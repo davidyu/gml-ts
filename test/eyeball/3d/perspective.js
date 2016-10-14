@@ -1,7 +1,9 @@
 // cached so we don't recompute these matrices every frame
 var cached_v  = gml.Mat4.identity();
 var cached_p  = gml.Mat4.identity();
+var cached_o  = gml.Mat4.identity();
 var cached_vp = gml.Mat4.identity(); // view-perspective matrix
+var cached_vo = gml.Mat4.identity(); // view-orthographic matrix
 
 // internal orbit controls
 var orbitDistance = 10;
@@ -11,12 +13,15 @@ var pitch = gml.fromDegrees( 0 );
 
 function setPerspective( fov, aspectRatio, near, far ) {
   cached_p = gml.makePerspective( fov, aspectRatio, near, far );
+  cached_o = gml.makeOrthographic( fov, aspectRatio, near, far );
   gml.Mat4.matmul( cached_p, cached_v, cached_vp );
+  gml.Mat4.matmul( cached_o, cached_v, cached_vo );
 }
 
 function setCamera( pos, aim, up, right ) {
   cached_v = gml.makeLookAt( pos, aim, up, right );
   gml.Mat4.matmul( cached_p, cached_v, cached_vp );
+  gml.Mat4.matmul( cached_o, cached_v, cached_vo );
 }
 
 const PAN_PIXEL_TO_RADIAN = 1/30;
@@ -41,6 +46,26 @@ function rotateCamera( dx, dy ) {
 function mapToScreen( in_vertex, screenw, screenh, out_vertex ) {
   if ( out_vertex != null ) {
     gml.Mat4.transform( cached_vp, in_vertex, out_vertex );
+    // transform to NDC
+    out_vertex.x /= out_vertex.w;
+    out_vertex.y /= out_vertex.w;
+    // normalize from (-1, 1) to canvas space
+    out_vertex.x = ( out_vertex.x + 1 ) * screenw / 2;
+    out_vertex.y = ( out_vertex.y + 1 ) * screenh / 2;
+    return;
+  }
+
+  let out = cached_vp.transform( in_vertex );
+  out.x *= screenw;
+  out.y *= screenh;
+
+  return out;
+}
+
+function mapToScreenOrtho( in_vertex, screenw, screenh, out_vertex ) {
+  if ( out_vertex != null ) {
+    gml.Mat4.transform( cached_vo, in_vertex, out_vertex );
+    // transform to NDC -- can probably skip this step?
     out_vertex.x /= out_vertex.w;
     out_vertex.y /= out_vertex.w;
     // normalize from (-1, 1) to canvas space

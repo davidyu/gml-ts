@@ -659,11 +659,11 @@ module gml {
   }
 
   /**
-   * @returns a 4x4 matrix to transform a point in a view frustum volume to a point in the unit
-   *          cube (IE: camera space to homogenous clip space). The w param of the output point
-   *          is the negated z value of the original point in camera space. Division of the
-   *          x, y, z-components of the mapped point by the w component will result in the
-   *          normalized device coords (normalized screen space)
+   * @returns a 4x4 matrix that transforms a point in a user-defined view frustum to a point in
+   *          a unit cube centered at the origin (IE: camera space to homogenous clip space).
+   *          The w-component of the output point is the negated z of the original point in camera
+   *          space. Division of the x, y, z-components of the mapped point by the w-component will
+   *          provide a point in normalized screen space (both x and y will range from -1 to 1).
    */
   export function makePerspective( fov: Angle, aspectRatio: number, near: number, far: number ): Mat4 {
     let t = near * Math.tan( fov.toRadians() / 2 );
@@ -673,10 +673,29 @@ module gml {
     let n = near;
     let f = far;
 
-    return new Mat4( ( n * 2 ) / ( r - l ) , 0                     , ( r + l ) / ( r - l )      , 0
-                   , 0                     , ( n * 2 ) / ( t - b ) , ( t + b ) / ( t - b )      , 0
-                   , 0                     , 0                     , -( f + n ) / ( f - n )     , -( f * n * 2 ) / ( f - n )
-                   , 0                     , 0                     , -1                         , 0 );
+    return new Mat4( 2*n / (r-l), 0          , (r +l) / (r-l), -1
+                   , 0          , 2*n / (t-b), (t +b) / (t-b), 0
+                   , 0          , 0          , -(f+n) / (f-n), -2*n*f / (f-n)
+                   , 0          , 0          , -1            , 0 );
+  }
+
+  /**
+   * @returns a 4x4 matrix to transform a point in a user-defined cube in view space to a point
+   *          in the unit cube centered at the origin (IE: camera space to homogenous clip space).
+   *          Useful for projecting UI objects that exist in 3D space.
+   */
+  export function makeOrthographic( fov: Angle, aspectRatio: number, near: number, far: number ): Mat4 {
+    let t = near * Math.tan( fov.toRadians() / 2 );
+    let r = t * aspectRatio;
+    let l = -r;
+    let b = -t;
+    let n = near;
+    let f = far;
+
+    return new Mat4( 2 / (r-l), 0        , 0         , -(r+l) / (r-l)
+                   , 0        , 2 / (t-b), 0         , -(t+b) / (t-b)
+                   , 0        , 0        , -2 / (f-n), -(f+n) / (f-n)
+                   , 0        , 0        , 0         , 1 );
   }
 
   /**

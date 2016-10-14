@@ -658,6 +658,13 @@ module gml {
     }
   }
 
+  /**
+   * @returns a 4x4 matrix to transform a point in a view frustum volume to a point in the unit
+   *          cube (IE: camera space to homogenous clip space). The w param of the output point
+   *          is the negated z value of the original point in camera space. Division of the
+   *          x, y, z-components of the mapped point by the w component will result in the
+   *          normalized device coords (normalized screen space)
+   */
   export function makePerspective( fov: Angle, aspectRatio: number, near: number, far: number ): Mat4 {
     let t = near * Math.tan( fov.toRadians() / 2 );
     let r = t * aspectRatio;
@@ -672,7 +679,13 @@ module gml {
                    , 0                     , 0                     , -1                         , 0 );
   }
 
-  // aim, up, and right are all vectors that are assumed to be orthogonal
+  /**
+   * @returns a 4x4 matrix to transform a point in world space to a point in camera
+   *          space.
+   *
+   * Aim, up, and right are all vectors that are assumed to be orthogonal. Normalization
+   * is performed in this method so they need not be already normalized.
+   */
   export function makeLookAt( pos: Vec4, aim: Vec4, up: Vec4, right: Vec4 ): Mat4 {
     let x = right.normalized;
     let y = up.normalized;

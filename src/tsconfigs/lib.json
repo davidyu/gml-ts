@@ -17,6 +17,7 @@
     "3d/vec3.ts",
     "3d/vec4.ts",
     "3d/mat3.ts",
-    "3d/mat4.ts"
+    "3d/mat4.ts",
+    "3d/primitives.ts"
   ]
 }

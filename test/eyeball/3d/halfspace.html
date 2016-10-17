@@ -1,0 +1,113 @@
+<html>
+    <head>
+      <script src="./gml.js" type="text/javascript"></script>
+      <title>3D Halfspace Inspector</title>
+      <script src="../eyecore.js" type="text/javascript"></script>
+      <script src="./perspective.js" type="text/javascript"></script>
+      <script src="./gizmo.js" type="text/javascript"></script>
+      <link rel="stylesheet" href="../style.css"/>
+    </head>
+    <body onload="init()" onmouseup="dragend(event)" onmousemove="dragupdate(event)">
+    <script type="text/javascript">
+        var poly;
+        var plane;
+        var dragging = false;
+
+        var points = [];
+
+        function init() {
+            initCanvas();
+
+            setPerspective( gml.fromDegrees( 103 ), 1, -1, 100 );
+            // should create a new function setCameraControls, that interoperates nicely
+            // with orbit
+            setCamera( /* pos */   new gml.Vec4( 0, 0, -10, 1 )
+                     , /* aim */   new gml.Vec4( 0, 0, -1, 0 )
+                     , /* up */    new gml.Vec4( 0, 1, 0, 0 )
+                     , /* right */ new gml.Vec4( 1, 0, 0, 0 ) );
+
+            var POINTS_TO_PLOT = 1000;
+            var WORLD_BOUND_RADIUS = 5.0;
+            for ( var i = 0; i < POINTS_TO_PLOT; i++ ) {
+                points.push( new gml.Vec4( Math.random() * 5, Math.random() * 5, Math.random() * 5, 1 ) );
+            }
+
+            plane = new gml.Plane( gml.Vec4.randomInSphere(), Math.random() );
+
+            poly = genQuadRepresentation( plane );
+            drawQuadRepresentation( poly );
+            drawGizmo();
+        }
+
+        function dragstart( e ) {
+            dragging = true;
+        }
+
+        function dragend( e ) {
+            dragging = false;
+        }
+
+        function dragupdate( e ) {
+            if ( dragging ) {
+                rotateCamera( e.movementX, e.movementY );
+                context.clearRect( 0, 0, canvas_width, canvas_height );
+                drawQuadRepresentation( poly );
+                drawGizmo();
+            }
+        }
+
+        function drawQuadRepresentation( poly ) {
+            context.beginPath();
+
+            var mappedP = new gml.Vec4( 0, 0, 0, 0 );
+            mapToScreen( poly.points[0], canvas_width, canvas_height, mappedP );
+
+            context.lineTo( mappedP.x, mappedP.y );
+            context.lineWidth = 1;
+            context.fillStyle = "rgba(128, 128, 128, 0.4)";
+            context.globalAlpha  = 0.5;
+            context.strokeStyle = 'black';
+
+            for ( var i = 0; i < poly.points.length; i++ ) {
+                mapToScreen( poly.points[ (i+1) % poly.points.length ], canvas_width, canvas_height, mappedP );
+                context.lineTo( mappedP.x, mappedP.y );
+            }
+
+            context.fill();
+            context.stroke();
+        }
+
+        function genQuadRepresentation( plane ) {
+            var points = [];
+
+            var r = 5;
+            var cx = 0;
+            var cy = 0;
+            for ( var i = 0; i < 4; i++ ) {
+                points.push( new gml.Vec4( Math.cos( ( i / 4 ) * 2 * Math.PI ) * r + cx
+                                         , Math.sin( ( i / 4 ) * 2 * Math.PI ) * r + cy
+                                         , 0
+                                         , 1 ) );
+            }
+
+            return new gml.Polygon( points );
+        }
+
+        function updatePoly( sides ) {
+            poly = genPoly( sides );
+            context.clearRect( 0, 0, canvas_width, canvas_height );
+            drawQuadRepresentation( poly );
+            drawGizmo();
+        }
+    </script>
+    <div role="main" id="maincolumn">
+      <div id="screen">
+        <center>
+          <canvas id="viewport" height="500" width="500" onmousedown="dragstart(event)" onmouseup="dragend(event)">
+          </canvas>
+          <br/>
+        </center>
+      </div>
+    </div>
+    </body>
+</html>

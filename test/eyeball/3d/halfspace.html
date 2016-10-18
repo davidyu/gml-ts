@@ -27,15 +27,18 @@
                      , /* right */ new gml.Vec4( 1, 0, 0, 0 ) );
 
             var POINTS_TO_PLOT = 1000;
-            var WORLD_BOUND_RADIUS = 5.0;
+            var WORLD_BOUND_RADIUS = 10.0;
             for ( var i = 0; i < POINTS_TO_PLOT; i++ ) {
-                points.push( new gml.Vec4( Math.random() * 5, Math.random() * 5, Math.random() * 5, 1 ) );
+                points.push( new gml.Vec4( ( Math.random() * 2 - 1 ) * WORLD_BOUND_RADIUS
+                                         , ( Math.random() * 2 - 1 ) * WORLD_BOUND_RADIUS
+                                         , ( Math.random() * 2 - 1 ) * WORLD_BOUND_RADIUS
+                                         , 1 ) );
             }
 
             plane = new gml.Plane( gml.Vec4.randomInSphere(), Math.random() );
 
             poly = genQuadRepresentation( plane );
-            drawQuadRepresentation( poly );
+            visualizeHalfspace( points, plane )
             drawGizmo();
         }
 
@@ -51,9 +54,66 @@
             if ( dragging ) {
                 rotateCamera( e.movementX, e.movementY );
                 context.clearRect( 0, 0, canvas_width, canvas_height );
-                drawQuadRepresentation( poly );
+                visualizeHalfspace( points, plane )
                 drawGizmo();
             }
+        }
+
+        function visualizeHalfspace( points, plane ) {
+            drawQuadRepresentation( poly );
+
+            var positives = [];
+            var negatives = [];
+            var coincidents = [];
+
+            var p;
+            for ( var i = 0; i < points.length; i++ ) {
+                p = points[i];
+                var res = gml.Collision.CategorizeHalfspace( p, plane )
+                switch ( res ) {
+                    case gml.Halfspace.POSITIVE:
+                        positives.push( p );
+                        break;
+                    case gml.Halfspace.NEGATIVE:
+                        negatives.push( p );
+                        break;
+                    case gml.Halfspace.COINCIDENT:
+                        coincidents.push( p );
+                        break;
+                }
+            }
+
+            var mappedP = new gml.Vec4( 0, 0, 0, 0 );
+
+            context.fillStyle = 'green';
+            context.beginPath();
+            for ( var i = 0; i < positives.length; i++ ) {
+                p = positives[i];
+                mapToScreen( p, canvas_width, canvas_height, mappedP );
+                context.moveTo( mappedP.x, mappedP.y );
+                context.arc( mappedP.x, mappedP.y, 1, 0, 6.28, false );
+            }
+            context.fill();
+
+            context.fillStyle = 'red';
+            context.beginPath();
+            for ( var i = 0; i < negatives.length; i++ ) {
+                p = negatives[i];
+                mapToScreen( p, canvas_width, canvas_height, mappedP );
+                context.moveTo( mappedP.x, mappedP.y );
+                context.arc( mappedP.x, mappedP.y, 1, 0, 6.28, false );
+            }
+            context.fill();
+
+            context.fillStyle = 'white';
+            context.beginPath();
+            for ( var i = 0; i < coincidents.length; i++ ) {
+                p = coincidents[i];
+                mapToScreen( p, canvas_width, canvas_height, mappedP );
+                context.moveTo( mappedP.x, mappedP.y );
+                context.arc( mappedP.x, mappedP.y, 1, 0, 6.28, false );
+            }
+            context.fill();
         }
 
         function drawQuadRepresentation( poly ) {
@@ -78,6 +138,7 @@
         }
 
         function genQuadRepresentation( plane ) {
+            // TODO FIXME
             var points = [];
 
             var r = 5;

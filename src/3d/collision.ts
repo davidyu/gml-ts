@@ -1,4 +1,10 @@
 module gml {
+  /***
+   * Any floating-point value smaller than EPSILON is considered to be zero.
+   * @hidden
+   */
+  const EPSILON = 1e-6;
+
   export enum Halfspace {
     POSITIVE,
     NEGATIVE,

@@ -169,15 +169,14 @@
             }
 
             let v1 = p2.subtract( p1 );
-            v1.normalize;
+            v1.normalize();
 
             let v2 = plane.normal.cross( v1 );
-            v2.normalize;
 
-            points.push( p1 );
-            points.push( v1.multiply( r ).add( p1 ) );
-            points.push( v1.multiply( r ).add( v2.multiply( r ) ).add( p1 ) );
-            points.push( v2.multiply( r ).add( p1 ) );
+            points.push( p1.subtract( v1.multiply( r/2 ) ).subtract( v2.multiply( r/2 ) ) );
+            points.push( p1.add( v1.multiply( r/2 ) ).subtract( v2.multiply( r/2 ) ) );
+            points.push( p1.add( v1.multiply( r/2 ) ).add( v2.multiply( r/2 ) ) );
+            points.push( p1.subtract( v1.multiply( r/2 ) ).add( v2.multiply( r/2 ) ) );
 
             return new gml.Polygon( points );
         }

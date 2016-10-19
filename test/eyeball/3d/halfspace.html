@@ -18,7 +18,7 @@
         function init() {
             initCanvas();
 
-            setPerspective( gml.fromDegrees( 103 ), 1, -1, 100 );
+            setPerspective( gml.fromDegrees( 103 ), canvas_width / canvas_height, -1, 100 );
             // should create a new function setCameraControls, that interoperates nicely
             // with orbit
             setCamera( /* pos */   new gml.Vec4( 0, 0, -10, 1 )
@@ -138,17 +138,53 @@
         }
 
         function genQuadRepresentation( plane ) {
-            // TODO FIXME
-            var points = [];
+            let points = [];
 
-            var r = 5;
+            var r = 100;
             var cx = 0;
             var cy = 0;
+
+            // get two points on the plane
+            let p1 = new gml.Vec4( 0, 0, 0, 1 );
+            let p2 = new gml.Vec4( 0, 0, 0, 1 );
+            if ( plane.normal.z != 0 ) {
+                p1.x = Math.random() * plane.d;
+                p1.y = Math.random() * plane.d;
+                p1.z = -( plane.normal.x * p1.x + plane.normal.y * p2.y + plane.d ) / plane.normal.z;
+                p2.x = Math.random() * plane.d;
+                p2.y = Math.random() * plane.d;
+                p2.z = -( plane.normal.x * p2.x + plane.normal.y * p2.y + plane.d ) / plane.normal.z;
+            } else if ( plane.normal.x != 0 ) {
+                p1.z = Math.random() * plane.d;
+                p1.y = Math.random() * plane.d;
+                p1.x = -( plane.normal.z * p1.z + plane.normal.y * p2.y + plane.d ) / plane.normal.x;
+                p2.z = Math.random() * plane.d;
+                p2.y = Math.random() * plane.d;
+                p2.x = -( plane.normal.z * p2.z + plane.normal.y * p2.y + plane.d ) / plane.normal.x;
+            } else {
+                p1.z = Math.random() * plane.d;
+                p1.x = Math.random() * plane.d;
+                p1.y = -( plane.normal.z * p1.z + plane.normal.x * p2.x + plane.d ) / plane.normal.y;
+                p2.z = Math.random() * plane.d;
+                p2.x = Math.random() * plane.d;
+                p2.y = -( plane.normal.z * p2.z + plane.normal.x * p2.x + plane.d ) / plane.normal.y;
+            }
+
+            let v1 = p1.subtract( p2 );
+            v1.normalize;
+
+            let v2 = plane.normal.cross( v1 );
+            v2.normalize;
+
             for ( var i = 0; i < 4; i++ ) {
-                points.push( new gml.Vec4( Math.cos( ( i / 4 ) * 2 * Math.PI ) * r + cx
-                                         , Math.sin( ( i / 4 ) * 2 * Math.PI ) * r + cy
-                                         , 0
-                                         , 1 ) );
+                let x = Math.cos( ( i / 4 ) * 2 * Math.PI ) * r;
+                let y = Math.sin( ( i / 4 ) * 2 * Math.PI ) * r;
+
+                let pt = v1.multiply( x ).add( v2.multiply( y ) ).add( p1 );
+                pt.x += cx;
+                pt.x += cy;
+
+                points.push( pt );
             }
 
             return new gml.Polygon( points );

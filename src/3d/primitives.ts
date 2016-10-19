@@ -25,6 +25,7 @@ module gml {
   }
 
   export class Plane {
+    // normal dot (point on plane) + d = 0
     normal: Vec4;
     d: number;
 

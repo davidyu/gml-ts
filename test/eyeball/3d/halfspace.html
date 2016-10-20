@@ -35,7 +35,7 @@
                                          , 1 ) );
             }
 
-            plane = new gml.Plane( gml.Vec4.randomInSphere(), Math.random() );
+            plane = new gml.Plane( gml.Vec4.randomInSphere(), 0 );
 
             poly = genQuadRepresentation( plane );
             visualizeHalfspace( points, plane )
@@ -150,22 +150,22 @@
                 p1.x = 0;
                 p1.y = 0;
                 p1.z = -plane.d / plane.normal.z;
-                p2.x = Math.random() * plane.d;
-                p2.y = Math.random() * plane.d;
+                p2.x = Math.random() * WORLD_BOUND_RADIUS;
+                p2.y = Math.random() * WORLD_BOUND_RADIUS;
                 p2.z = -( plane.normal.x * p2.x + plane.normal.y * p2.y + plane.d ) / plane.normal.z;
             } else if ( plane.normal.x != 0 ) {
                 p1.z = 0;
                 p1.y = 0;
                 p1.x = -plane.d / plane.normal.x;
-                p2.z = Math.random() * plane.d;
-                p2.y = Math.random() * plane.d;
+                p2.z = Math.random() * WORLD_BOUND_RADIUS;
+                p2.y = Math.random() * WORLD_BOUND_RADIUS;
                 p2.x = -( plane.normal.z * p2.z + plane.normal.y * p2.y + plane.d ) / plane.normal.x;
             } else {
                 p1.z = 0;
                 p1.x = 0;
                 p1.y = -plane.d / plane.normal.y;
-                p2.z = Math.random() * plane.d;
-                p2.x = Math.random() * plane.d;
+                p2.z = Math.random() * WORLD_BOUND_RADIUS;
+                p2.x = Math.random() * WORLD_BOUND_RADIUS;
                 p2.y = -( plane.normal.z * p2.z + plane.normal.x * p2.x + plane.d ) / plane.normal.y;
             }
 
@@ -188,12 +188,30 @@
             drawQuadRepresentation( poly );
             drawGizmo();
         }
+
+        function updatePlaneD( d ) {
+            plane.d = d;
+            context.clearRect( 0, 0, canvas_width, canvas_height );
+            poly = genQuadRepresentation( plane );
+            visualizeHalfspace( points, plane )
+            drawGizmo();
+        }
     </script>
     <div role="main" id="maincolumn">
       <div id="screen">
         <center>
           <canvas id="viewport" height="500" width="500" onmousedown="dragstart(event)" onmouseup="dragend(event)">
           </canvas>
+
+          <br class="vspace" />
+          <br class="vspace" />
+          <br class="vspace" />
+          <br class="vspace" />
+
+          <label>d</label>
+          <br/>
+          <input id="plane-d" type="range" min="0" max="1000" oninput="updatePlaneD( ( this.value - 500 ) / 200 )">
+          </input>
           <br/>
         </center>
       </div>

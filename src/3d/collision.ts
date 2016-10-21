@@ -31,5 +31,43 @@ module gml {
         return Halfspace.NEGATIVE;
       }
     }
+
+    static LineSegmentPlaneIntersection( seg_start: Vec4, seg_end: Vec4, pl: Plane, result: Vec4 ): boolean {
+      return true;
+    }
+
+    /**
+     * Clips a polygon with a set of planes using the Sutherland-Hodgman algorithm.
+     *
+     * @returns A polygon that is the result of the subject polygon clipped
+     * by the clipper plane set
+     */
+    static Clip( subject: Polygon, clipper: Plane[] ): Polygon {
+      let out_pts = [];
+
+      for ( let i = 0; i < clipper.length; i++ ) {
+        let plane = clipper[i];
+        // iterate over points in polygon, checking two  points each time and categorizing them.
+        let s = subject.points[ subject.points.length - 1 ];
+        let intersection: Vec4 = Vec4.zero;
+        for ( let j = 0; j < subject.points.length; j++ ) {
+          let e = subject.points[j];
+
+          let e_cat = Collision.CategorizeHalfspace( e, plane );
+          let s_cat = Collision.CategorizeHalfspace( s, plane );
+
+          if ( e_cat == Halfspace.POSITIVE ) {
+            if ( s_cat != Halfspace.NEGATIVE ) {
+              if ( Collision.LineSegmentPlaneIntersection( s, e, plane, intersection ) ) {
+                out_pts.push( Vec4.clone( intersection ) );
+              }
+            }
+            out_pts.push( Vec4.clone( e ) );
+          }
+        }
+      }
+
+      return new Polygon( out_pts );
+    }
   }
 }

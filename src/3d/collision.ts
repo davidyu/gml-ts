@@ -33,7 +33,32 @@ module gml {
     }
 
     static LineSegmentPlaneIntersection( seg_start: Vec4, seg_end: Vec4, pl: Plane, result: Vec4 ): boolean {
-      return true;
+      // let p1, p2 be seg_start, seg_end respectively.
+      // let p, n be some point on and the normal of the plane pl respectively, let d be the parameter d of the plane pl.
+      // let p' be the intersection point of the line defined by the line segment and the plane.
+      //
+      // we have   p'                         = p1 + t*(p2-p1)
+      // and       p dot n + d                = 0
+      // =>        (p1 + t*(p2-p1)) dot n + d = 0
+      //
+      // after some arithmetic, we arrive at:
+      //
+      // t = -(n dot p1 + d)/(n dot (p2-p1))
+      //
+      // if n dot (p2-p1) = 0, then the line is parallel with the plane (it lines on the plane if n dot p1 + d is also 0).
+      let r = seg_end.subtract( seg_start );
+      let denom = pl.normal.dot( r );
+
+      if ( denom != 0 ) {
+        let t = -( pl.normal.dot( seg_start ) + pl.d ) / denom;
+        if ( t > 0 && t <= 1 ) {
+          Vec4.multiply( r, t, result );
+          Vec4.add( seg_start, result, result );
+          return true;
+        }
+      }
+
+      return false;
     }
 
     /**

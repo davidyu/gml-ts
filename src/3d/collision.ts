@@ -45,7 +45,7 @@ module gml {
       //
       // t = -(n dot p1 + d)/(n dot (p2-p1))
       //
-      // if n dot (p2-p1) = 0, then the line is parallel with the plane (it lines on the plane if n dot p1 + d is also 0).
+      // if n dot (p2-p1) = 0, then the line is parallel with the plane (it lies on the plane if n dot p1 + d is also 0).
       let r = seg_end.subtract( seg_start );
       let denom = pl.normal.dot( r );
 
@@ -54,6 +54,34 @@ module gml {
         if ( t > 0 && t <= 1 ) {
           Vec4.multiply( r, t, result );
           Vec4.add( seg_start, result, result );
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    static RayPlaneIntersection( ray: Ray, pl: Plane, result: Vec4 ): boolean {
+      // let o, v be the start and direction of ray.
+      // let p, n be some point on and the normal of the plane pl respectively, let d be the parameter d of the plane pl.
+      // let p' be the intersection point of the ray and the plane.
+      //
+      // we have   p'                  = o + t*v
+      // and       p dot n + d         = 0
+      // =>        (o + t*v) dot n + d = 0
+      //
+      // after some arithmetic, we arrive at:
+      //
+      // t = -(n dot o + d)/(n dot v)
+      //
+      // if n dot v = 0, then the ray is parallel with the plane (it lies on the plane if n dot o + d is also 0).
+      let denom = pl.normal.dot( ray.direction );
+
+      if ( denom != 0 ) {
+        let t = -( pl.normal.dot( ray.point ) + pl.d ) / denom;
+        if ( t > 0 ) {
+          Vec4.multiply( ray.direction, t, result );
+          Vec4.add( ray.point, result, result );
           return true;
         }
       }

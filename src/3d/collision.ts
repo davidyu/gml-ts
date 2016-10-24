@@ -32,6 +32,12 @@ module gml {
       }
     }
 
+    /**
+     * Computes the point of intersection between a line segment and a plane if one exists.
+     *
+     * @returns true if there exists a single point intersection between the line segment and a plane
+     *          false if there exists no intersections or if the line segment lies on the plane
+     */
     static LineSegmentPlaneIntersection( seg_start: Vec4, seg_end: Vec4, pl: Plane, result: Vec4 ): boolean {
       // let p1, p2 be seg_start, seg_end respectively.
       // let p, n be some point on and the normal of the plane pl respectively, let d be the parameter d of the plane pl.
@@ -61,6 +67,12 @@ module gml {
       return false;
     }
 
+    /**
+     * Computes the point of intersection between a ray and a plane if one exists.
+     *
+     * @returns true if there exists a single point intersection between the ray and a plane
+     *          false if there exists no intersections or if the ray lies on the plane
+     */
     static RayPlaneIntersection( ray: Ray, pl: Plane, result: Vec4 ): boolean {
       // let o, v be the start and direction of ray.
       // let p, n be some point on and the normal of the plane pl respectively, let d be the parameter d of the plane pl.

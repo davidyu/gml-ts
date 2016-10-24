@@ -130,6 +130,8 @@ module gml {
               out_pts.push( Vec2.clone( intersection ) );
             }
           }
+
+          s = e; // advance vertex pointer ( look at the next edge in subject polygon)
         }
       }
 

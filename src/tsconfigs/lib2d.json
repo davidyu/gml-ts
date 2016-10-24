@@ -12,6 +12,7 @@
     "angle.ts",
     "vec.ts",
     "mat.ts",
+    "constants.ts",
     "2d/vec2.ts",
     "2d/vec3.ts",
     "2d/mat3.ts",

@@ -1,10 +1,4 @@
 module gml2d {
-  /***
-   * Any floating-point value smaller than EPSILON is considered to be zero.
-   * @hidden
-   */
-  const EPSILON = 1e-6;
-
   // optimization: assume we will call methods in the collision module very often.
   // instead of allocating new vectors in each function call, preallocate some temporary
   // vectors.
@@ -47,7 +41,7 @@ module gml2d {
 
       Vec2.subtract( point, line.point, l_to_p );
       let dp = l_to_p.dot( line.normal );
-      if ( Math.abs( dp ) < EPSILON ) {
+      if ( Math.abs( dp ) < gml.EPSILON ) {
         return Halfspace.COINCIDENT;
       } else if ( dp > 0 ) {
         return Halfspace.POSITIVE;

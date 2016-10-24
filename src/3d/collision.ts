@@ -1,10 +1,4 @@
 module gml {
-  /***
-   * Any floating-point value smaller than EPSILON is considered to be zero.
-   * @hidden
-   */
-  const EPSILON = 1e-6;
-
   export enum Halfspace {
     POSITIVE,
     NEGATIVE,
@@ -110,6 +104,9 @@ module gml {
     static Clip( subject: Polygon, clipper: Plane[] ): Polygon {
       let out_pts = [];
 
+      // assume the positive halfspace means inside
+      let inside = Halfspace.POSITIVE;
+
       for ( let i = 0; i < clipper.length; i++ ) {
         let plane = clipper[i];
         // iterate over points in polygon, checking two  points each time and categorizing them.
@@ -121,13 +118,17 @@ module gml {
           let e_cat = Collision.CategorizeHalfspace( e, plane );
           let s_cat = Collision.CategorizeHalfspace( s, plane );
 
-          if ( e_cat == Halfspace.POSITIVE ) {
-            if ( s_cat != Halfspace.NEGATIVE ) {
+          if ( e_cat == inside ) {
+            if ( s_cat != inside ) {
               if ( Collision.LineSegmentPlaneIntersection( s, e, plane, intersection ) ) {
                 out_pts.push( Vec4.clone( intersection ) );
               }
             }
             out_pts.push( Vec4.clone( e ) );
+          } else if ( s_cat == inside ) {
+            if ( Collision.LineSegmentPlaneIntersection( s, e, plane, intersection ) ) {
+              out_pts.push( Vec2.clone( intersection ) );
+            }
           }
         }
       }

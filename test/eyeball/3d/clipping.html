@@ -9,8 +9,10 @@
     </head>
     <body onload="init()" onmouseup="dragend(event)" onmousemove="dragupdate(event)">
     <script type="text/javascript">
-        var poly;
-        var planepoly;
+        var subjectPoly;
+        var planePoly;
+        var clippedPoly;
+
         var plane;
         var dragging = false;
 
@@ -28,12 +30,11 @@
                      , /* right */ new gml.Vec4( 1, 0, 0, 0 ) );
 
             plane = new gml.Plane( gml.Vec4.randomInSphere(), 0 );
-            planepoly = genQuadRepresentation( plane );
-            poly = genPoly( 3 );
+            planePoly = genQuadRepresentation( plane );
+            subjectPoly = genPoly( 3 );
+            clippedPoly = gml.Collision.Clip( subjectPoly, [ plane ] );
 
-            drawPoly( poly );
-            drawPoly( planepoly, 0.2 );
-            drawGizmo();
+            draw();
         }
 
         function dragstart( e ) {
@@ -47,10 +48,7 @@
         function dragupdate( e ) {
             if ( dragging ) {
                 rotateCamera( e.movementX, e.movementY );
-                context.clearRect( 0, 0, canvas_width, canvas_height );
-                drawPoly( poly );
-                drawPoly( planepoly, 0.2 );
-                drawGizmo();
+                draw();
             }
         }
 
@@ -65,7 +63,9 @@
             context.lineTo( mappedP.x, mappedP.y );
             context.lineWidth = 1;
             context.fillStyle = "rgba(128, 128, 128, 0.4)";
-            context.globalAlpha  = alpha;
+
+            var oldAlpha = context.globalAlpha;
+            context.globalAlpha = alpha;
             context.strokeStyle = 'black';
 
             for ( var i = 0; i < poly.points.length; i++ ) {
@@ -75,6 +75,8 @@
 
             context.fill();
             context.stroke();
+
+            context.globalAlpha = oldAlpha;
         }
 
         function genQuadRepresentation( plane ) {
@@ -137,20 +139,25 @@
             return { points: points };
         }
 
-        function updatePoly( sides ) {
-            poly = genPoly( sides );
+        function draw() {
             context.clearRect( 0, 0, canvas_width, canvas_height );
-            drawPoly( poly );
-            drawPoly( planepoly, 0.2 );
+            drawPoly( subjectPoly );
+            drawPoly( planePoly, 0.2 );
+            drawPoly( clippedPoly );
             drawGizmo();
+        }
+
+        function updatePoly( sides ) {
+            subjectPoly = genPoly( sides );
+            clippedPoly = gml.Collision.Clip( subjectPoly, [ plane ] );
+            draw();
         }
 
         function updatePlaneD( d ) {
             plane.d = d;
-            context.clearRect( 0, 0, canvas_width, canvas_height );
-            poly = genQuadRepresentation( plane );
-            visualizeHalfspace( points, plane );
-            drawGizmo();
+            planePoly = genQuadRepresentation( plane );
+            clippedPoly = gml.Collision.Clip( subjectPoly, [ plane ] );
+            draw();
         }
     </script>
     <div role="main" id="maincolumn">
@@ -163,9 +170,6 @@
           <br class="vspace" />
           <br class="vspace" />
           <br class="vspace" />
-
-          <label>d</label>
-          <br/>
 
           <select name="Polygon" oninput="updatePoly( this.value )">
           <option value="3">Triangle</option>
@@ -187,7 +191,12 @@
           <option value="19">Enneadecagon (19)</option>
           <option value="20">Icosagon (20)</option>
           </select>
+          <br/>
+
           &nbsp;
+
+          <label>d</label>
+          <br/>
           <input id="plane-d" type="range" min="0" max="1000" oninput="updatePlaneD( ( this.value - 500 ) / 200 )">
           </input>
           <br/>

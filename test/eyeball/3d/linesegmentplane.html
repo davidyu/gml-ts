@@ -1,0 +1,162 @@
+<html>
+    <head>
+      <script src="./gml.js" type="text/javascript"></script>
+      <title>Line-Segment Plane Intersection Inspector</title>
+      <script src="../eyecore.js" type="text/javascript"></script>
+      <script src="./perspective.js" type="text/javascript"></script>
+      <script src="./gizmo.js" type="text/javascript"></script>
+      <link rel="stylesheet" href="../style.css"/>
+    </head>
+    <body onload="init()" onmouseup="dragend(event)" onmousemove="dragupdate(event)">
+    <script type="text/javascript">
+        var planePoly;
+        var line;
+        var intersection;
+
+        var plane;
+        var dragging = false;
+
+        var WORLD_BOUND_RADIUS = 10.0;
+
+        function init() {
+            initCanvas();
+
+            setPerspective( gml.fromDegrees( 103 ), canvas_width / canvas_height, -1, 100 );
+            // should create a new function setCameraControls, that interoperates nicely
+            // with orbit
+            setCamera( /* pos */   new gml.Vec4( 0, 0, 10, 1 )
+                     , /* aim */   new gml.Vec4( 0, 0, -1, 0 )
+                     , /* up */    new gml.Vec4( 0, 1, 0, 0 )
+                     , /* right */ new gml.Vec4( 1, 0, 0, 0 ) );
+
+            plane = new gml.Plane( gml.Vec4.randomInSphere(), 0 );
+            planePoly = genQuadRepresentation( plane );
+
+            draw();
+        }
+
+        function dragstart( e ) {
+            dragging = true;
+        }
+
+        function dragend( e ) {
+            dragging = false;
+        }
+
+        function dragupdate( e ) {
+            if ( dragging ) {
+                rotateCamera( e.movementX, e.movementY );
+                draw();
+            }
+        }
+
+        function drawPoly( poly, alpha ) {
+            if ( !alpha ) alpha = 1.0;
+
+            context.beginPath();
+
+            var mappedP = new gml.Vec4( 0, 0, 0, 0 );
+            mapToScreen( poly.points[0], canvas_width, canvas_height, mappedP );
+
+            context.lineTo( mappedP.x, mappedP.y );
+            context.lineWidth = 1;
+            context.fillStyle = "rgba(128, 128, 128, 0.4)";
+
+            var oldAlpha = context.globalAlpha;
+            context.globalAlpha = alpha;
+            context.strokeStyle = 'black';
+
+            for ( var i = 0; i < poly.points.length; i++ ) {
+                mapToScreen( poly.points[ (i+1) % poly.points.length ], canvas_width, canvas_height, mappedP );
+                context.lineTo( mappedP.x, mappedP.y );
+            }
+
+            context.fill();
+            context.stroke();
+
+            context.globalAlpha = oldAlpha;
+        }
+
+        function genQuadRepresentation( plane ) {
+            let points = [];
+
+            var r = 10;
+
+            // get two points on the plane
+            let p1 = new gml.Vec4( 0, 0, 0, 1 );
+            let p2 = new gml.Vec4( 0, 0, 0, 1 );
+            if ( plane.normal.z != 0 ) {
+                p1.x = 0;
+                p1.y = 0;
+                p1.z = -plane.d / plane.normal.z;
+                p2.x = Math.random() * WORLD_BOUND_RADIUS;
+                p2.y = Math.random() * WORLD_BOUND_RADIUS;
+                p2.z = -( plane.normal.x * p2.x + plane.normal.y * p2.y + plane.d ) / plane.normal.z;
+            } else if ( plane.normal.x != 0 ) {
+                p1.z = 0;
+                p1.y = 0;
+                p1.x = -plane.d / plane.normal.x;
+                p2.z = Math.random() * WORLD_BOUND_RADIUS;
+                p2.y = Math.random() * WORLD_BOUND_RADIUS;
+                p2.x = -( plane.normal.z * p2.z + plane.normal.y * p2.y + plane.d ) / plane.normal.x;
+            } else {
+                p1.z = 0;
+                p1.x = 0;
+                p1.y = -plane.d / plane.normal.y;
+                p2.z = Math.random() * WORLD_BOUND_RADIUS;
+                p2.x = Math.random() * WORLD_BOUND_RADIUS;
+                p2.y = -( plane.normal.z * p2.z + plane.normal.x * p2.x + plane.d ) / plane.normal.y;
+            }
+
+            let v1 = p2.subtract( p1 );
+            v1.normalize();
+
+            let v2 = plane.normal.cross( v1 );
+
+            points.push( p1.subtract( v1.multiply( r/2 ) ).subtract( v2.multiply( r/2 ) ) );
+            points.push( p1.add( v1.multiply( r/2 ) ).subtract( v2.multiply( r/2 ) ) );
+            points.push( p1.add( v1.multiply( r/2 ) ).add( v2.multiply( r/2 ) ) );
+            points.push( p1.subtract( v1.multiply( r/2 ) ).add( v2.multiply( r/2 ) ) );
+
+            return new gml.Polygon( points );
+        }
+
+        function draw() {
+            context.clearRect( 0, 0, canvas_width, canvas_height );
+            drawPoly( planePoly, 0.2 );
+            drawGizmo();
+        }
+
+        function updatePoly( sides ) {
+            draw();
+        }
+
+        function updatePlaneD( d ) {
+            plane.d = d;
+            planePoly = genQuadRepresentation( plane );
+            draw();
+        }
+    </script>
+    <div role="main" id="maincolumn">
+      <div id="screen">
+        <center>
+          <canvas id="viewport" height="500" width="500" onmousedown="dragstart(event)" onmouseup="dragend(event)">
+          </canvas>
+
+          <br class="vspace" />
+          <br class="vspace" />
+          <br class="vspace" />
+          <br class="vspace" />
+
+          &nbsp;
+
+          <label>d</label>
+          <br/>
+          <input id="plane-d" type="range" min="0" max="1000" oninput="updatePlaneD( ( this.value - 500 ) / 200 )">
+          </input>
+          <br/>
+        </center>
+      </div>
+    </div>
+    </body>
+</html>

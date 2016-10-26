@@ -127,7 +127,7 @@ module gml {
             out_pts.push( Vec4.clone( e ) );
           } else if ( s_cat == inside ) {
             if ( Collision.LineSegmentPlaneIntersection( s, e, plane, intersection ) ) {
-              out_pts.push( Vec2.clone( intersection ) );
+              out_pts.push( Vec4.clone( intersection ) );
             }
           }
 

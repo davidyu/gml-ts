@@ -208,7 +208,19 @@ module gml {
     }
 
     public get scale(): Vec3 {
-      return new Vec3( this.get( 0, 0 ), this.get( 1, 1 ), this.get( 2, 2 ) );
+      let m00 = this.v[ 0];
+      let m01 = this.v[ 1];
+      let m02 = this.v[ 2];
+      let m10 = this.v[ 4];
+      let m11 = this.v[ 5];
+      let m12 = this.v[ 6];
+      let m20 = this.v[ 8];
+      let m21 = this.v[ 9];
+      let m22 = this.v[10];
+      // scale is the length of each corresponding column vector
+      return new Vec3( Math.sqrt( m00 * m00 + m10 * m10 + m20 * m20 )
+                     , Math.sqrt( m01 * m01 + m11 * m11 + m21 * m21 )
+                     , Math.sqrt( m02 * m02 + m12 * m12 + m22 * m22 ) );
     }
 
     public set scale( s: Vec3 ) {

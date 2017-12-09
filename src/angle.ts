@@ -69,6 +69,11 @@ module gml {
       }
     }
 
+    clamp( min: Angle, max: Angle ) {
+      if ( this.v < min.toDegrees() ) return min;
+      if ( this.v > max.toDegrees() ) return max;
+    }
+
     static get zero(): Angle {
       return new Degree( 0 );
     }

@@ -52,20 +52,20 @@ module gml {
       this.v[3] = a;
     }
 
-    public static degamma( in: Color, out: Color ) {
+    public static degamma( in_color: Color, out_color: Color ) {
       let to_linear = 1.0 / 2.2;
-      out.r = pow( in.r, to_linear );
-      out.g = pow( in.g, to_linear );
-      out.b = pow( in.b, to_linear );
-      out.a = in.a;
+      out_color.r = Math.pow( in_color.r, to_linear );
+      out_color.g = Math.pow( in_color.g, to_linear );
+      out_color.b = Math.pow( in_color.b, to_linear );
+      out_color.a = in_color.a;
     }
 
-    public static degamma( in: Color, out: Color ) {
+    public static engamma( in_color: Color, out_color: Color ) {
       let to_srgb = 2.2;
-      out.r = pow( in.r, to_srgb );
-      out.g = pow( in.g, to_srgb );
-      out.b = pow( in.b, to_srgb );
-      out.a = in.a;
+      out_color.r = Math.pow( in_color.r, to_srgb );
+      out_color.g = Math.pow( in_color.g, to_srgb );
+      out_color.b = Math.pow( in_color.b, to_srgb );
+      out_color.a = in_color.a;
     }
 
     public static get white(): Color {

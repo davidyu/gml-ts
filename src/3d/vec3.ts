@@ -72,8 +72,15 @@ module gml {
       this.v[2] = b;
     }
 
-    public add( rhs: Vec3 ): Vec3 {
-      return new Vec3( this.x + rhs.x, this.y + rhs.y, this.z + rhs.z );
+    public add( rhs: Vec3 ): Vec3;
+    public add( x: number, y: number, z: number ): Vec3;
+
+    public add( ...args: any[] ): Vec3 {
+      if ( args.length == 3 ) {
+        return new Vec3( this.x + args[0], this.y + args[1], this.z + args[2] );
+      } else {
+        return new Vec3( this.x + args[0].x, this.y + args[0].y, this.z + args[0].z );
+      }
     }
 
     public subtract( rhs: Vec3 ): Vec3 {

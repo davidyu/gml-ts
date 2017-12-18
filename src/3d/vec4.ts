@@ -94,8 +94,15 @@ module gml {
       this.v[3] = a;
     }
 
-    public add( rhs: Vec4 ): Vec4 {
-      return new Vec4( this.x + rhs.x, this.y + rhs.y, this.z + rhs.z, this.w + rhs.w );
+    public add( rhs: Vec4 ): Vec4;
+    public add( x: number, y: number, z: number, w: number ): Vec4;
+
+    public add( ...args: any[] ): Vec4 {
+      if ( args.length == 4 ) {
+        return new Vec4( this.x + args[0], this.y + args[1], this.z + args[2], this.w + args[3] );
+      } else {
+        return new Vec4( this.x + args[0].x, this.y + args[0].y, this.z + args[0].z, this.w + args[0].w );
+      }
     }
 
     public subtract( rhs: Vec4 ): Vec4 {

@@ -34,8 +34,15 @@ module gml {
       this.v[1] = y;
     }
 
-    public add( rhs: Vec2 ): Vec2 {
-      return new Vec2( this.x + rhs.x, this.y + rhs.y );
+    public add( rhs: Vec2 ): Vec2;
+    public add( x: number, y: number ): Vec2;
+
+    public add( ...args: any[] ): Vec2 {
+      if ( args.length == 2 ) {
+        return new Vec2( this.x + args[0], this.y + args[1] );
+      } else {
+        return new Vec2( this.x + args[0].x, this.y + args[0].y );
+      }
     }
 
     public subtract( rhs: Vec2 ): Vec2 {

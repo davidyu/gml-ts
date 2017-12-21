@@ -1,3 +1,5 @@
+///<reference path="vec.ts"/>
+
 module gml {
   export class Color extends Vector {
     constructor( v: number[] );

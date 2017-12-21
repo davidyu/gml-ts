@@ -1,3 +1,5 @@
+///<reference path="vec2.ts"/>
+
 module gml2d {
   // optimization: assume we will call methods in the collision module very often.
   // instead of allocating new vectors in each function call, preallocate some temporary

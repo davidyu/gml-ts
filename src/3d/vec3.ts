@@ -103,6 +103,10 @@ module gml {
       return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z;
     }
 
+    public dot3( x: number, y: number, z: number ): number {
+      return this.x * x + this.y * y + this.z * z;
+    }
+
     public cross( rhs: Vec3 ): Vec3 {
       return new Vec3( this.y * rhs.z - this.z * rhs.y
                      , this.z * rhs.x - this.x * rhs.z

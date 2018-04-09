@@ -6,4 +6,8 @@ module gml {
   export function sign( n: number ): number {
     return Math.abs( n ) < 0.0001 ? 0 : n > 0 ? 1 :-1;
   }
+
+  export function fract( n: number ): number {
+    return 0;
+  }
 }

@@ -108,6 +108,18 @@ module gml {
       return out;
     }
 
+    public static distance( lhs: Vec2, rhs: Vec2 ): number {
+      let dx = lhs.x - rhs.x;
+      let dy = lhs.y - rhs.y;
+      return Math.sqrt( dx * dx + dy * dy );
+    }
+
+    public static distsq( lhs: Vec2, rhs: Vec2 ): number {
+      let dx = lhs.x - rhs.x;
+      let dy = lhs.y - rhs.y;
+      return dx * dx + dy * dy;
+    }
+
     public static get zero(): Vec2 {
       return new Vec2( 0, 0 );
     }

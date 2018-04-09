@@ -126,6 +126,20 @@ module gml {
       return new Vec3( Math.random(), Math.random(), Math.random() ).normalized.multiply( radius );
     }
 
+    public static distance( lhs: Vec3, rhs: Vec3 ): number {
+      let dx = lhs.x - rhs.x;
+      let dy = lhs.y - rhs.y;
+      let dz = lhs.z - rhs.z;
+      return Math.sqrt( dx * dx + dy * dy + dz * dz );
+    }
+
+    public static distsq( lhs: Vec3, rhs: Vec3 ): number {
+      let dx = lhs.x - rhs.x;
+      let dy = lhs.y - rhs.y;
+      let dz = lhs.z - rhs.z;
+      return dx * dx + dy * dy + dz * dz;
+    }
+
     public static add( lhs: Vec3, rhs: Vec3, out: Vec3 ): Vec3 {
       out.x = lhs.x + rhs.x;
       out.y = lhs.y + rhs.y;

@@ -74,9 +74,9 @@ module gml2d {
       return this.x * rhs.y - this.y * rhs.x;
     }
 
-    public get angle(): Angle {
+    public get angle(): gml.Angle {
       var len = this.len;
-      return new Angle.fromRadians( Math.atan2( this.y / len, this.x / len ) );
+      return gml.fromRadians( Math.atan2( this.y / len, this.x / len ) );
     }
 
     public map( callback: ( v: number ) => number ): Vec2 {

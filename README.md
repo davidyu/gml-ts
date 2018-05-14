@@ -65,7 +65,7 @@ The full list of property accessors are available in the [API docs](http://david
 
 To stay on the cutting-edge of GML, you can add it as a submodule to your projec: `git submodule add https://github.com/davidyu/gml-ts.git gml` and include everything under the `src` directory in your TypeScript project. However, this is not recommended as quite often I introduce breaking changes in the API. To use archived, frozen versions of GML, you can download the compiled `.js` and `.d.ts` files from the [releases page](https://github.com/davidyu/gml-ts/releases).
 
-### Performance
+## Performance
 
 For the most part, the algorithms in GML is fairly optimized. However, since object creation can result in significant performance penalties when garbage collection is invoked, we provide static, in-place methods for vector and matrix operations:
 
@@ -82,3 +82,20 @@ static matmul(lhs: Mat4, rhs: Mat4): Mat4;
 ```
 
 These are encouraged over their non-static pure methods that return new objects, especially in tight loops or parts of code that execute every frame.
+
+## WebGL
+
+The 3D API of GML is designed with WebGL in mind, and provides many methods useful for real-time applications in WebGL:
+
+```
+// create view matrix
+let camera = gml.makeLookAt( position, aim, up, right );
+
+// create perspective projection matrix
+let perspective = gml.makePerspective( gml.fromDegrees( verticalFOV ), viewportW / viewportH, nearZ, farZ );
+
+// pass projection and view matrices into WebGL
+// the .m property accessor inverts the matrix to be column-major to conform to GL specs
+gl.uniformMatrix4fv( shaderVariables.uView, false, camera.m );
+gl.uniformMatrix4fv( shaderVariables.uPerspective, false, perspective.m );
+```

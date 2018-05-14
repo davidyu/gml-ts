@@ -11,7 +11,7 @@ GML provides separate interfaces for 2D and 3D math. The 2D version of GML provi
 let v2 = new gml2d.Vec2( 0, 0 );
 
 // 3d API
-let v4 = new gml.Vec4( 0, 0 );
+let v4 = new gml.Vec4( 0, 0, 0, 1 );
 ```
 
 Some methods (such as those pertaining to angles), are shared across the 2D and 3D API and are in the standard `gml` module:
@@ -20,6 +20,46 @@ Some methods (such as those pertaining to angles), are shared across the 2D and 
 let angle = gml.fromDegrees( 45 );
 console.log( angle.toRadians() ); // -> 0.7853981633974483
 ```
+
+GML provides some syntactic sugar for accessing components of vectors and matrices:
+
+```
+let pos = new gml.Vec4( 20, 30, 40, 1 );
+console.log( pos.x ) // -> 20;
+console.log( pos.y ) // -> 30;
+console.log( pos.z ) // -> 40;
+console.log( pos.w ) // -> 1;
+
+let foreground = new gml.Vec4( 57, 30, 255, 128 );
+console.log( foreground.r ); // -> 57
+console.log( foreground.g ); // -> 30
+console.log( foreground.b ); // -> 255
+console.log( foreground.a ); // -> 128
+
+let id = new gml.Mat4( 1, 0, 0, 0
+                     , 0, 1, 0, 0
+                     , 0, 0, 1, 0
+                     , 0, 0, 0, 1 );
+
+console.log( r00 ); // -> 1
+console.log( r01 ); // -> 0
+console.log( r02 ); // -> 0
+console.log( r03 ); // -> 0
+console.log( r10 ); // -> 0
+console.log( r11 ); // -> 1
+console.log( r12 ); // -> 0
+console.log( r13 ); // -> 0
+console.log( r20 ); // -> 0
+console.log( r21 ); // -> 0
+console.log( r22 ); // -> 1
+console.log( r23 ); // -> 0
+console.log( m30 ); // -> 0
+console.log( m31 ); // -> 0
+console.log( m32 ); // -> 0
+console.log( m33 ); // -> 1
+```
+
+The full list of property accessors are available in the [API docs](http://davidyu.github.io/gml/doc/ts).
 
 ## Using GML
 

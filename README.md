@@ -63,7 +63,7 @@ The full list of property accessors are available in the [API docs](http://david
 
 ## Using GML
 
-To stay on the cutting-edge of GML, you can add it as a submodule to your projec: `git submodule add https://github.com/davidyu/gml-ts.git gml` and include everything under the `src` directory in your TypeScript project. However, this is not recommended as quite often I introduce breaking changes in the API. To use archived, frozen versions of GML, you can download the compiled `.js` and `.d.ts` files from the [releases page](https://github.com/davidyu/gml-ts/releases).
+To stay on the cutting-edge of GML, you can add it as a submodule (provided your project is also tracked by git): `git submodule add https://github.com/davidyu/gml-ts.git gml`, and include everything under the `src` directory. However, this is not recommended as quite often I introduce breaking changes in the API. To use archived, frozen versions of GML, you can download the compiled `.js` and `.d.ts` files from the [releases page](https://github.com/davidyu/gml-ts/releases).
 
 ## Performance
 

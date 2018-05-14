@@ -59,7 +59,7 @@ console.log( id.m32 ); // -> 0
 console.log( id.m33 ); // -> 1
 ```
 
-The full list of property accessors are available in the [API docs](http://davidyu.github.io/gml/doc/ts).
+Matrices in GML are stored in row-major order, but an equivalent column-major matrix can easily be constructed through the `.m` property. A full list of properties and accessors are available in the [API docs](http://davidyu.github.io/gml/doc/ts).
 
 ## Using GML
 

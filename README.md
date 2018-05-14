@@ -41,22 +41,22 @@ let id = new gml.Mat4( 1, 0, 0, 0
                      , 0, 0, 1, 0
                      , 0, 0, 0, 1 );
 
-console.log( r00 ); // -> 1
-console.log( r01 ); // -> 0
-console.log( r02 ); // -> 0
-console.log( r03 ); // -> 0
-console.log( r10 ); // -> 0
-console.log( r11 ); // -> 1
-console.log( r12 ); // -> 0
-console.log( r13 ); // -> 0
-console.log( r20 ); // -> 0
-console.log( r21 ); // -> 0
-console.log( r22 ); // -> 1
-console.log( r23 ); // -> 0
-console.log( m30 ); // -> 0
-console.log( m31 ); // -> 0
-console.log( m32 ); // -> 0
-console.log( m33 ); // -> 1
+console.log( id.r00 ); // -> 1
+console.log( id.r01 ); // -> 0
+console.log( id.r02 ); // -> 0
+console.log( id.r03 ); // -> 0
+console.log( id.r10 ); // -> 0
+console.log( id.r11 ); // -> 1
+console.log( id.r12 ); // -> 0
+console.log( id.r13 ); // -> 0
+console.log( id.r20 ); // -> 0
+console.log( id.r21 ); // -> 0
+console.log( id.r22 ); // -> 1
+console.log( id.r23 ); // -> 0
+console.log( id.m30 ); // -> 0
+console.log( id.m31 ); // -> 0
+console.log( id.m32 ); // -> 0
+console.log( id.m33 ); // -> 1
 ```
 
 The full list of property accessors are available in the [API docs](http://davidyu.github.io/gml/doc/ts).
